@@ -1,0 +1,333 @@
+/**
+ * U-003 首页学习历史组件样式
+ *
+ * 设计原则：
+ * 1. 列表式布局，信息层次清晰
+ * 2. 进度条可视化学习进度
+ * 3. 骨架屏优化加载体验
+ * 4. 响应式设计适配移动端
+ */
+
+/* CSS变量定义 */
+:root {
+  --lh-primary: #1A5276;
+  --lh-primary-light: #2E86C1;
+  --lh-primary-bg: rgba(26, 82, 118, 0.06);
+  --lh-text: #1C1C1C;
+  --lh-text-secondary: #5D6D7E;
+  --lh-text-hint: #95A5A6;
+  --lh-border: #E5E8E8;
+  --lh-bg: #FFFFFF;
+  --lh-bg-secondary: #F8F9F9;
+  --lh-shadow: rgba(26, 82, 118, 0.06);
+  --lh-shadow-hover: rgba(26, 82, 118, 0.12);
+  --lh-success: #1E8449;
+  --lh-success-bg: rgba(30, 132, 73, 0.1);
+  --lh-error: #C0392B;
+  --lh-error-bg: rgba(192, 57, 43, 0.08);
+  --lh-radius: 12px;
+  --lh-transition: all 0.25s ease;
+}
+
+/* 容器 */
+.learning-history {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* 标题区域 */
+.learning-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.learning-history-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--lh-text);
+  margin: 0;
+}
+
+.history-count {
+  font-size: 13px;
+  color: var(--lh-text-secondary);
+}
+
+/* 历史列表 */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 单个历史项 */
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--lh-bg);
+  border: 1px solid var(--lh-border);
+  border-radius: var(--lh-radius);
+  text-align: left;
+  cursor: pointer;
+  transition: var(--lh-transition);
+  animation: fadeInUp 0.4s ease forwards;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.history-item:hover:not(:disabled) {
+  border-color: var(--lh-primary-light);
+  box-shadow: 0 4px 16px var(--lh-shadow-hover);
+  transform: translateY(-1px);
+}
+
+.history-item:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 主题信息 */
+.history-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.history-item-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--lh-text);
+  margin: 0 0 4px 0;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history-item-time {
+  font-size: 13px;
+  color: var(--lh-text-secondary);
+}
+
+/* 进度条区域 */
+.history-item-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  min-width: 120px;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--lh-bg-secondary);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--lh-primary), var(--lh-primary-light));
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--lh-primary);
+  min-width: 36px;
+  text-align: right;
+}
+
+/* 骨架屏 */
+.learning-history-loading {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.history-item.skeleton {
+  pointer-events: none;
+  cursor: default;
+  opacity: 1;
+  transform: none;
+  animation: none;
+}
+
+.skeleton-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skeleton-title {
+  width: 60%;
+  height: 16px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-meta {
+  width: 40%;
+  height: 13px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-progress {
+  width: 120px;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* 空状态 */
+.learning-history-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.empty-icon {
+  width: 56px;
+  height: 56px;
+  margin-bottom: 16px;
+  color: var(--lh-text-hint);
+}
+
+.empty-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.empty-text {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--lh-text-secondary);
+  margin: 0 0 8px 0;
+}
+
+.empty-hint {
+  font-size: 14px;
+  color: var(--lh-text-hint);
+  margin: 0;
+}
+
+/* 错误状态 */
+.learning-history-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: var(--lh-error-bg);
+  border: 1px solid rgba(192, 57, 43, 0.2);
+  border-radius: var(--lh-radius);
+}
+
+.error-text {
+  font-size: 14px;
+  color: var(--lh-error);
+}
+
+.retry-button {
+  padding: 6px 16px;
+  background: var(--lh-error);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--lh-transition);
+  flex-shrink: 0;
+}
+
+.retry-button:hover {
+  opacity: 0.85;
+}
+
+/* 底部提示 */
+.learning-history-hint {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--lh-text-secondary);
+}
+
+/* 响应式设计 */
+@media (max-width: 640px) {
+  .learning-history {
+    padding: 16px;
+  }
+
+  .history-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .history-item-progress {
+    min-width: unset;
+  }
+
+  .history-item-name {
+    font-size: 14px;
+  }
+}
+
+/* 焦点状态（无障碍） */
+.history-item:focus-visible,
+.retry-button:focus-visible {
+  outline: 2px solid var(--lh-primary-light);
+  outline-offset: 2px;
+}
+
+/* 减少动画偏好（无障碍） */
+@media (prefers-reduced-motion: reduce) {
+  .history-item,
+  .retry-button {
+    transition: none;
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .skeleton-title,
+  .skeleton-meta,
+  .skeleton-progress {
+    animation: none;
+  }
+}

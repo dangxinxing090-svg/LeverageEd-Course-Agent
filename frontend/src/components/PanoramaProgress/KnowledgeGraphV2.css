@@ -1,0 +1,690 @@
+/**
+ * 全景知识图谱 V2 - 三层知识结构样式
+ * Panoramic Knowledge Graph V2 - Three-Layer Structure Styles
+ * 
+ * 设计理念：
+ * - L1 知识块：核心节点，圆形设计，渐变填充，视觉重心
+ * - L2 知识点：次级节点，圆角矩形，柔和渐变，承上启下
+ * - L3 知识元：基础节点，小圆点，状态色彩，简洁明了
+ */
+
+/* ==================== 容器与画布 ==================== */
+.kg-v2-container {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.kg-v2-canvas {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.kg-v2-canvas:active {
+  cursor: grabbing;
+}
+
+.kg-v2-canvas.dragging {
+  cursor: grabbing;
+}
+
+/* ==================== 定义区（渐变、滤镜、动画） ==================== */
+.kg-v2-defs {
+  /* SVG 定义区，无 CSS 样式 */
+}
+
+/* L1 节点渐变 - 深蓝紫到亮蓝紫 */
+.l1-gradient-start {
+  stop-color: #5B6CF0;
+}
+
+.l1-gradient-end {
+  stop-color: #818CF8;
+}
+
+/* L2 节点渐变 - 亮蓝紫到淡蓝紫 */
+.l2-gradient-start {
+  stop-color: #818CF8;
+}
+
+.l2-gradient-end {
+  stop-color: #A5B4FC;
+}
+
+/* 阴影滤镜 */
+.shadow-filter {
+  filter: drop-shadow(0 4px 6px rgba(91, 108, 240, 0.15));
+}
+
+.shadow-filter-strong {
+  filter: drop-shadow(0 8px 16px rgba(91, 108, 240, 0.25));
+}
+
+/* ==================== 连接线样式 ==================== */
+.kg-v2-link {
+  fill: none;
+  stroke: #CBD5E1;
+  stroke-width: 2;
+  transition: stroke 0.3s ease, stroke-width 0.3s ease;
+}
+
+.kg-v2-link:hover {
+  stroke: #94A3B8;
+  stroke-width: 3;
+}
+
+.kg-v2-link.highlighted {
+  stroke: #818CF8;
+  stroke-width: 3;
+  filter: drop-shadow(0 0 4px rgba(129, 140, 248, 0.5));
+}
+
+/* 虚线连接（备用样式） */
+.kg-v2-link-dashed {
+  stroke-dasharray: 6, 4;
+}
+
+/* ==================== L1 知识块节点 ==================== */
+.kg-v2-l1-node {
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.kg-v2-l1-node:hover {
+  transform: scale(1.08);
+}
+
+.kg-v2-l1-node.active {
+  transform: scale(1.12);
+}
+
+.kg-v2-l1-circle {
+  transition: filter 0.3s ease;
+}
+
+.kg-v2-l1-node:hover .kg-v2-l1-circle {
+  filter: url(#shadow-strong);
+}
+
+.kg-v2-l1-text {
+  font-size: 14px;
+  font-weight: 700;
+  fill: #ffffff;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.kg-v2-l1-subtext {
+  font-size: 10px;
+  font-weight: 500;
+  fill: rgba(255, 255, 255, 0.9);
+  text-anchor: middle;
+  dominant-baseline: middle;
+  pointer-events: none;
+}
+
+/* L1 节点状态样式 */
+.kg-v2-l1-node.completed .kg-v2-l1-circle {
+  filter: drop-shadow(0 0 8px rgba(5, 150, 105, 0.4));
+}
+
+.kg-v2-l1-node.in-progress .kg-v2-l1-circle {
+  filter: drop-shadow(0 0 8px rgba(91, 108, 240, 0.4));
+  animation: pulse-l1 2s ease-in-out infinite;
+}
+
+@keyframes pulse-l1 {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(91, 108, 240, 0.4)); }
+  50% { filter: drop-shadow(0 0 16px rgba(91, 108, 240, 0.6)); }
+}
+
+/* ==================== L2 知识点节点 ==================== */
+.kg-v2-l2-node {
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.kg-v2-l2-node:hover {
+  transform: scale(1.05);
+}
+
+.kg-v2-l2-node.active {
+  transform: scale(1.08);
+}
+
+.kg-v2-l2-rect {
+  transition: filter 0.3s ease;
+  rx: 12;
+  ry: 12;
+}
+
+.kg-v2-l2-node:hover .kg-v2-l2-rect {
+  filter: url(#shadow-strong);
+}
+
+.kg-v2-l2-text {
+  font-size: 12px;
+  font-weight: 600;
+  fill: #ffffff;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  pointer-events: none;
+}
+
+/* L2 重点标记 */
+.kg-v2-l2-key-point .kg-v2-l2-rect {
+  stroke: #D97706;
+  stroke-width: 2;
+  stroke-dasharray: 4, 2;
+  animation: dash-flow 3s linear infinite;
+}
+
+@keyframes dash-flow {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 12; }
+}
+
+/* L2 节点状态 */
+.kg-v2-l2-node.completed .kg-v2-l2-rect {
+  filter: drop-shadow(0 0 6px rgba(5, 150, 105, 0.3));
+}
+
+.kg-v2-l2-node.in-progress .kg-v2-l2-rect {
+  animation: pulse-l2 2s ease-in-out infinite;
+}
+
+@keyframes pulse-l2 {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+/* ==================== L3 知识元节点 ==================== */
+.kg-v2-l3-node {
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.kg-v2-l3-node:hover {
+  transform: scale(1.3);
+}
+
+.kg-v2-l3-node.active {
+  transform: scale(1.5);
+}
+
+.kg-v2-l3-circle {
+  transition: all 0.2s ease;
+}
+
+/* L3 状态颜色 */
+.kg-v2-l3-circle.completed {
+  fill: #059669;
+  filter: drop-shadow(0 0 4px rgba(5, 150, 105, 0.4));
+}
+
+.kg-v2-l3-circle.in-progress {
+  fill: #5B6CF0;
+  filter: drop-shadow(0 0 4px rgba(91, 108, 240, 0.4));
+  animation: pulse-l3 1.5s ease-in-out infinite;
+}
+
+.kg-v2-l3-circle.not-started {
+  fill: #A5B4FC;
+  filter: drop-shadow(0 0 2px rgba(165, 180, 252, 0.3));
+}
+
+@keyframes pulse-l3 {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+/* L3 标签（悬停显示） */
+.kg-v2-l3-label {
+  font-size: 10px;
+  fill: #475569;
+  text-anchor: middle;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.kg-v2-l3-node:hover .kg-v2-l3-label {
+  opacity: 1;
+  transform: translateY(-8px);
+}
+
+/* ==================== 展开/折叠按钮 ==================== */
+.kg-v2-expand-btn {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.kg-v2-expand-btn:hover {
+  transform: scale(1.15);
+}
+
+.kg-v2-expand-btn.expanded {
+  transform: rotate(180deg);
+}
+
+.kg-v2-expand-circle {
+  fill: #ffffff;
+  stroke: #818CF8;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.kg-v2-expand-icon {
+  fill: #5B6CF0;
+  font-size: 12px;
+  font-weight: bold;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+/* ==================== 工具提示 ==================== */
+.kg-v2-tooltip {
+  position: absolute;
+  background: rgba(15, 23, 42, 0.95);
+  color: #ffffff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: translateY(4px);
+  z-index: 1000;
+  max-width: 240px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(8px);
+}
+
+.kg-v2-tooltip.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.kg-v2-tooltip::before {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px 6px 0;
+  border-style: solid;
+  border-color: rgba(15, 23, 42, 0.95) transparent transparent;
+}
+
+.kg-v2-tooltip-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #818CF8;
+}
+
+.kg-v2-tooltip-desc {
+  color: #CBD5E1;
+  font-size: 11px;
+}
+
+/* ==================== 控制栏 ==================== */
+.kg-v2-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 8px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+.kg-v2-control-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: #ffffff;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #64748B;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.kg-v2-control-btn:hover {
+  background: #F1F5F9;
+  color: #5B6CF0;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.kg-v2-control-btn:active {
+  transform: translateY(0);
+}
+
+/* ==================== 图例 ==================== */
+.kg-v2-legend {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(8px);
+  min-width: 160px;
+}
+
+.kg-v2-legend-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1E293B;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.kg-v2-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: #475569;
+}
+
+.kg-v2-legend-item:last-child {
+  margin-bottom: 0;
+}
+
+.kg-v2-legend-symbol {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.kg-v2-legend-symbol.l1 {
+  background: linear-gradient(135deg, #5B6CF0, #818CF8);
+  border-radius: 50%;
+}
+
+.kg-v2-legend-symbol.l2 {
+  background: linear-gradient(135deg, #818CF8, #A5B4FC);
+  border-radius: 4px;
+}
+
+.kg-v2-legend-symbol.l3 {
+  background: #A5B4FC;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  margin: 0 3px;
+}
+
+.kg-v2-legend-symbol.completed {
+  background: #059669;
+}
+
+.kg-v2-legend-symbol.in-progress {
+  background: #5B6CF0;
+}
+
+/* ==================== 信息面板 ==================== */
+.kg-v2-info-panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 16px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(8px);
+  text-align: center;
+  min-width: 120px;
+}
+
+.kg-v2-info-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #5B6CF0;
+  line-height: 1;
+}
+
+.kg-v2-info-label {
+  font-size: 12px;
+  color: #64748B;
+  margin-top: 4px;
+}
+
+/* ==================== 加载状态 ==================== */
+.kg-v2-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #64748B;
+}
+
+.kg-v2-loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid #E2E8F0;
+  border-top-color: #5B6CF0;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ==================== 空状态 ==================== */
+.kg-v2-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #94A3B8;
+  text-align: center;
+  padding: 40px;
+}
+
+.kg-v2-empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.kg-v2-empty-text {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.kg-v2-empty-hint {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* ==================== 动画效果 ==================== */
+/* 节点入场动画 */
+.kg-v2-node-enter {
+  animation: node-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  opacity: 0;
+}
+
+@keyframes node-enter {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 连接线绘制动画 */
+.kg-v2-link-enter {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: link-draw 0.8s ease forwards;
+}
+
+@keyframes link-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ==================== 响应式适配 ==================== */
+@media (max-width: 768px) {
+  .kg-v2-controls {
+    bottom: 12px;
+    right: 12px;
+    padding: 6px;
+  }
+  
+  .kg-v2-control-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+  
+  .kg-v2-legend {
+    top: 12px;
+    left: 12px;
+    padding: 12px;
+    min-width: 140px;
+  }
+  
+  .kg-v2-legend-title {
+    font-size: 12px;
+  }
+  
+  .kg-v2-legend-item {
+    font-size: 11px;
+  }
+  
+  .kg-v2-info-panel {
+    top: 12px;
+    right: 12px;
+    padding: 12px 16px;
+    min-width: 100px;
+  }
+  
+  .kg-v2-info-value {
+    font-size: 22px;
+  }
+  
+  .kg-v2-info-label {
+    font-size: 11px;
+  }
+  
+  .kg-v2-tooltip {
+    max-width: 180px;
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .kg-v2-legend {
+    display: none; /* 小屏幕隐藏图例，可添加展开按钮 */
+  }
+  
+  .kg-v2-info-panel {
+    min-width: 80px;
+    padding: 10px 12px;
+  }
+  
+  .kg-v2-info-value {
+    font-size: 18px;
+  }
+}
+
+/* ==================== 深色模式支持 ==================== */
+@media (prefers-color-scheme: dark) {
+  .kg-v2-container {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  }
+  
+  .kg-v2-link {
+    stroke: #475569;
+  }
+  
+  .kg-v2-link:hover {
+    stroke: #64748B;
+  }
+  
+  .kg-v2-l3-label {
+    fill: #CBD5E1;
+  }
+  
+  .kg-v2-legend,
+  .kg-v2-info-panel,
+  .kg-v2-controls {
+    background: rgba(30, 41, 59, 0.95);
+  }
+  
+  .kg-v2-legend-title {
+    color: #F1F5F9;
+    border-bottom-color: #475569;
+  }
+  
+  .kg-v2-legend-item {
+    color: #CBD5E1;
+  }
+  
+  .kg-v2-control-btn {
+    background: #334155;
+    color: #CBD5E1;
+  }
+  
+  .kg-v2-control-btn:hover {
+    background: #475569;
+    color: #818CF8;
+  }
+  
+  .kg-v2-info-label {
+    color: #94A3B8;
+  }
+}
+
+/* ==================== 打印样式 ==================== */
+@media print {
+  .kg-v2-controls,
+  .kg-v2-tooltip {
+    display: none;
+  }
+  
+  .kg-v2-container {
+    background: #ffffff;
+    box-shadow: none;
+  }
+  
+  .kg-v2-link {
+    stroke: #999999;
+  }
+}

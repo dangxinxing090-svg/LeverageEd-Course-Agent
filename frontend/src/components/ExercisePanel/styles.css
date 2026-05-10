@@ -1,0 +1,210 @@
+/**
+ * U-024 练习题面板组件样式
+ * Unified Design System
+ */
+
+.exercise-panel {
+  padding: 1.25rem;
+  background: #FFFFFF;
+  border-radius: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.03);
+  border: none;
+  font-family: var(--font-family);
+}
+
+.exercise-panel.loading {
+  text-align: center;
+  color: #64748B;
+  padding: 3rem;
+}
+
+.panel-title {
+  margin: 0 0 1.5rem 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1E293B;
+  border-bottom: 1px solid #F1F5F9;
+  padding-bottom: 0.5rem;
+}
+
+.error-message {
+  background: #FEF2F2;
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  color: #EF4444;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
+}
+
+.questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.question-item {
+  padding: 1rem;
+  background: #F8FAFC;
+  border-radius: 10px;
+  border-left: 3px solid #5B6CF0;
+  transition: all 0.2s ease;
+}
+
+.question-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.question-number {
+  font-weight: bold;
+  color: #5B6CF0;
+  font-size: 1.1rem;
+}
+
+.question-type {
+  font-size: 0.75rem;
+  color: #5B6CF0;
+  background: #EEF0FF;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.question-difficulty {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.question-difficulty.easy {
+  color: #059669;
+  background: #ECFDF5;
+}
+
+.question-difficulty.medium {
+  color: #D97706;
+  background: #FFFBEB;
+}
+
+.question-difficulty.hard {
+  color: #DC2626;
+  background: #FEF2F2;
+}
+
+.question-content {
+  margin: 0 0 1rem 0;
+  line-height: 1.6;
+  color: #334155;
+}
+
+.question-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.option-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.option-label:hover {
+  background: #EEF0FF;
+}
+
+.option-label input {
+  cursor: pointer;
+}
+
+.fill-blank-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: var(--font-family);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fill-blank-input:focus {
+  outline: none;
+  border-color: #5B6CF0;
+  box-shadow: 0 0 0 3px rgba(91, 108, 240, 0.15);
+}
+
+.submit-button {
+  margin-top: 1.5rem;
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #5B6CF0, #818CF8);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.submit-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(91, 108, 240, 0.35);
+}
+
+.submit-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(91, 108, 240, 0.25);
+}
+
+.submit-button:disabled {
+  background: #d9d9d9;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.result-section {
+  text-align: center;
+  padding: 2rem;
+  background: #ECFDF5;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.result-section h4 {
+  margin: 0 0 1rem 0;
+  color: #10B981;
+}
+
+.score {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #5B6CF0;
+  margin: 0.5rem 0;
+}
+
+.correct-count {
+  font-size: 1.1rem;
+  color: #64748B;
+  margin: 0.5rem 0;
+}
+
+.feedback {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #FFFFFF;
+  border-radius: 10px;
+  text-align: left;
+  line-height: 1.6;
+  transition: all 0.2s ease;
+}

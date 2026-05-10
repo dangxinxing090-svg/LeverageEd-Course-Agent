@@ -1,0 +1,247 @@
+/**
+ * App 根组件样式
+ * 
+ * 设计系统：简洁、优美、一致的教育平台风格
+ * 配色：深靛蓝导航 + 柔和蓝紫主色 + 清新绿辅色 + 暖灰背景
+ */
+
+/* ===== CSS 变量 ===== */
+:root {
+  --color-primary: #5B6CF0;
+  --color-primary-light: #818CF8;
+  --color-primary-bg: #EEF0FF;
+  --color-accent: #10B981;
+  --color-accent-light: #34D399;
+  --color-accent-bg: #ECFDF5;
+  --color-warning: #F59E0B;
+  --color-warning-bg: #FFFBEB;
+  --color-danger: #EF4444;
+  --color-danger-bg: #FEF2F2;
+
+  --color-text-primary: #1E293B;
+  --color-text-secondary: #64748B;
+  --color-text-tertiary: #94A3B8;
+  --color-text-inverse: #FFFFFF;
+
+  --color-bg-page: #F8FAFC;
+  --color-bg-card: #FFFFFF;
+  --color-bg-hover: #F1F5F9;
+  --color-bg-nav: #0F172A;
+
+  --color-border: #E2E8F0;
+  --color-border-light: #F1F5F9;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.03);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+}
+
+/* ===== 全局布局 ===== */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-family);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== 导航栏 ===== */
+.app-nav {
+  background: var(--color-bg-nav);
+  padding: 0 2rem;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05), 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.app-nav-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+
+/* 品牌标识 */
+.app-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: white;
+  flex-shrink: 0;
+}
+
+.brand-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.5px;
+  box-shadow: 0 2px 8px rgba(91, 108, 240, 0.4);
+}
+
+.brand-text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+
+/* 导航列表 */
+.app-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.app-nav-list li {
+  display: inline;
+}
+
+.app-nav-link {
+  display: inline-block;
+  padding: 0.45rem 1.1rem;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+.app-nav-link:hover {
+  color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.07);
+  text-decoration: none;
+}
+
+.app-nav-link.active {
+  color: #ffffff;
+  background-color: rgba(91, 108, 240, 0.25);
+}
+
+/* ===== 主内容区 ===== */
+.app-main {
+  flex: 1;
+  padding: 2rem;
+  background-color: var(--color-bg-page);
+  min-height: calc(100vh - 56px);
+}
+
+/* ===== 首页 ===== */
+.home-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding-top: 3.5rem;
+  position: relative;
+}
+
+.home-hero {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.home-page::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(91, 108, 240, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.home-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+.home-hero-title {
+  margin-bottom: 0.5rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+.home-topic-feedback {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background-color: var(--color-accent-bg);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: var(--radius-md);
+  color: #059669;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* ===== 学习聚合页 - 三面板布局 ===== */
+.learn-page {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.learn-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 1rem;
+  height: calc(100vh - 56px - 4rem);
+  overflow: hidden;
+}
+
+.learn-grid-left {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.learn-grid-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-height: 0;
+}
+
+/* 右侧两个面板各占50%高度 */
+.learn-grid-right > :nth-child(1) {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.learn-grid-right > :nth-child(2) {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+}

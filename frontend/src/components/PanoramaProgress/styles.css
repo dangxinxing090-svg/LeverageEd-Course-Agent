@@ -1,0 +1,715 @@
+/**
+ * 全景知识进度组件样式
+ *
+ * 设计特点：
+ * - 现代化的卡片式布局
+ * - 清晰的进度统计展示
+ * - 支持图谱/列表双视图切换
+ * - 响应式设计
+ */
+
+/* ==============================
+   容器
+   ============================== */
+
+.panorama-progress {
+  padding: 24px;
+  background: #ffffff;
+  min-height: 100vh;
+}
+
+/* ==============================
+   头部
+   ============================== */
+
+.panorama-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.panorama-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.panorama-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.panorama-back-btn {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #5b6cf0 0%, #818cf8 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(91, 108, 240, 0.25);
+}
+
+.panorama-back-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(91, 108, 240, 0.35);
+}
+
+/* ==============================
+   视图切换
+   ============================== */
+
+.view-mode-toggle {
+  display: flex;
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.view-mode-btn {
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.view-mode-btn:hover {
+  color: #5b6cf0;
+}
+
+.view-mode-btn.active {
+  background: #ffffff;
+  color: #5b6cf0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* ==============================
+   进度统计
+   ============================== */
+
+.panorama-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+  border-color: #5b6cf0;
+  box-shadow: 0 4px 12px rgba(91, 108, 240, 0.1);
+}
+
+.stat-card--key {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-color: #f59e0b;
+}
+
+.stat-card--key:hover {
+  border-color: #d97706;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.stat-card--key .stat-value {
+  color: #92400e;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.stat-sub {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.stat-bar {
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #5b6cf0 0%, #818cf8 100%);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+/* ==============================
+   图谱容器
+   ============================== */
+
+.panorama-graph-container {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* ==============================
+   列表视图
+   ============================== */
+
+.panorama-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.panorama-block {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.panorama-block-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.panorama-block-number {
+  font-size: 12px;
+  font-weight: 600;
+  color: #5b6cf0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.panorama-block-name {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.panorama-block-status {
+  font-size: 18px;
+}
+
+.panorama-block-status--completed {
+  color: #059669;
+}
+
+.panorama-block-status--in_progress {
+  color: #5b6cf0;
+}
+
+.panorama-block-status--not_started {
+  color: #94a3b8;
+}
+
+.panorama-points {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.panorama-point {
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.panorama-point:hover {
+  border-color: #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.panorama-point--key {
+  background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%);
+  border-color: #fcd34d;
+}
+
+.panorama-point-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.panorama-point-number {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #5b6cf0;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 50%;
+}
+
+.panorama-point-name {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.panorama-point-badge {
+  padding: 4px 10px;
+  background: #f59e0b;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 20px;
+}
+
+.panorama-point-status {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.panorama-point-status--completed {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.panorama-point-status--in_progress {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.panorama-point-status--not_started {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.panorama-components {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-left: 34px;
+}
+
+.panorama-component-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.panorama-component-btn:hover {
+  border-color: #5b6cf0;
+  color: #5b6cf0;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(91, 108, 240, 0.15);
+}
+
+.panorama-component-btn--completed {
+  background: #ecfdf5;
+  border-color: #6ee7b7;
+  color: #059669;
+}
+
+.panorama-component-btn--in_progress {
+  background: #eef2ff;
+  border-color: #a5b4fc;
+  color: #5b6cf0;
+}
+
+.component-status-icon {
+  font-size: 11px;
+}
+
+/* ==============================
+   空状态
+   ============================== */
+
+.panorama-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.panorama-empty-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.panorama-empty-text {
+  font-size: 18px;
+  font-weight: 600;
+  color: #475569;
+  margin: 0 0 8px 0;
+}
+
+.panorama-empty-subtext {
+  font-size: 14px;
+  color: #94a3b8;
+  margin: 0;
+}
+
+/* ==============================
+   知识点详情弹窗
+   ============================== */
+
+.point-detail-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.point-detail-content {
+  background: #ffffff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 80vh;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.point-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e2e8f0;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.point-detail-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.point-detail-badge {
+  padding: 4px 10px;
+  background: #f59e0b;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 20px;
+}
+
+.point-detail-close {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: #64748b;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.point-detail-close:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.point-detail-body {
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(80vh - 80px);
+}
+
+.point-detail-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.point-detail-item {
+  text-align: center;
+}
+
+.point-detail-label {
+  display: block;
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.point-detail-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.point-detail-value--hard {
+  color: #dc2626;
+}
+
+.point-detail-value--medium {
+  color: #d97706;
+}
+
+.point-detail-value--easy {
+  color: #059669;
+}
+
+.point-detail-value--completed {
+  color: #059669;
+}
+
+.point-detail-value--in_progress {
+  color: #5b6cf0;
+}
+
+.point-detail-value--not_started {
+  color: #64748b;
+}
+
+.point-detail-subtitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  margin: 0 0 12px 0;
+}
+
+.point-detail-component-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.point-detail-component-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.point-detail-component-btn:hover {
+  background: #ffffff;
+  border-color: #5b6cf0;
+  box-shadow: 0 2px 8px rgba(91, 108, 240, 0.15);
+}
+
+.point-detail-component-btn--completed {
+  background: #ecfdf5;
+  border-color: #6ee7b7;
+}
+
+.point-detail-component-btn--completed:hover {
+  border-color: #059669;
+}
+
+.point-detail-component-btn--in_progress {
+  background: #eef2ff;
+  border-color: #a5b4fc;
+}
+
+.point-detail-component-btn--in_progress:hover {
+  border-color: #5b6cf0;
+}
+
+.component-btn-status {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border-radius: 50%;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+/* ==============================
+   响应式设计
+   ============================== */
+
+@media (max-width: 1024px) {
+  .panorama-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .panorama-progress {
+    padding: 16px;
+  }
+
+  .panorama-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .panorama-title {
+    font-size: 20px;
+  }
+
+  .panorama-header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .panorama-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .stat-card {
+    padding: 16px;
+  }
+
+  .stat-value {
+    font-size: 24px;
+  }
+
+  .panorama-components {
+    padding-left: 0;
+  }
+
+  .point-detail-info {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .point-detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .panorama-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .view-mode-toggle {
+    display: none;
+  }
+
+  .panorama-point-header {
+    flex-wrap: wrap;
+  }
+
+  .panorama-point-status {
+    width: 100%;
+    margin-top: 8px;
+    text-align: center;
+  }
+}
+
+/* ==============================
+   无障碍支持
+   ============================== */
+
+.panorama-back-btn:focus-visible,
+.view-mode-btn:focus-visible,
+.panorama-component-btn:focus-visible,
+.point-detail-component-btn:focus-visible,
+.point-detail-close:focus-visible {
+  outline: 2px solid #5b6cf0;
+  outline-offset: 2px;
+}
+
+/* ==============================
+   减少动画偏好
+   ============================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .panorama-component-btn,
+  .point-detail-component-btn,
+  .stat-bar-fill,
+  .stat-card,
+  .point-detail-content {
+    transition: none;
+    animation: none;
+  }
+}

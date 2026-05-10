@@ -1,0 +1,285 @@
+/**
+ * 知识图谱可视化组件样式
+ *
+ * 设计特点：
+ * - 树形结构布局，三层节点层次分明
+ * - 节点间有连线表示层级关系
+ * - 支持缩放、拖拽、悬停交互
+ * - 不同状态用不同颜色区分
+ */
+
+/* ==============================
+   容器
+   ============================== */
+
+.knowledge-graph-container {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+/* ==============================
+   SVG 画布
+   ============================== */
+
+.knowledge-graph-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ==============================
+   控制栏
+   ============================== */
+
+.knowledge-graph-controls {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 10;
+}
+
+.graph-control-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.graph-control-btn:hover {
+  background: #f8fafc;
+  color: #5b6cf0;
+  border-color: #5b6cf0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(91, 108, 240, 0.15);
+}
+
+.graph-control-btn:active {
+  transform: translateY(0);
+}
+
+/* ==============================
+   图例
+   ============================== */
+
+.knowledge-graph-legend {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(8px);
+  z-index: 10;
+  flex-wrap: wrap;
+}
+
+.graph-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #475569;
+  font-weight: 500;
+}
+
+.graph-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.graph-legend-divider {
+  width: 1px;
+  height: 16px;
+  background: #e2e8f0;
+}
+
+/* ==============================
+   节点样式
+   ============================== */
+
+.graph-node {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.graph-node-circle {
+  transition: all 0.2s ease;
+}
+
+.graph-node:hover .graph-node-circle {
+  filter: url(#nodeGlow);
+  transform: scale(1.05);
+}
+
+.graph-node-label {
+  pointer-events: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.graph-node-halo {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* ==============================
+   提示信息
+   ============================== */
+
+.knowledge-graph-hint {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  padding: 8px 14px;
+  background: rgba(30, 41, 59, 0.85);
+  color: #ffffff;
+  font-size: 12px;
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+  z-index: 10;
+}
+
+/* ==============================
+   响应式设计
+   ============================== */
+
+@media (max-width: 768px) {
+  .knowledge-graph-container {
+    height: 500px;
+  }
+
+  .knowledge-graph-legend {
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    padding: 10px 12px;
+    gap: 12px;
+  }
+
+  .graph-legend-item {
+    font-size: 11px;
+  }
+
+  .knowledge-graph-hint {
+    display: none;
+  }
+
+  .knowledge-graph-controls {
+    top: 12px;
+    right: 12px;
+  }
+
+  .graph-control-btn {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .knowledge-graph-container {
+    height: 400px;
+    border-radius: 12px;
+  }
+
+  .knowledge-graph-legend {
+    gap: 8px;
+    padding: 8px 10px;
+  }
+
+  .graph-legend-divider {
+    display: none;
+  }
+
+  .graph-legend-item:nth-child(4),
+  .graph-legend-item:nth-child(5),
+  .graph-legend-item:nth-child(6) {
+    display: none;
+  }
+}
+
+/* ==============================
+   动画效果
+   ============================== */
+
+.graph-node {
+  animation: fadeInScale 0.4s ease-out;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 连线动画 */
+line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawLine 1s ease-out forwards;
+}
+
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ==============================
+   无障碍支持
+   ============================== */
+
+.graph-control-btn:focus-visible,
+.graph-node:focus-visible {
+  outline: 2px solid #5b6cf0;
+  outline-offset: 2px;
+}
+
+/* ==============================
+   减少动画偏好
+   ============================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .graph-node,
+  .graph-node-circle,
+  .graph-node-halo,
+  line {
+    animation: none;
+    transition: none;
+  }
+}

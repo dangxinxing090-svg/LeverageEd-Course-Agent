@@ -1,0 +1,58 @@
+{
+  "global": {
+    "default_provider": "openai",
+    "fallback_provider": "zhipu",
+    "request_timeout": 60,
+    "max_retries": 3,
+    "retry_delay": 1.0,
+    "enable_caching": true,
+    "cache_ttl": 300
+  },
+  "providers": {
+    "openai": {
+      "api_key": "your-openai-api-key",
+      "api_base": "https://api.openai.com/v1",
+      "model": "gpt-3.5-turbo",
+      "temperature": 0.7,
+      "max_tokens": 2048,
+      "timeout": 60,
+      "max_retries": 3
+    },
+    "zhipu": {
+      "api_key": "your-zhipu-api-key",
+      "api_base": "https://open.bigmodel.cn/api/paas/v4",
+      "model": "glm-4",
+      "temperature": 0.7,
+      "max_tokens": 2048,
+      "timeout": 60,
+      "max_retries": 3
+    },
+    "kimi": {
+      "api_key": "your-kimi-api-key",
+      "api_base": "https://api.moonshot.cn/v1",
+      "model": "moonshot-v1-8k",
+      "temperature": 0.7,
+      "max_tokens": 2048,
+      "timeout": 60,
+      "max_retries": 3
+    },
+    "qwen": {
+      "api_key": "your-qwen-api-key",
+      "api_base": "https://dashscope.aliyuncs.com/api/v1",
+      "model": "qwen-turbo",
+      "temperature": 0.7,
+      "max_tokens": 2048,
+      "timeout": 60,
+      "max_retries": 3
+    },
+    "doubao": {
+      "api_key": "your-doubao-api-key",
+      "api_base": "https://ark.cn-beijing.volces.com/api/v3",
+      "model": "doubao-pro-4k",
+      "temperature": 0.7,
+      "max_tokens": 2048,
+      "timeout": 60,
+      "max_retries": 3
+    }
+  }
+}

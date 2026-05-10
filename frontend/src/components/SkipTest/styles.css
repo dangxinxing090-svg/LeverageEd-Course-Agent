@@ -1,0 +1,461 @@
+/**
+ * U-009 全景页跳级操作组件样式
+ * 
+ * 设计原则：
+ * 1. 使用CSS变量便于主题切换
+ * 2. 测试题目逐题展示，清晰的单选题布局
+ * 3. 通过/未通过状态明确，颜色区分
+ * 4. 响应式设计，无障碍支持
+ */
+
+/* CSS变量定义 */
+:root {
+  --skip-test-primary: #1A5276;
+  --skip-test-primary-hover: #154360;
+  --skip-test-secondary: #2E86C1;
+  --skip-test-error: #C0392B;
+  --skip-test-success: #1E8449;
+  --skip-test-warning: #F39C12;
+  --skip-test-text: #1C1C1C;
+  --skip-test-text-secondary: #5D6D7E;
+  --skip-test-border: #BDC3C7;
+  --skip-test-border-focus: #2E86C1;
+  --skip-test-bg: #FFFFFF;
+  --skip-test-bg-secondary: #F2F3F4;
+  --skip-test-bg-option: #F8F9FA;
+  --skip-test-bg-option-hover: #EBF5FB;
+  --skip-test-bg-option-selected: #D4E6F1;
+  --skip-test-shadow: rgba(26, 82, 118, 0.08);
+  --skip-test-radius: 12px;
+  --skip-test-transition: all 0.2s ease;
+}
+
+/* 容器 */
+.skip-test-container {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  background: var(--skip-test-bg);
+  border: 1px solid var(--skip-test-border);
+  border-radius: var(--skip-test-radius);
+  box-shadow: 0 2px 12px var(--skip-test-shadow);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+}
+
+/* ===== 空闲状态 ===== */
+.skip-test-idle {
+  text-align: center;
+  padding: 24px 0;
+}
+
+.skip-test-idle-icon {
+  color: var(--skip-test-secondary);
+  margin-bottom: 20px;
+}
+
+.skip-test-idle-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--skip-test-text);
+  margin: 0 0 12px 0;
+}
+
+.skip-test-idle-desc {
+  font-size: 14px;
+  color: var(--skip-test-text-secondary);
+  line-height: 1.6;
+  margin: 0 0 24px 0;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.skip-test-start-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 32px;
+  background: var(--skip-test-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--skip-test-transition);
+}
+
+.skip-test-start-btn:hover:not(:disabled) {
+  background: var(--skip-test-primary-hover);
+  transform: translateY(-1px);
+}
+
+.skip-test-start-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ===== 测试状态 ===== */
+.skip-test-testing {
+  padding: 0;
+}
+
+/* 进度条 */
+.skip-test-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.skip-test-progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--skip-test-bg-secondary);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.skip-test-progress-fill {
+  height: 100%;
+  background: var(--skip-test-secondary);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.skip-test-progress-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--skip-test-text-secondary);
+  white-space: nowrap;
+}
+
+/* 题目 */
+.skip-test-question {
+  margin-bottom: 24px;
+}
+
+.skip-test-question-text {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--skip-test-text);
+  line-height: 1.6;
+  margin: 0 0 16px 0;
+}
+
+/* 选项 */
+.skip-test-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skip-test-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--skip-test-bg-option);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--skip-test-transition);
+  text-align: left;
+  width: 100%;
+}
+
+.skip-test-option:hover {
+  background: var(--skip-test-bg-option-hover);
+  border-color: var(--skip-test-border);
+}
+
+.skip-test-option.selected {
+  background: var(--skip-test-bg-option-selected);
+  border-color: var(--skip-test-secondary);
+}
+
+.skip-test-option-label {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--skip-test-bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--skip-test-text-secondary);
+  flex-shrink: 0;
+  transition: var(--skip-test-transition);
+}
+
+.skip-test-option.selected .skip-test-option-label {
+  background: var(--skip-test-secondary);
+  color: white;
+}
+
+.skip-test-option-text {
+  font-size: 15px;
+  color: var(--skip-test-text);
+  line-height: 1.5;
+}
+
+/* 错误提示 */
+.skip-test-error {
+  padding: 10px 14px;
+  background: rgba(192, 57, 43, 0.1);
+  border: 1px solid rgba(192, 57, 43, 0.2);
+  border-radius: 8px;
+  color: var(--skip-test-error);
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+/* 操作按钮 */
+.skip-test-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.skip-test-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--skip-test-transition);
+}
+
+.skip-test-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.skip-test-btn--primary {
+  background: var(--skip-test-primary);
+  color: white;
+}
+
+.skip-test-btn--primary:hover:not(:disabled) {
+  background: var(--skip-test-primary-hover);
+}
+
+.skip-test-btn--secondary {
+  background: var(--skip-test-bg-secondary);
+  color: var(--skip-test-text);
+  border: 1px solid var(--skip-test-border);
+}
+
+.skip-test-btn--secondary:hover:not(:disabled) {
+  background: var(--skip-test-border);
+}
+
+.skip-test-btn--submit {
+  background: var(--skip-test-success);
+  color: white;
+}
+
+.skip-test-btn--submit:hover:not(:disabled) {
+  background: #178344;
+}
+
+/* 答题卡 */
+.skip-test-answer-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--skip-test-bg-secondary);
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+
+.skip-test-answer-card-label {
+  font-size: 13px;
+  color: var(--skip-test-text-secondary);
+  margin-right: 4px;
+}
+
+.skip-test-answer-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--skip-test-border);
+  background: var(--skip-test-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--skip-test-text-secondary);
+  cursor: pointer;
+  transition: var(--skip-test-transition);
+}
+
+.skip-test-answer-dot.answered {
+  background: var(--skip-test-secondary);
+  border-color: var(--skip-test-secondary);
+  color: white;
+}
+
+.skip-test-answer-dot.current {
+  border-color: var(--skip-test-primary);
+  box-shadow: 0 0 0 2px rgba(26, 82, 118, 0.2);
+}
+
+.skip-test-answer-dot:hover {
+  border-color: var(--skip-test-primary);
+}
+
+/* ===== 结果状态 ===== */
+.skip-test-result {
+  text-align: center;
+  padding: 24px 0;
+}
+
+.skip-test-result.passed .skip-test-result-icon {
+  color: var(--skip-test-success);
+}
+
+.skip-test-result.failed .skip-test-result-icon {
+  color: var(--skip-test-error);
+}
+
+.skip-test-result-icon {
+  margin-bottom: 20px;
+}
+
+.skip-test-result-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+}
+
+.skip-test-result.passed .skip-test-result-title {
+  color: var(--skip-test-success);
+}
+
+.skip-test-result.failed .skip-test-result-title {
+  color: var(--skip-test-error);
+}
+
+.skip-test-result-message {
+  font-size: 15px;
+  color: var(--skip-test-text-secondary);
+  line-height: 1.6;
+  margin: 0 0 24px 0;
+}
+
+.skip-test-result-stats {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 28px;
+}
+
+.skip-test-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.skip-test-stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--skip-test-text);
+}
+
+.skip-test-stat-label {
+  font-size: 13px;
+  color: var(--skip-test-text-secondary);
+}
+
+/* 加载动画 */
+.skip-test-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: skip-test-spin 0.8s linear infinite;
+}
+
+@keyframes skip-test-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 640px) {
+  .skip-test-container {
+    padding: 24px 16px;
+  }
+
+  .skip-test-idle-title {
+    font-size: 20px;
+  }
+
+  .skip-test-question-text {
+    font-size: 15px;
+  }
+
+  .skip-test-option {
+    padding: 10px 14px;
+  }
+
+  .skip-test-option-text {
+    font-size: 14px;
+  }
+
+  .skip-test-actions {
+    flex-direction: column-reverse;
+  }
+
+  .skip-test-actions .skip-test-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .skip-test-result-stats {
+    gap: 24px;
+  }
+
+  .skip-test-stat-value {
+    font-size: 24px;
+  }
+}
+
+/* 焦点状态（无障碍） */
+.skip-test-start-btn:focus-visible,
+.skip-test-option:focus-visible,
+.skip-test-btn:focus-visible,
+.skip-test-answer-dot:focus-visible {
+  outline: 2px solid var(--skip-test-border-focus);
+  outline-offset: 2px;
+}
+
+/* 减少动画偏好（无障碍） */
+@media (prefers-reduced-motion: reduce) {
+  .skip-test-progress-fill,
+  .skip-test-option,
+  .skip-test-option-label,
+  .skip-test-answer-dot,
+  .skip-test-start-btn,
+  .skip-test-btn {
+    transition: none;
+  }
+
+  .skip-test-spinner {
+    animation: none;
+  }
+}

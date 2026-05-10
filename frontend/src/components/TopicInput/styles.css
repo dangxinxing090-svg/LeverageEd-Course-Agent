@@ -1,0 +1,350 @@
+/**
+ * TopicInput - 首页主题输入组件样式
+ *
+ * 设计风格：简洁优美的现代风格
+ * 主题色：#5B6CF0 / #818CF8
+ */
+
+/* ========== CSS 变量 ========== */
+:root {
+  --topic-primary: #5B6CF0;
+  --topic-primary-light: #818CF8;
+  --topic-primary-bg: #EEF0FF;
+  --topic-text: #1E293B;
+  --topic-text-secondary: #64748B;
+  --topic-placeholder: #94A3B8;
+  --topic-border: #E2E8F0;
+  --topic-border-focus: #5B6CF0;
+  --topic-bg: #FFFFFF;
+  --topic-bg-soft: #F1F5F9;
+  --topic-error: #EF4444;
+  --topic-error-bg: rgba(239, 68, 68, 0.06);
+  --topic-error-border: rgba(239, 68, 68, 0.18);
+  --topic-success: #10B981;
+  --topic-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --topic-shadow-md: 0 4px 12px rgba(91, 108, 240, 0.12), 0 1px 3px rgba(0, 0, 0, 0.06);
+  --topic-shadow-btn: 0 2px 8px rgba(91, 108, 240, 0.25);
+  --topic-shadow-btn-hover: 0 4px 16px rgba(91, 108, 240, 0.35);
+  --topic-radius: 16px;
+  --topic-radius-pill: 999px;
+  --topic-transition: 0.2s ease;
+}
+
+/* ========== 容器 ========== */
+.topic-input-container {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 48px 24px;
+  font-family: var(--font-family);
+}
+
+/* ========== 标题区域 ========== */
+.topic-input-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.topic-input-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--topic-text);
+  margin: 0 0 12px 0;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.topic-input-subtitle {
+  font-size: 16px;
+  color: var(--topic-text-secondary);
+  margin: 0;
+  line-height: 1.6;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ========== 输入区域 ========== */
+.topic-input-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+  background: var(--topic-bg);
+  border: 1.5px solid var(--topic-border);
+  border-radius: var(--topic-radius);
+  padding: 6px;
+  transition: border-color var(--topic-transition),
+              box-shadow var(--topic-transition),
+              background-color var(--topic-transition);
+  box-shadow: var(--topic-shadow-sm);
+}
+
+.topic-input-wrapper:focus-within {
+  border-color: var(--topic-border-focus);
+  box-shadow: 0 0 0 3px rgba(91, 108, 240, 0.15),
+              0 4px 16px rgba(91, 108, 240, 0.12);
+}
+
+.topic-input-wrapper.has-error {
+  border-color: var(--topic-error);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.08);
+}
+
+.topic-input-wrapper.over-limit {
+  border-color: var(--topic-error);
+  background-color: var(--topic-error-bg);
+}
+
+/* ========== 输入框 ========== */
+.topic-input-field {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 16px 20px;
+  font-size: 16px;
+  font-family: var(--font-family);
+  color: var(--topic-text);
+  background: transparent;
+  min-width: 0;
+  line-height: 1.5;
+}
+
+.topic-input-field::placeholder {
+  color: var(--topic-placeholder);
+}
+
+.topic-input-field:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ========== 提交按钮 ========== */
+.topic-input-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #5B6CF0, #818CF8);
+  color: #FFFFFF;
+  border: none;
+  border-radius: calc(var(--topic-radius) - 6px);
+  font-size: 15px;
+  font-weight: 500;
+  font-family: var(--font-family);
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: var(--topic-shadow-btn);
+  transition: transform var(--topic-transition),
+              box-shadow var(--topic-transition),
+              opacity var(--topic-transition);
+}
+
+.topic-input-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--topic-shadow-btn-hover);
+}
+
+.topic-input-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: var(--topic-shadow-btn);
+}
+
+.topic-input-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.topic-input-button.loading {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* ========== 加载动画 ========== */
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #FFFFFF;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ========== 箭头图标 ========== */
+.arrow-icon {
+  width: 18px;
+  height: 18px;
+  transition: transform var(--topic-transition);
+}
+
+.topic-input-button:hover:not(:disabled) .arrow-icon {
+  transform: translateX(2px);
+}
+
+/* ========== 字符计数 ========== */
+.char-count {
+  text-align: right;
+  font-size: 12px;
+  color: var(--topic-text-secondary);
+  margin-top: 8px;
+  padding-right: 8px;
+  transition: color var(--topic-transition);
+}
+
+.char-count.over-limit {
+  color: var(--topic-error);
+  font-weight: 500;
+}
+
+/* ========== 错误提示 ========== */
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: var(--topic-error-bg);
+  border: 1px solid var(--topic-error-border);
+  border-radius: 12px;
+  color: var(--topic-error);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.error-icon {
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.error-close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--topic-error);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+  opacity: 0.5;
+  transition: opacity var(--topic-transition);
+}
+
+.error-close:hover {
+  opacity: 1;
+}
+
+/* ========== 快捷标签 ========== */
+.quick-tips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 28px;
+  padding-top: 28px;
+  border-top: 1px solid var(--topic-bg-soft);
+  flex-wrap: wrap;
+}
+
+.quick-tips-label {
+  font-size: 13px;
+  color: var(--topic-text-secondary);
+  white-space: nowrap;
+}
+
+.quick-tip-item {
+  padding: 7px 16px;
+  background: var(--topic-bg-soft);
+  border: 1px solid transparent;
+  border-radius: var(--topic-radius-pill);
+  font-size: 13px;
+  font-family: var(--font-family);
+  color: var(--topic-text-secondary);
+  cursor: pointer;
+  transition: background-color var(--topic-transition),
+              color var(--topic-transition),
+              border-color var(--topic-transition);
+  line-height: 1.4;
+}
+
+.quick-tip-item:hover:not(:disabled) {
+  background: var(--topic-primary-bg);
+  color: var(--topic-primary);
+  border-color: rgba(91, 108, 240, 0.12);
+}
+
+.quick-tip-item:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ========== 焦点状态（无障碍） ========== */
+/* 输入框不使用outline，依靠外层wrapper的focus-within样式 */
+.topic-input-field:focus-visible {
+  outline: none;
+}
+
+/* 按钮和标签使用柔和的outline */
+.topic-input-button:focus-visible,
+.quick-tip-item:focus-visible,
+.error-close:focus-visible {
+  outline: 2px solid var(--topic-border-focus);
+  outline-offset: 2px;
+}
+
+/* ========== 响应式 ========== */
+@media (max-width: 640px) {
+  .topic-input-container {
+    padding: 32px 16px;
+  }
+
+  .topic-input-title {
+    font-size: 24px;
+  }
+
+  .topic-input-subtitle {
+    font-size: 14px;
+  }
+
+  .topic-input-wrapper {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .topic-input-field {
+    padding: 14px 16px;
+  }
+
+  .topic-input-button {
+    justify-content: center;
+    padding: 14px 20px;
+  }
+
+  .quick-tips {
+    gap: 6px;
+  }
+
+  .quick-tip-item {
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+}
+
+/* ========== 减少动画偏好（无障碍） ========== */
+@media (prefers-reduced-motion: reduce) {
+  .topic-input-wrapper,
+  .topic-input-button,
+  .arrow-icon,
+  .quick-tip-item,
+  .error-close {
+    transition: none;
+  }
+
+  .spinner {
+    animation: none;
+  }
+}

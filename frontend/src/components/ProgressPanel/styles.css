@@ -1,0 +1,246 @@
+/**
+ * U-005 提示面板组件样式
+ * 紧凑型面板设计，进度条可视化，百分比数字显示
+ */
+
+/* CSS变量定义 */
+.progress-panel {
+  --progress-panel-bg: #ffffff;
+  --progress-panel-border: #e8e8e8;
+  --progress-panel-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --progress-panel-radius: 8px;
+  --progress-panel-padding: 16px;
+
+  --progress-title-color: #1a1a2e;
+  --progress-label-color: #666666;
+  --progress-value-color: #1a1a2e;
+  --progress-error-color: #e74c3c;
+  --progress-error-bg: #fef2f2;
+
+  --progress-bar-bg: #f0f0f0;
+  --progress-bar-radius: 4px;
+  --progress-bar-height: 8px;
+
+  --progress-total-color: #4f46e5;
+  --progress-keypoint-color: #0ea5e9;
+  --progress-difficulty-color: #f59e0b;
+
+  --progress-refresh-color: #999999;
+  --progress-refresh-hover: #4f46e5;
+
+  /* 面板容器 */
+  background: var(--progress-panel-bg);
+  border: 1px solid var(--progress-panel-border);
+  border-radius: var(--progress-panel-radius);
+  box-shadow: var(--progress-panel-shadow);
+  padding: var(--progress-panel-padding);
+  min-width: 240px;
+  max-width: 320px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* 面板标题区域 */
+.progress-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.progress-panel-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--progress-title-color);
+  line-height: 1.4;
+}
+
+/* 刷新按钮 */
+.progress-panel-refresh {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--progress-refresh-color);
+  cursor: pointer;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.progress-panel-refresh:hover:not(:disabled) {
+  color: var(--progress-refresh-hover);
+  background: rgba(79, 70, 229, 0.06);
+}
+
+.progress-panel-refresh:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.progress-panel-refresh:focus-visible {
+  outline: 2px solid var(--progress-refresh-hover);
+  outline-offset: 2px;
+}
+
+/* 刷新图标旋转动画 */
+.refresh-icon.spinning {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 加载状态 */
+.progress-panel-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px 0;
+  color: var(--progress-label-color);
+  font-size: 13px;
+}
+
+.spinner-small {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--progress-bar-bg);
+  border-top-color: var(--progress-total-color);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+/* 错误状态 */
+.progress-panel-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--progress-error-bg);
+  border-radius: 4px;
+  color: var(--progress-error-color);
+  font-size: 12px;
+}
+
+.progress-panel-retry {
+  flex-shrink: 0;
+  padding: 2px 8px;
+  border: 1px solid var(--progress-error-color);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--progress-error-color);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.progress-panel-retry:hover {
+  background: var(--progress-error-color);
+  color: #ffffff;
+}
+
+.progress-panel-retry:focus-visible {
+  outline: 2px solid var(--progress-error-color);
+  outline-offset: 2px;
+}
+
+/* 进度内容区域 */
+.progress-panel-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 单个进度项 */
+.progress-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.progress-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.progress-item-label {
+  font-size: 12px;
+  color: var(--progress-label-color);
+  line-height: 1.4;
+}
+
+.progress-item-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--progress-value-color);
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 进度条 */
+.progress-bar {
+  width: 100%;
+  height: var(--progress-bar-height);
+  background: var(--progress-bar-bg);
+  border-radius: var(--progress-bar-radius);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: var(--progress-bar-radius);
+  transition: width 0.4s ease-in-out;
+  min-width: 0;
+}
+
+/* 各类型进度条颜色 */
+.progress-bar-total {
+  background: var(--progress-total-color);
+}
+
+.progress-bar-keypoint {
+  background: var(--progress-keypoint-color);
+}
+
+.progress-bar-difficulty {
+  background: var(--progress-difficulty-color);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .progress-panel {
+    min-width: 200px;
+    max-width: 100%;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .progress-panel {
+    min-width: unset;
+  }
+}
+
+/* 无障碍：减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .progress-bar-fill {
+    transition: none;
+  }
+
+  .refresh-icon.spinning {
+    animation-duration: 2s;
+  }
+
+  .spinner-small {
+    animation-duration: 2s;
+  }
+}

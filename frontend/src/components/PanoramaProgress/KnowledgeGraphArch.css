@@ -1,0 +1,849 @@
+/**
+ * 全景知识图谱 - 分层架构图样式
+ * Panoramic Knowledge Graph - Layered Architecture Styles
+ *
+ * 配色方案（参考蓝色系技术架构图）：
+ * - L1 深蓝:    #1a3a5c → #1e4976
+ * - L2 中蓝:    #2e5a8c → #3a6fa0
+ * - L3 浅蓝:    #4a7ab0 → #5a8fc5
+ * - 强调色:     #f59e0b (重点标记)
+ * - 完成色:     #059669 (已完成)
+ * - 背景色:     #0f172a (深色背景)
+ */
+
+/* ==================== 全局容器 ==================== */
+.arch-container {
+  display: flex;
+  width: 100%;
+  min-height: 600px;
+  background: linear-gradient(180deg, #0c1929 0%, #0f2035 50%, #132a45 100%);
+  border-radius: 12px;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  color: #e2e8f0;
+  position: relative;
+}
+
+/* ==================== 左侧垂直标注栏 ==================== */
+.arch-sidebar {
+  width: 56px;
+  min-width: 56px;
+  background: linear-gradient(180deg, #0d1f33 0%, #12283f 100%);
+  border-right: 1px solid rgba(74, 122, 176, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  gap: 24px;
+}
+
+.arch-sidebar-label {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.arch-sidebar-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: #818CF8;
+  letter-spacing: 4px;
+}
+
+.arch-sidebar-sub {
+  font-size: 9px;
+  color: #64748B;
+  letter-spacing: 1px;
+  writing-mode: horizontal-tb;
+}
+
+.arch-sidebar-layers {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.arch-sidebar-layer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  color: #94A3B8;
+}
+
+.arch-layer-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.arch-layer-dot.l1 {
+  background: #1e4976;
+  border: 1px solid #2e6aa0;
+  box-shadow: 0 0 6px rgba(30, 73, 118, 0.5);
+}
+
+.arch-layer-dot.l2 {
+  background: #2e5a8c;
+  border: 1px solid #4a7ab0;
+  box-shadow: 0 0 6px rgba(46, 90, 140, 0.5);
+}
+
+.arch-layer-dot.l3 {
+  background: #4a7ab0;
+  border: 1px solid #6a9ad0;
+  box-shadow: 0 0 6px rgba(74, 122, 176, 0.5);
+}
+
+/* ==================== 主内容区 ==================== */
+.arch-main {
+  flex: 1;
+  padding: 20px 24px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.arch-main::-webkit-scrollbar {
+  width: 6px;
+}
+
+.arch-main::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.arch-main::-webkit-scrollbar-thumb {
+  background: rgba(74, 122, 176, 0.3);
+  border-radius: 3px;
+}
+
+.arch-main::-webkit-scrollbar-thumb:hover {
+  background: rgba(74, 122, 176, 0.5);
+}
+
+/* ==================== 通用层级样式 ==================== */
+.arch-layer {
+  margin-bottom: 0;
+}
+
+.arch-layer-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(74, 122, 176, 0.15);
+}
+
+.arch-layer-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #94A3B8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.arch-layer-icon {
+  font-size: 14px;
+}
+
+.arch-layer-desc {
+  font-size: 11px;
+  color: #64748B;
+  flex-shrink: 0;
+}
+
+.arch-layer-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ==================== L1 知识块层 ==================== */
+.arch-layer-l1 {
+  margin-bottom: 0;
+}
+
+.arch-layer-l1 > .arch-layer-header {
+  margin-bottom: 16px;
+}
+
+.arch-layer-l1 > .arch-layer-content {
+  gap: 16px;
+}
+
+/* L1 知识块 */
+.arch-block {
+  background: linear-gradient(135deg, #1a3a5c 0%, #1e4976 100%);
+  border: 1px solid rgba(74, 122, 176, 0.25);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.arch-block.hovered {
+  border-color: rgba(129, 140, 248, 0.5);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(129, 140, 248, 0.2);
+}
+
+.arch-block.completed {
+  border-left: 3px solid #059669;
+}
+
+.arch-block.in_progress {
+  border-left: 3px solid #3b82f6;
+}
+
+.arch-block.not_started {
+  border-left: 3px solid #475569;
+}
+
+/* L1 块头部 */
+.arch-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  user-select: none;
+}
+
+.arch-block-header:hover {
+  background: rgba(74, 122, 176, 0.08);
+}
+
+.arch-block-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.arch-block-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 24px;
+  background: rgba(129, 140, 248, 0.15);
+  border: 1px solid rgba(129, 140, 248, 0.3);
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #818CF8;
+  flex-shrink: 0;
+}
+
+.arch-block-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #f1f5f9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.arch-block-status {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.arch-block-status.completed {
+  background: rgba(5, 150, 105, 0.15);
+  color: #34D399;
+  border: 1px solid rgba(5, 150, 105, 0.3);
+}
+
+.arch-block-status.in_progress {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60A5FA;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.arch-block-status.not_started {
+  background: rgba(71, 85, 105, 0.15);
+  color: #94A3B8;
+  border: 1px solid rgba(71, 85, 105, 0.3);
+}
+
+.arch-block-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+/* 进度条 */
+.arch-block-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.arch-progress-bar {
+  width: 80px;
+  height: 6px;
+  background: rgba(71, 85, 105, 0.3);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.arch-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #818CF8);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.arch-progress-text {
+  font-size: 11px;
+  font-weight: 600;
+  color: #818CF8;
+  min-width: 32px;
+  text-align: right;
+}
+
+/* 展开/折叠图标 */
+.arch-expand-icon {
+  font-size: 10px;
+  color: #64748B;
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.arch-expand-icon.expanded {
+  transform: rotate(180deg);
+}
+
+.arch-expand-icon.small {
+  font-size: 8px;
+}
+
+/* ==================== L2 知识点层 ==================== */
+.arch-layer-l2 {
+  margin: 0;
+  padding: 0 12px 12px 12px;
+}
+
+.arch-layer-l2 > .arch-layer-header {
+  display: none; /* L2 在 L1 内部，不需要独立标题 */
+}
+
+.arch-layer-l2-content {
+  gap: 8px;
+}
+
+/* L2 知识点 */
+.arch-point {
+  background: linear-gradient(135deg, #2e5a8c 0%, #3a6fa0 100%);
+  border: 1px solid rgba(74, 122, 176, 0.2);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.arch-point.hovered {
+  border-color: rgba(129, 140, 248, 0.4);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(129, 140, 248, 0.15);
+}
+
+.arch-point.key-point {
+  border-left: 3px solid #f59e0b;
+}
+
+.arch-point.completed {
+  background: linear-gradient(135deg, #1a4a3a 0%, #1e5a45 100%);
+}
+
+.arch-point.in_progress {
+  background: linear-gradient(135deg, #2e4a7c 0%, #3a5a90 100%);
+}
+
+/* L2 点头部 */
+.arch-point-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  user-select: none;
+}
+
+.arch-point-header:hover {
+  background: rgba(74, 122, 176, 0.1);
+}
+
+.arch-point-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.arch-point-index {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  flex-shrink: 0;
+}
+
+.arch-point-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e2e8f0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 标签/徽章 */
+.arch-badge {
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 500;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.arch-badge-key {
+  background: rgba(245, 158, 11, 0.15);
+  color: #FBBF24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.arch-badge-diff {
+  background: rgba(100, 116, 139, 0.2);
+  color: #94A3B8;
+  border: 1px solid rgba(100, 116, 139, 0.3);
+}
+
+.arch-badge-diff.diff-hard {
+  background: rgba(239, 68, 68, 0.15);
+  color: #FCA5A5;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.arch-badge-diff.diff-medium {
+  background: rgba(245, 158, 11, 0.15);
+  color: #FCD34D;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.arch-badge-diff.diff-easy {
+  background: rgba(34, 197, 94, 0.15);
+  color: #86EFAC;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.arch-point-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.arch-point-progress {
+  font-size: 11px;
+  color: #94A3B8;
+  font-weight: 500;
+}
+
+/* ==================== L3 知识元层 ==================== */
+.arch-layer-l3 {
+  margin: 0;
+  padding: 0 10px 10px 10px;
+}
+
+.arch-layer-l3-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* L3 知识元 */
+.arch-component {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #4a7ab0 0%, #5a8fc5 100%);
+  border: 1px solid rgba(106, 154, 208, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+.arch-component:hover {
+  background: linear-gradient(135deg, #5a8ac0 0%, #6a9fd5 100%);
+  border-color: rgba(129, 140, 248, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.arch-component.hovered {
+  border-color: rgba(129, 140, 248, 0.6);
+  box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.3);
+}
+
+.arch-component.completed {
+  background: linear-gradient(135deg, #1a6a4a 0%, #20805a 100%);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.arch-component.completed:hover {
+  background: linear-gradient(135deg, #20805a 0%, #26966a 100%);
+  border-color: rgba(34, 197, 94, 0.5);
+}
+
+.arch-component.in_progress {
+  background: linear-gradient(135deg, #3a5a9c 0%, #4a6aac 100%);
+  border-color: rgba(59, 130, 246, 0.3);
+  animation: pulse-component 2s ease-in-out infinite;
+}
+
+@keyframes pulse-component {
+  0%, 100% { box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05); }
+  50% { box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 0 8px rgba(59, 130, 246, 0.3); }
+}
+
+.arch-component.not_started {
+  background: linear-gradient(135deg, #3a4a5c 0%, #4a5a6c 100%);
+  border-color: rgba(71, 85, 105, 0.3);
+  opacity: 0.7;
+}
+
+.arch-component.not_started:hover {
+  opacity: 1;
+}
+
+.arch-component-index {
+  font-size: 9px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.arch-component-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: #e2e8f0;
+  white-space: nowrap;
+}
+
+.arch-component-status {
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.arch-component-status.completed {
+  color: #34D399;
+}
+
+.arch-component-status.in_progress {
+  color: #60A5FA;
+}
+
+.arch-component-status.not_started {
+  color: #64748B;
+}
+
+/* ==================== 右侧统计面板 ==================== */
+.arch-stats-panel {
+  width: 180px;
+  min-width: 180px;
+  background: linear-gradient(180deg, #0d1f33 0%, #12283f 100%);
+  border-left: 1px solid rgba(74, 122, 176, 0.2);
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.arch-stats-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #818CF8;
+  text-align: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(74, 122, 176, 0.2);
+}
+
+.arch-stats-item {
+  text-align: center;
+}
+
+.arch-stats-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: #818CF8;
+  line-height: 1;
+}
+
+.arch-stats-value.key {
+  color: #FBBF24;
+}
+
+.arch-stats-label {
+  font-size: 11px;
+  color: #94A3B8;
+  margin-top: 4px;
+}
+
+.arch-stats-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(71, 85, 105, 0.3);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.arch-stats-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #818CF8);
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+.arch-stats-sub {
+  font-size: 10px;
+  color: #64748B;
+  margin-top: 4px;
+}
+
+.arch-stats-row {
+  display: flex;
+  gap: 8px;
+}
+
+.arch-stats-mini {
+  flex: 1;
+  text-align: center;
+  padding: 8px 4px;
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 6px;
+  border: 1px solid rgba(74, 122, 176, 0.1);
+}
+
+.arch-stats-mini-value {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.arch-stats-mini-value.completed {
+  color: #34D399;
+}
+
+.arch-stats-mini-value.in-progress {
+  color: #60A5FA;
+}
+
+.arch-stats-mini-value.total {
+  color: #94A3B8;
+}
+
+.arch-stats-mini-label {
+  font-size: 9px;
+  color: #64748B;
+  margin-top: 2px;
+}
+
+.arch-stats-divider {
+  height: 1px;
+  background: rgba(74, 122, 176, 0.15);
+}
+
+/* 图例 */
+.arch-stats-legend {
+  margin-top: auto;
+}
+
+.arch-stats-legend-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94A3B8;
+  margin-bottom: 8px;
+}
+
+.arch-legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #64748B;
+  margin-bottom: 6px;
+}
+
+.arch-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.arch-legend-dot.completed {
+  background: #059669;
+}
+
+.arch-legend-dot.in-progress {
+  background: #3b82f6;
+}
+
+.arch-legend-dot.not-started {
+  background: #475569;
+}
+
+.arch-legend-badge {
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+/* ==================== 空状态 ==================== */
+.arch-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  color: #64748B;
+  gap: 12px;
+}
+
+.arch-empty-icon {
+  font-size: 48px;
+  opacity: 0.5;
+}
+
+/* ==================== 响应式 ==================== */
+@media (max-width: 1024px) {
+  .arch-stats-panel {
+    width: 140px;
+    min-width: 140px;
+    padding: 16px 12px;
+  }
+
+  .arch-stats-value {
+    font-size: 22px;
+  }
+
+  .arch-sidebar {
+    width: 44px;
+    min-width: 44px;
+  }
+
+  .arch-sidebar-text {
+    font-size: 12px;
+    letter-spacing: 3px;
+  }
+}
+
+@media (max-width: 768px) {
+  .arch-container {
+    flex-direction: column;
+  }
+
+  .arch-sidebar {
+    width: 100%;
+    min-width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    padding: 12px;
+    border-right: none;
+    border-bottom: 1px solid rgba(74, 122, 176, 0.2);
+  }
+
+  .arch-sidebar-label {
+    writing-mode: horizontal-tb;
+    flex-direction: row;
+    margin-bottom: 0;
+  }
+
+  .arch-sidebar-layers {
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  .arch-sidebar-layer {
+    flex-direction: row;
+    gap: 4px;
+    font-size: 10px;
+  }
+
+  .arch-stats-panel {
+    width: 100%;
+    min-width: 100%;
+    border-left: none;
+    border-top: 1px solid rgba(74, 122, 176, 0.2);
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .arch-stats-title {
+    width: 100%;
+    padding-bottom: 8px;
+  }
+
+  .arch-stats-legend {
+    margin-top: 0;
+    width: 100%;
+  }
+
+  .arch-main {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .arch-block-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .arch-block-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .arch-point-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .arch-point-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .arch-layer-l3-content {
+    flex-direction: column;
+  }
+
+  .arch-component {
+    width: 100%;
+  }
+}
