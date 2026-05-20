@@ -1,0 +1,769 @@
+{
+  "topic_text": "产品经理",
+  "topic_id": "topic-800ea332f96d",
+  "overview": "欢迎你踏进产品经理的领域，我先帮你站在高处看清整片森林，不用急着啃细节，看完你就能获得「这行原来如此」的通透感，也能明确接下来的方向。\n\n---\n\n### 第一步：先建立直觉——产品经理到底是干啥的？\n不用丢晦涩定义，我给你打个最直白的比方：\n如果你想开一家专门服务周边上班族的平价快餐店，你就是这家店的「产品经理」：\n- 你得先想明白：上班族中午要什么？12点下班1点要回去上班，所以要快、要干净、分量够、价格不能贵，不要花里胡哨的装修——这就是想清楚需求；\n- 然后你要跟厨师说：我们主打15元以内的一荤两素，出餐必须控制在2分钟，不能让用户等；跟装修说：桌子要摆得密一点，通道留宽方便排队，不用装吊灯搞情调；跟收银说：搞预点单，提前手机点好到店就能拿——这就是把需求变成可落地的方案，拉着大家一起做；\n- 店开了之后你要盯着：哪个菜每天剩一半？那下周就换掉；哪个窗口天天排队？那再加一个点餐口；用户说会员充值不划算？那赶紧调整规则——这就是上线后迭代优化。\n\n放到互联网/科技行业，逻辑一模一样：你做抖音的产品经理，就是把刚才开餐馆的事，换成做一款让大家刷视频停不下来的APP；做AI聊天产品，就是做一款大家愿意天天用的AI助手。\n\n一句话：**产品经理就是对一个产品从「想做什么」到「做出来」再到「做好」全流程最终结果负责的人，不是管人的「经理」，是管产品的「负责人」。**\n\n---\n\n### 第二步：看懂本质——这个岗位为什么存在？\n为什么公司不能让开发自己想做什么，非要专门设产品经理？\n一家公司做产品，永远有三拨人，信息是错位的：\n- 开发/设计：懂「怎么把东西做出来」，但不知道「应该做什么」；\n- 销售/运营/市场：懂「用户/客户说要什么」，但不知道「怎么把需求变成可落地的产品」；\n- 老板：懂「我们要赚多少钱」，但不可能盯每一个细节拍板。\n\n产品经理就是中间那个补位的人：把「用户要什么」「公司能做什么」「做了能赚钱」三件事串起来，最终拍板「我们先做什么、放弃什么」，再推着所有人把东西做出来。这就是PM不可替代的核心价值。\n\n---\n\n### 第三步：看清格局——现在主流的产品经理分三类？\n不用记太多细分，市面上90%的PM都属于这三类，方向完全不同：\n1. **C端用户产品**：做普通人用的产品（微信、抖音、淘宝这类），核心能力是琢磨普通用户的人性，做好用户体验；\n2. **B端产品**：做企业/商家用的产品（公司OA、外卖商家后台、电商ERP这类），核心能力是理解行业流程，帮客户提升效率；\n3. **商业产品**：做帮公司赚钱的产品（广告、直播带货后台、支付这类），核心能力是平衡用户体验和商业收入；\n最近热门的AI产品经理，本质还是上面三类，只是做的产品基于AI技术而已，核心逻辑没变。\n\n---\n\n### 第四步：抓对优先级——产品经理到底要会什么？\n很多初学者搞错了重点，天天去学Axure、SQL这些工具，其实工具只是「皮毛」，核心能力按重要性排只有三个：\n1. **找真问题的能力**（最重要）：用户说「我要一匹更快的马」，你得能看透他真正想要的是「更快到达目的地」，不是真的要马——90%的新手产品经理，天天都在做伪需求，就是缺这个能力；\n2. **平衡取舍的能力**：资源永远不够，你不可能同时做10个功能，必须选对优先级，平衡「用户想要的」「公司要赚钱的」「开发能做出来的」，敢拍板做取舍；\n3. **推进成事的能力**：你不是开发设计的领导，很多时候你得靠说服、协调推动事情落地，不会等靠要，能把事推成。\n\n工具真的不重要：Axure两周就能学会基础，SQL背几句常用语句就能用，核心能力才是需要长期练的。\n\n---\n\n### 第五步：入门第一步——你现在就能开始练，零成本\n如果你想入门，不用先买几千块的课，不用急着投简历，先花一个月练这个：**每天拆一个你常用的产品，问自己三个问题**：\n1. 这个产品解决了谁的什么问题？\n2. 它为什么要这么设计（比如为什么首页把红包放这么大）？\n3. 如果让我改一个地方，我改什么？为什么？\n\n这个练习练完，你对产品的感觉就超过了80%的入门者，而且随时可以做，零成本。\n\n练出感觉之后，再补两本经典书打基础（不用多，够了）：《人人都是产品经理》建立基础概念，《需求：塑造伟大产品的五步法》练找真问题的能力，然后再学工具、练画原型，一步步走就稳了。\n\n---\n\n### 最后：给你信心，打破两个常见误区\n1. ❌误区：产品经理已经饱和了，找不到工作\n真相：饱和的只是「只会画原型不会思考」的新手，现在AI、硬科技、B端领域都缺大量能成事的产品经理，只要练对方向，完全有机会；\n2. ❌误区：不是计算机专业不能做产品\n真相：产品经理核心是琢磨人和事，不是写代码，你只要能听懂技术说「这个做不了，那个要一个月」就够了，不用会开发，很多顶级PM都是商科、文科出身。\n\n---\n\n现在你已经看懂这片领域的纹理了：产品经理本质就是**「想清楚、说明白、推成事」，对产品结果负责的人**，接下来只要从拆产品开始练，你已经走在正确的入门路上了。",
+  "structure": {
+    "blocks": [
+      {
+        "block_id": "block-fef02bcd",
+        "block_name": "产品经理基础认知与职业素养",
+        "points": [
+          {
+            "point_id": "point-6b466ab0",
+            "point_name": "产品经理职业定位与分工",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-469822a5",
+                "component_name": "产品经理核心角色定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-64c0fce3",
+                "component_name": "不同领域PM分类（To C/To B/To G）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-63b1f281",
+                "component_name": "不同分工PM类型（用户/业务/数据/商业）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-563782af",
+                "component_name": "产品经理核心能力模型",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-90c34cfc",
+                "component_name": "PM职业发展路径规划",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-2efd2982",
+            "point_name": "产品经理核心职业素养",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-6d4b9970",
+                "component_name": "逻辑思维训练方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5ecaab4d",
+                "component_name": "跨角色沟通协作基础",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cb874541",
+                "component_name": "文档撰写基本规范",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6ab3222c",
+                "component_name": "Ownership意识培养",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-afb33236",
+                "component_name": "商业敏感度基础",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-87553ab5",
+            "point_name": "PM常用工具基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-9b485b94",
+                "component_name": "原型工具使用（Axure/Figma/墨刀）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f1977268",
+                "component_name": "文档工具使用（语雀/Notion/Word）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-35731d69",
+                "component_name": "协同工具使用（飞书/Jira/钉钉）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4301670c",
+                "component_name": "思维导图工具（XMind/ProcessOn）",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-b728b518",
+        "block_name": "用户研究与需求管理",
+        "points": [
+          {
+            "point_id": "point-82e268e0",
+            "point_name": "用户研究核心方法",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-37e222d7",
+                "component_name": "定性vs定量研究分类应用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7760bd18",
+                "component_name": "用户访谈流程与提纲设计",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6e188291",
+                "component_name": "问卷调查设计与信效度分析",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-302bca8c",
+                "component_name": "可用性测试执行方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-712c399f",
+                "component_name": "用户画像构建方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9731c817",
+                "component_name": "用户旅程图绘制",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-a0d7562b",
+            "point_name": "需求挖掘与分析",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-9940b1ed",
+                "component_name": "常见需求来源梳理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-25a80b6b",
+                "component_name": "KANO模型需求分层法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-13434dbe",
+                "component_name": "需求真实性判断方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-feb884c7",
+                "component_name": "用户需求vs业务需求平衡",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-231f4f01",
+                "component_name": "用户痛点与机会点识别",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-038676f8",
+            "point_name": "系统化需求管理",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-ddb9bf42",
+                "component_name": "RICE/MoSCow需求优先级排序",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-79f1661b",
+                "component_name": "需求池搭建与维护规范",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-de1a15c6",
+                "component_name": "需求变更管理流程",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-079368d5",
+                "component_name": "需求评审组织方法",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-23fc6de3",
+        "block_name": "产品规划与功能设计",
+        "points": [
+          {
+            "point_id": "point-adccddb2",
+            "point_name": "产品战略与路线图规划",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-eae2bc75",
+                "component_name": "竞品分析方法与框架",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-349cf9a1",
+                "component_name": "SWOT分析应用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ce0c0eb8",
+                "component_name": "产品定位与价值主张设计",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9cf62e44",
+                "component_name": "产品目标制定方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2e8808dc",
+                "component_name": "产品路线图规划",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-5888ce08",
+            "point_name": "业务流程与信息架构设计",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-db44c38b",
+                "component_name": "信息架构设计方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-baea5eb2",
+                "component_name": "泳道业务流程图绘制",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a6fb1ed3",
+                "component_name": "用户操作路径优化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-67629b57",
+                "component_name": "异常场景与状态机设计",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-9a35d920",
+            "point_name": "原型与PRD撰写",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-d368fa78",
+                "component_name": "低保真原型设计规范",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2c1323a0",
+                "component_name": "高保真交互设计规则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ea938633",
+                "component_name": "多端适配设计要求（移动端/PC端）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bf8a7f40",
+                "component_name": "PRD文档核心要素撰写规范",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-78674db1",
+            "point_name": "To C产品体验设计",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-d0c5bbcb",
+                "component_name": "用户体验五要素应用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3f80c933",
+                "component_name": "移动端交互设计原则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2272a1fe",
+                "component_name": "情感化设计方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-18620e96",
+                "component_name": "无障碍设计基础",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-27a2e8a5",
+            "point_name": "To B产品特殊设计",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-68f457ac",
+                "component_name": "权限体系设计",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6d64f941",
+                "component_name": "工作流引擎设计基础",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ba203572",
+                "component_name": "多租户架构设计基础",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-48e2ab3c",
+                "component_name": "数据看板与报表设计",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-15729e42",
+                "component_name": "第三方集成对接设计",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-71d7cd1e",
+        "block_name": "项目管理与跨团队协同",
+        "points": [
+          {
+            "point_id": "point-47ffa5b7",
+            "point_name": "研发流程基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-18934eb2",
+                "component_name": "瀑布开发vs敏捷开发对比",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f505db0f",
+                "component_name": "Scrum敏捷开发框架",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-276b79ae",
+                "component_name": "迭代周期与版本规划",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2870758f",
+                "component_name": "OKR目标对齐方法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-681d77f1",
+            "point_name": "项目风险与进度管控",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-9e151ed5",
+                "component_name": "项目里程碑制定",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8d6c2e73",
+                "component_name": "项目风险识别与应对",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-79ff32fd",
+                "component_name": "上线发布流程管理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5e023d84",
+                "component_name": "产品上线验收标准",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-6432c540",
+            "point_name": "跨团队冲突协调",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-cb26d228",
+                "component_name": "排期冲突协调方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2c28839b",
+                "component_name": "需求分歧处理流程",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4f48d58b",
+                "component_name": "线上故障应急响应",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ef1ae6d4",
+                "component_name": "跨部门利益平衡方法",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-d6e24abe",
+        "block_name": "产品运营与商业化增长",
+        "points": [
+          {
+            "point_id": "point-4779ca4e",
+            "point_name": "运营基础认知",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-5150b5fa",
+                "component_name": "AARRR漏斗模型应用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e71f0c79",
+                "component_name": "不同运营类型分工（用户/内容/活动）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-834b41e1",
+                "component_name": "PM与运营协作边界",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-ea163937",
+            "point_name": "用户增长方法",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-d6f88b84",
+                "component_name": "北极星指标制定",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bba1c161",
+                "component_name": "用户分层运营方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5b3b6272",
+                "component_name": "留存提升方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d065dcf5",
+                "component_name": "裂变活动产品设计",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-334042bd",
+                "component_name": "A/B测试落地流程",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-43cc330c",
+            "point_name": "商业化模式设计",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-d140c42c",
+                "component_name": "商业模式画布应用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-65066181",
+                "component_name": "广告变现模式设计",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-88693d40",
+                "component_name": "付费会员体系设计",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9b966068",
+                "component_name": "电商交易变现设计",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4832c798",
+                "component_name": "To B产品定价策略",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-3b1d1238",
+        "block_name": "数据驱动产品决策",
+        "points": [
+          {
+            "point_id": "point-52303784",
+            "point_name": "产品数据体系基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-92598396",
+                "component_name": "核心指标体系搭建方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4358fce7",
+                "component_name": "基础指标分类（增/活/留/转）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2353460a",
+                "component_name": "数据埋点需求设计",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a56b4542",
+                "component_name": "数据报表解读方法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-2d3028ea",
+            "point_name": "数据分析核心方法",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-433de948",
+                "component_name": "漏斗转化分析方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c0e60d9e",
+                "component_name": "用户行为路径分析",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e2e059e9",
+                "component_name": "相关性与因果性区分",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-48767040",
+                "component_name": "问题定位分析流程",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4f794750",
+                "component_name": "A/B测试结果显著性判断",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-0a9d224c",
+            "point_name": "数据驱动产品迭代",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-65667c96",
+                "component_name": "基于数据发现产品问题",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-da352930",
+                "component_name": "迭代效果验证方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5f22e065",
+                "component_name": "产品复盘流程方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9b23dca0",
+                "component_name": "数据驱动路线图调整",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-6d99a4ae",
+        "block_name": "高阶能力与职业发展",
+        "points": [
+          {
+            "point_id": "point-8eba2f1d",
+            "point_name": "商业战略分析",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-de4499d0",
+                "component_name": "产业链与行业政策分析",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-be730c64",
+                "component_name": "市场规模测算方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f4e4e9ba",
+                "component_name": "竞争格局分析",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6d7df861",
+                "component_name": "新赛道选择方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-16fa1995",
+                "component_name": "高阶战略决策方法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-5a495086",
+            "point_name": "产品团队管理",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-07f04260",
+                "component_name": "产品团队搭建流程",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-fe49670a",
+                "component_name": "产品线OKR管理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d5b31cc5",
+                "component_name": "跨产品线资源协调",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-116d56bd",
+                "component_name": "利益相关者管理",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-203b0011",
+            "point_name": "求职面试准备",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-3c3d395b",
+                "component_name": "项目简历包装方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-93add59e",
+                "component_name": "常见面试题梳理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5670ed16",
+                "component_name": "案例分析题准备",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2fc4b9f5",
+                "component_name": "offer选择与谈薪方法",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "saved_at": "2026-05-11T08:34:05.905347"
+}

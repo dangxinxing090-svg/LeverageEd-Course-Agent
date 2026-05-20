@@ -1,0 +1,49 @@
+{
+  "component_id": "comp-25b4cad4",
+  "knowledge_name": "collections模块常用工具",
+  "saved_at": "2026-05-16T00:36:11.297533",
+  "sections": [
+    {
+      "type": "definition",
+      "title": "通俗定义",
+      "icon": "💡",
+      "content": "collections是Python官方提供的增强型数据结构工具包，专门弥补原生列表、字典、元组等基础数据结构的功能不足，帮开发者更高效地解决常见数据处理问题，不用自己重复造轮子。"
+    },
+    {
+      "type": "principle",
+      "title": "底层原理",
+      "icon": "🔬",
+      "content": "它本质是把Python开发中高频使用的特殊数据处理需求，基于原生基础数据结构做了标准化抽象封装，部分核心实现用C做了性能优化，既提升了代码可读性，又比开发者自己手写实现的效率更高。"
+    },
+    {
+      "type": "example",
+      "title": "入门示例",
+      "icon": "📝",
+      "content": "最常用的入门场景是统计元素出现次数，代码示例：\n1. 导入工具：from collections import Counter\n2. 准备待统计数据：words = [\"apple\", \"banana\", \"apple\", \"orange\", \"banana\", \"apple\"]\n3. 一键统计：result = Counter(words)\n运行后得到结果：Counter({'apple': 3, 'banana': 2, 'orange': 1})\n还可以直接调用result.most_common(2)拿到出现次数最多的前2个元素：[('apple', 3), ('banana', 2)]"
+    },
+    {
+      "type": "structure",
+      "title": "核心拆解",
+      "icon": "🔧",
+      "content": "常用核心工具共5个，作用分别是：\n1. Counter：计数器，专门统计可迭代对象中元素的出现次数，内置获取高频TopN元素的方法\n2. defaultdict：带默认值的字典，解决原生字典访问不存在键时报错的问题，自动给新键设置指定默认值\n3. deque：双向队列，头尾位置的插入、删除操作效率远高于原生列表，适合实现队列、栈结构\n4. namedtuple：命名元组，给普通元组的每个位置设置属性名，可以用点语法访问属性，比普通元组可读性高，比自定义类更轻量\n5. OrderedDict：有序字典，Python3.7之前用来保证字典的插入顺序，现在原生字典默认有序，使用场景较少"
+    },
+    {
+      "type": "comparison",
+      "title": "易混对比",
+      "icon": "⚖️",
+      "content": "1. defaultdict vs 普通字典get()方法：defaultdict会把不存在的键和默认值存入字典，get()只是读取时返回默认值，不会把键加入字典\n2. deque vs 原生列表：列表做头部插入/删除的时间复杂度是O(n)，效率低，deque头尾操作都是O(1)，效率更高；但deque不支持高效的随机访问和切片\n3. Counter vs 自己用字典统计：Counter封装了频次统计、获取高频元素的逻辑，代码更简洁，性能更好，不需要自己写判断累加的代码"
+    },
+    {
+      "type": "mistake",
+      "title": "常见错误",
+      "icon": "⚠️",
+      "content": "1. 导入错误：忘记从collections模块导入具体工具，直接调用时报未定义错误\n2. defaultdict传参错误：把默认值的实例传给构造方法，比如写defaultdict(int())，正确写法是传可调用对象defaultdict(int)\n3. 对deque做切片操作：deque不支持高效切片，强行使用会报错或者效率极低，需要切片先转成列表\n4. Python3.7+冗余使用OrderedDict：原生字典已经默认保留插入顺序，不需要再特意用OrderedDict"
+    },
+    {
+      "type": "scenario",
+      "title": "适用场景",
+      "icon": "🎯",
+      "content": "✅ 该用的场景：\n1. 需要快速统计元素频次、找高频元素时用Counter\n2. 需要频繁做头尾增删操作，比如实现广度优先搜索队列、缓存栈时用deque\n3. 对数据分组统计，需要给新键自动赋默认值时用defaultdict\n4. 需要轻量存储结构化数据，想要比普通元组可读性高、比自定义类省内存时用namedtuple\n\n❌ 不该用的场景：\n原生数据结构已经能简单搞定需求时，不用特意增加复杂度，比如仅存少量固定值，用普通元组即可，不需要用namedtuple"
+    }
+  ]
+}

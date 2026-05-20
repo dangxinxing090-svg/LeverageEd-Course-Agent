@@ -12,7 +12,7 @@ from fastapi import APIRouter, Query, Body
 from app.api.v1.middleware.response import format_response, ResponseFormatter
 from app.agents.llm_providers.agent_adapter import AgentLLMClient
 from app.agents.llm_providers.config import ProviderType
-from app.api.v1.endpoints.knowledge_cache import get_topic_structure
+from app.api.v1.endpoints.knowledge_cache import get_topic_structure, get_completed_points
 
 logger = logging.getLogger(__name__)
 
@@ -78,7 +78,16 @@ async def get_learning_path(user_id: str, topic_id: str = Query(...)):
 
     # Extract knowledge point names from structure
     points_info = []
-    if hasattr(structure, 'blocks'):
+    if isinstance(structure, dict) and "blocks" in structure:
+        for block in structure["blocks"]:
+            for point in block.get("points", []):
+                points_info.append({
+                    "point_id": point.get("point_id", ""),
+                    "point_name": point.get("point_name", ""),
+                    "difficulty": point.get("difficulty", "medium"),
+                    "is_key_point": point.get("is_key_point", False),
+                })
+    elif hasattr(structure, 'blocks'):
         for block in structure.blocks:
             for point in block.points:
                 points_info.append({
@@ -90,8 +99,14 @@ async def get_learning_path(user_id: str, topic_id: str = Query(...)):
 
     # Build next plan from remaining points
     next_plan = []
-    for i, p in enumerate(points_info[:5]):
-        next_plan.append({
+    completed_point_ids = set()
+    completed_points_data = get_completed_points(topic_id)
+    for cp in completed_points_data:
+        completed_point_ids.add(cp["point_id"])
+
+    for i, p in enumerate(points_info):
+        if p["point_id"] not in completed_point_ids:
+            next_plan.append({
             "plan_id": f"plan-{i+1}",
             "plan_name": p["point_name"],
             "description": f"学习{p['point_name']}的核心概念和实践应用",
@@ -131,7 +146,8 @@ async def get_learning_path(user_id: str, topic_id: str = Query(...)):
         logger.error(f"跳级建议生成失败: {e}")
 
     return format_response(data={
-        "completed_points": [],
+        "completed_points": completed_points_data,
         "next_plan": next_plan,
-        "skip_suggestions": skip_suggestions
+        "skip_suggestions": skip_suggestions,
+        "total_points": len(points_info),
     })

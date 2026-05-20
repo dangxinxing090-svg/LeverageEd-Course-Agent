@@ -1,0 +1,869 @@
+{
+  "topic_text": "AI",
+  "topic_id": "topic-6a145b829899",
+  "overview": "# AI入门第一站：10分钟看懂AI的整个格局\n很多初学者刚接触AI，第一反应是「这东西太高深了，满是公式和术语，肯定是大佬才能玩明白的」——其实完全不是。我们今天先不聊细节，先帮你把AI的骨架搭起来，看完你就会说：原来AI这么回事啊，我也能懂。\n\n---\n\n## 第一步：先搞懂「AI到底解决什么问题」（建立第一直觉）\n我们过去所有的工具、所有的程序，本质都是**人把规则写死**：比如做一个自动售货机，你投10块钱买5块的水，我就给你出水+找5块，规则清清楚楚，一步一步都是人定好的。\n\n但这个思路遇到很多问题就卡壳了：\n你能不能写清楚「怎么认出一张照片里是猫」？\n你说猫有尖耳朵？兔子也有。猫是圆的？皮球也是圆的。你根本说不出一条100%准确的规则。\n再比如，你能不能写清楚「怎么写一篇符合要求的朋友圈文案」？也写不出来，对不对？\n\nAI就是来解决这个问题的：\n> **我们不用给机器写死规则，我们给机器喂大量的例子，让机器自己从例子里摸出规律，再用摸出来的规律解决新问题——这就是AI最核心的本质。**\n\n就这么简单。\n\n---\n\n## 第二步：看懂整个领域的脉络（先见森林）\n现在大家聊的AI，其实是一层一层套的大概念，你只要记住这一个层级结构，就不会乱：\n```\n人工智能（整个大领域的名字）\n└── 机器学习（现在人工智能领域最实用、最主流的分支，99%我们说的AI都是这个）\n    └── 深度学习（机器学习里效果最好的一类方法，近10年AI的爆发全靠它）\n        └── 生成式AI/大模型（当下最火的深度学习分支，你用的ChatGPT、Midjourney、文心一言都属于这一类）\n```\n说白了：大模型不是什么新物种，就是AI这个大树上，现在长的最大最甜的那个果子而已。\n\n---\n\n## 第三步：记住4个核心词，听懂所有AI讨论\n不用记公式，只要懂这四个词，你就能和别人聊AI，不会懵：\n1. **训练**：给机器喂大量例子，让它自己学规律的过程，就叫训练。相当于你上学的时候刷题背书长本事。\n2. **模型**：训练完之后，机器学到的那整套能解决问题的规律，就叫模型。相当于你毕业后装在脑子里，能用来干活的本事。\n3. **参数**：模型里规律的具体数值，参数越多，模型能存下的规律越复杂，能力就越强。我们说的「大模型」，就是参数特别多（千亿级别）的模型，相当于脑子容量大，能装更多知识。\n4. **推理**：训练好的模型，接了新问题出结果的过程，就叫推理。相当于你学会本事之后，上班解决新问题的过程。\n\n就这四个，够了。\n\n---\n\n## 第四步：搞清楚AI的边界，不吹不黑\n很多人要么怕AI取代所有人，要么觉得AI都是瞎吹，其实一句话说清边界：\n✅ **AI现在干得特别好的事**：所有「只要有大量正确例子，就能靠找规律解决」的事——比如写文案、修图、翻译、认人脸、下棋、找代码bug，现在AI干得比大多数人都好。\n❌ **AI现在干不好的事**：需要真正懂因果逻辑、需要亲身体验获得常识、需要承担责任的事——比如给你做人生重大决策、给公司做全新的战略规划、证明没人证过的数学定理，AI现在还做不到，因为它只会从例子里找规律，创造不出完全脱离例子的全新东西。\n\n---\n\n## 第五步：你接下来该往哪走？（给你清晰方向）\n入门之后，根据你的需求走就行，完全不用盲目跟风学：\n### 如果你只是想用AI提高效率，不想做算法开发：\n不用学数学不用学代码，你只要练会「怎么给AI说清楚需求（也就是写提示词）」，会用不同的AI工具解决问题就行，一周就能上手，立马能用。\n\n### 如果你想入行做AI算法工程师：\n按这个顺序一步步来就不会走歪：\n1. 补基础：先学够用的数学（微积分、线性代数、概率统计），再学Python编程\n2. 学基础：先搞懂传统机器学习的核心逻辑，再学深度学习\n3. 练手：跑开源项目，刷面试题，做作品集，循序渐进。\n\n---\n\n## 最后给你信心\nAI不是什么高不可攀的玄学，它本质就是人类发明的一种新工具，和几百年前的蒸汽机、几十年前的电脑一样，门槛没有你想象的那么高。你现在看完这篇，已经搞懂了AI的核心格局，比很多懵懵懂懂死啃术语的初学者走得更顺了——接下来只要顺着你的需求往下走，你完全能学会。",
+  "structure": {
+    "blocks": [
+      {
+        "block_id": "block-148783d1",
+        "block_name": "AI基础理论",
+        "points": [
+          {
+            "point_id": "point-17776ba0",
+            "point_name": "AI概论与发展史",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-8e20dc73",
+                "component_name": "AI定义与核心目标",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4ced82dd",
+                "component_name": "AI发展三次浪潮",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-adfc1057",
+                "component_name": "AI主要分支领域划分",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ec42f34c",
+                "component_name": "强AI与弱AI概念区分",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-8a82f89b",
+            "point_name": "AI必备数学基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-24451198",
+                "component_name": "线性代数核心（向量/矩阵/特征值）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-80a20810",
+                "component_name": "概率论与数理统计（概率分布/期望/贝叶斯定理）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e2dcfc8a",
+                "component_name": "微积分基础（偏导/梯度/链式法则）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5c932630",
+                "component_name": "信息论基础（熵/交叉熵/相对熵）",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-6ad76c72",
+            "point_name": "经典搜索与推理方法",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-862453e4",
+                "component_name": "盲目搜索（广度/深度优先搜索）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-eef21136",
+                "component_name": "启发式搜索（A*算法）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-04c5e55a",
+                "component_name": "博弈搜索（极小极大算法）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e2895d79",
+                "component_name": "命题逻辑与一阶逻辑推理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-df6d7fcc",
+                "component_name": "贝叶斯网络推理",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-29ffbb27",
+        "block_name": "机器学习核心",
+        "points": [
+          {
+            "point_id": "point-ba7b3279",
+            "point_name": "机器学习概论",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-b6f11c16",
+                "component_name": "机器学习定义与分类（监督/无监督/强化）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9a863d85",
+                "component_name": "偏差-方差权衡原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0046fe66",
+                "component_name": "训练/验证/测试集划分方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cb4e3f0f",
+                "component_name": "基础模型评估指标",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-960f9b2c",
+            "point_name": "经典监督学习算法",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-fe4d8efb",
+                "component_name": "线性回归",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bb52887a",
+                "component_name": "逻辑回归",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b1370d07",
+                "component_name": "K近邻算法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-46da8a4a",
+                "component_name": "决策树与随机森林",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0bb3a594",
+                "component_name": "支持向量机SVM",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-16a85ccd",
+                "component_name": "朴素贝叶斯",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4c690e14",
+                "component_name": "集成学习（Bagging/Boosting/Stacking）",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-c729c952",
+            "point_name": "经典无监督学习算法",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-c293976b",
+                "component_name": "K-means聚类",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0b32fd4a",
+                "component_name": "DBSCAN密度聚类",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e843f644",
+                "component_name": "PCA降维",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7a04819c",
+                "component_name": "SVD矩阵分解",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6f34e357",
+                "component_name": "Apriori关联规则挖掘",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-8c61409b",
+            "point_name": "特征工程与模型优化",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-c6459de4",
+                "component_name": "特征预处理（归一化/标准化/编码）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a28307ac",
+                "component_name": "特征选择与特征提取",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3cc15110",
+                "component_name": "L1/L2正则化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1a4621d2",
+                "component_name": "网格搜索与交叉验证",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1d8d6b22",
+                "component_name": "过拟合欠拟合处理方法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-579c9ad3",
+            "point_name": "强化学习基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-74f15c80",
+                "component_name": "强化学习核心要素（状态/动作/奖励）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0ba06ce8",
+                "component_name": "马尔可夫决策过程",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-96a32862",
+                "component_name": "价值迭代与策略迭代",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4f3c527a",
+                "component_name": "Q-Learning与Sarsa算法",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-ac68c24d",
+        "block_name": "深度学习基础",
+        "points": [
+          {
+            "point_id": "point-ee0dc10e",
+            "point_name": "神经网络核心原理",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-39ca1656",
+                "component_name": "感知机模型",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b73738ef",
+                "component_name": "常用激活函数（Sigmoid/ReLU/Tanh）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-caee40f2",
+                "component_name": "前向传播算法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5568a30a",
+                "component_name": "反向传播算法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e1da85ba",
+                "component_name": "常见梯度下降优化算法（SGD/Adam）",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-95220e67",
+            "point_name": "全连接前馈神经网络",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-c7cb8b76",
+                "component_name": "全连接网络结构设计",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1b46921e",
+                "component_name": "常用损失函数选择",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e39e1fb4",
+                "component_name": "输出层设计规则",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-285d646b",
+            "point_name": "卷积神经网络CNN基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-67b112ec",
+                "component_name": "卷积层原理与计算",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b3874059",
+                "component_name": "池化层原理与作用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0e17d302",
+                "component_name": "CNN整体架构流程",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5cfd65dd",
+                "component_name": "LeNet/AlexNet经典网络结构",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-0bb2c3f9",
+            "point_name": "循环神经网络RNN基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-a5c4b764",
+                "component_name": "序列数据建模基础",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-77197788",
+                "component_name": "RNN结构与梯度消失问题",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-461f3cfa",
+                "component_name": "LSTM与GRU结构原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-30f4b5f5",
+                "component_name": "双向RNN原理",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-cc81e579",
+        "block_name": "深度学习进阶",
+        "points": [
+          {
+            "point_id": "point-ffa649d9",
+            "point_name": "CNN进阶模型架构",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-81b63913",
+                "component_name": "VGGNet架构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-82cd4fc2",
+                "component_name": "ResNet残差网络原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d7363c1f",
+                "component_name": "Inception系列架构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bec978f4",
+                "component_name": "轻量级CNN（MobileNet/ShuffleNet）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1b4c0d74",
+                "component_name": "Transformer基础架构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ba1d6f81",
+                "component_name": "视觉Transformer（ViT）",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-e5ffc9f0",
+            "point_name": "注意力机制与预训练模型",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-a3c04fea",
+                "component_name": "注意力机制原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-08eafc34",
+                "component_name": "Transformer编解码结构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-12b3ef99",
+                "component_name": "位置编码原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-295cdf9c",
+                "component_name": "BERT架构原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bb4150b2",
+                "component_name": "GPT系列架构原理",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-e53f6536",
+            "point_name": "生成式AI基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-3c9fa310",
+                "component_name": "变分自编码器VAE原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e49855a4",
+                "component_name": "生成对抗网络GAN原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ac733888",
+                "component_name": "扩散模型原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-dda8fcf7",
+                "component_name": "大语言模型核心逻辑",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-feddcb0e",
+                "component_name": "多模态模型基础",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-0b2932e7",
+            "point_name": "自监督学习基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-204b449f",
+                "component_name": "对比学习原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-427ddc74",
+                "component_name": "自监督预训练框架",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f11f4fd9",
+                "component_name": "对比损失函数设计",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-1e43b242",
+            "point_name": "模型压缩与优化",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-ed9ec3fd",
+                "component_name": "模型剪枝",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-70bba72a",
+                "component_name": "模型量化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1321d98f",
+                "component_name": "知识蒸馏",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-b75deca1",
+        "block_name": "主流AI应用方向",
+        "points": [
+          {
+            "point_id": "point-b8bbc5e9",
+            "point_name": "计算机视觉应用",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-085bcbcd",
+                "component_name": "图像分类",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a85b9594",
+                "component_name": "目标检测（YOLO/Faster R-CNN）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-96cb85cb",
+                "component_name": "图像分割",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-fd17549f",
+                "component_name": "OCR文字识别",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3fcb3df3",
+                "component_name": "人脸识别",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-7db8f29e",
+            "point_name": "自然语言处理应用",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-ae4639a3",
+                "component_name": "文本分类与情感分析",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f1c7bf8a",
+                "component_name": "命名实体识别",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-21a09146",
+                "component_name": "机器翻译",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-41bf9363",
+                "component_name": "问答系统",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b4b1262e",
+                "component_name": "文本生成",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-426f0d31",
+            "point_name": "推荐系统应用",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-2dfa7a39",
+                "component_name": "协同过滤算法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-76e2a888",
+                "component_name": "内容推荐算法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-09fe357d",
+                "component_name": "排序模型",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b3ff8e59",
+                "component_name": "冷启动问题解决方案",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-5b042bfe",
+            "point_name": "语音处理应用",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-b92fc035",
+                "component_name": "语音识别",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a2c80988",
+                "component_name": "语音合成",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b5466264",
+                "component_name": "声纹识别",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-98e62991",
+            "point_name": "垂直领域AI应用",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-908fbbad",
+                "component_name": "AI医疗应用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2ef0cf5b",
+                "component_name": "AI自动驾驶基础",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8f538e4a",
+                "component_name": "AI金融应用",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-fd567a33",
+        "block_name": "AI工程化与部署",
+        "points": [
+          {
+            "point_id": "point-fa7e7680",
+            "point_name": "AI开发基础工具",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-a9ca4531",
+                "component_name": "Python核心AI开发基础",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-aafb32b6",
+                "component_name": "PyTorch框架基础",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c3b9d2f3",
+                "component_name": "NumPy/Pandas数据处理基础",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-dcec54e9",
+            "point_name": "数据与实验管理",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-bfcf82d2",
+                "component_name": "数据集清洗与构建",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-df018d00",
+                "component_name": "数据增强方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-009b41ca",
+                "component_name": "实验跟踪与版本控制",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-55d7f393",
+            "point_name": "模型部署与推理加速",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-75e88291",
+                "component_name": "云端API服务部署",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4ad257ed",
+                "component_name": "端侧模型部署",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-fa8f32d6",
+                "component_name": "ONNX/TensorRT推理加速",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-38678537",
+            "point_name": "MLOps基础",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-b407e551",
+                "component_name": "AI pipeline自动化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a3635403",
+                "component_name": "模型线上监控与迭代",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-473a5138",
+        "block_name": "AI伦理与治理",
+        "points": [
+          {
+            "point_id": "point-5a172086",
+            "point_name": "AI伦理基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-51fdb433",
+                "component_name": "算法偏见与公平性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5e84ecac",
+                "component_name": "AI隐私保护",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8ac5f8c5",
+                "component_name": "AI责任界定",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-d706d928",
+            "point_name": "AI安全与合规",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-8f8e68de",
+                "component_name": "对抗样本攻击与防御",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-36fa1663",
+                "component_name": "AI数据安全规范",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9b38ae5f",
+                "component_name": "生成式AI合规要求",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "saved_at": "2026-05-12T09:15:18.936833"
+}

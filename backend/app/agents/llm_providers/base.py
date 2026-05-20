@@ -19,6 +19,7 @@ class ProviderType(str, Enum):
     KIMI = "kimi"        # Moonshot
     QWEN = "qwen"        # 阿里通义千问
     DOUBAO = "doubao"    # 字节豆包
+    DEEPSEEK = "deepseek"  # DeepSeek
 
 
 class ModelCapability(str, Enum):

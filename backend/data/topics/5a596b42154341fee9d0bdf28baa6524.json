@@ -1,0 +1,757 @@
+{
+  "topic_text": "计算机基础",
+  "topic_id": "topic-35a95013ea17",
+  "overview": "> 很多人对「计算机基础」有误解：觉得它是一堆要背的枯燥术语、是给专业学生准备的考试考点，普通人会开机关机用软件就行，不用学。其实不对：计算机基础是帮你看懂**所有数码产品背后的运行逻辑**——你电脑卡了知道为啥卡、买电脑不会被商家的参数忽悠、学编程不会越学越懵、甚至修个小问题都不用到处求人，它是你玩转所有数码产品的「底层说明书」。\n\n---\n\n## 先看森林：整个计算机基础的全景格局\n所有计算机（从你手上的手机到超级计算机），都是顺着「**从物理硬件，到能帮人干活，一层层搭出来**」的，整个知识脉络一共就4层，每层只需要搞定1个核心问题：\n\n---\n\n### 第一层：硬件层——一堆零件怎么变成能算数的机器？\n核心逻辑就是大名鼎鼎的「冯·诺依曼结构」，你只要记住分工就够，用你的身体打比方，一秒建立直觉：\n- CPU = 大脑思考中枢：所有计算都得它来做，主频、核心数就是它同时干活的能力，越快干活越爽\n- 内存 = 当下的注意力：你现在开的微信、浏览器，都临时放在内存里，切的时候才能秒开，用完就清掉给新内容腾地方\n- 硬盘/闪存 = 长期记忆：你存的照片、聊天记录、安装包，不用的时候都存在这里，断电也不会丢\n- 主板/总线 = 血管神经：负责把所有零件连起来，让数据能在各个零件之间跑\n\n记住这个分工，硬件层的核心你就掌握了，缓存、指令集这些细节，以后要深入再学完全来得及。\n\n---\n\n### 第二层：操作系统层——一堆零件怎么变成你能用的APP？\n一堆裸零件就是废铁，操作系统就是管所有零件的大管家，它只干两件核心事：\n1. 分资源：你同时开微信和抖音，谁用多少CPU、谁占多少内存，操作系统说了算，分配不均就会卡\n2. 搭舞台：它给所有APP定好规则，让APP可以调用硬件，也让你点一下鼠标/屏幕就能用\n\n两个核心概念就够：\n- 进程：你现在**正在用**的程序（比如你打开的这篇文章就是一个进程），相当于书桌上摊开正在读的书\n- 文件：你**存起来暂时不用**的内容（比如相册里的照片），相当于放在书架上的书\n\n核心逻辑通了，操作系统的脉络你就理清了。\n\n---\n\n### 第三层：信息编码层——计算机怎么看懂我们的文字图片？\n计算机本质靠电工作，它只会认两个状态：通电=1，不通电=0，所以**所有信息在计算机里都是0和1的排列组合，规则不同代表的意义不同**：\n- 文字：提前定好规则（就是编码），比如`01000001`就代表大写A，两个01串组合就代表一个汉字\n- 图片：把图片拆成一个个小格子（像素），每个格子的颜色转成01存起来\n- 视频/声音：本质就是一堆连续图片加一串声音波形，全转成01就行\n\n记住「规则定意义」，编码层你就懂了。\n\n---\n\n### 第四层：程序算法层——我们怎么让计算机帮我们干活？\n计算机不会自己干活，所有功能都是人提前告诉它「一步步该做什么」：\n- 把要做的事拆成一步一步计算机能懂的指令，这一堆指令就是**程序**\n- 找最快、最省资源的拆事方法，这个思路就是**算法**\n- 安排要存的数据的方式，就是**数据结构**\n\n行业里有句老话「程序 = 数据结构 + 算法」，一句话就说透了这层的核心。\n\n---\n\n## 你的第一步入门路径（不走弯路，1小时建立扎实认知）\n现在你已经看懂整个格局了，不用上来啃几百页的专业书，先从看得见摸得着的地方验证，最快1小时就能把核心逻辑刻进脑子里：\n1. 打开你电脑的任务管理器（Windows按`Ctrl+Shift+Esc`，Mac点左上角苹果图标→活动监视器），自己试试：开10个网页、多开几个APP，看看内存和CPU占用怎么涨？关掉不用的程序，占用是不是降下来了？你瞬间就能懂「为什么电脑会卡」，比背十遍概念都有用。\n2. 花10分钟搜一个「冯诺依曼结构动画」看一遍，看完你就彻底理解硬件分工的逻辑了。\n3. 选方向深入：如果只是想够用，上面的内容已经能解决你90%日常遇到的数码问题了；如果要学编程、做计算机相关工作，顺着脉络走就行：想搞底层就先学《计算机组成原理》再学《操作系统》，想写代码就先入门一门编程语言，再补数据结构与算法。\n\n---\n\n## 最后给你吃颗定心丸\n计算机基础一点都不神秘，它就是一百多年来人类为了「让机器帮我们干活」，一步步顺着需求搭出来的系统，所有设计都符合逻辑，根本不需要死记硬背。你现在已经知道它的整体格局、核心脉络了，已经比一半死背术语的初学者走得更稳了，接下来只要顺着方向走，你肯定能学会。",
+  "structure": {
+    "blocks": [
+      {
+        "block_id": "block-e7f65f1c",
+        "block_name": "计算机概述与发展",
+        "points": [
+          {
+            "point_id": "point-ea32a29f",
+            "point_name": "计算机的定义与分类",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-406a46ff",
+                "component_name": "计算机的核心定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3cb8c1c4",
+                "component_name": "按处理数据类型分类",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b023afae",
+                "component_name": "按用途分类",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ceef8640",
+                "component_name": "按规模性能分类",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-98e90bbf",
+            "point_name": "计算机的发展历程",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-a84e1232",
+                "component_name": "第一代电子管计算机",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c5e892c7",
+                "component_name": "第二代晶体管计算机",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-88146b47",
+                "component_name": "第三代集成电路计算机",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e7c63497",
+                "component_name": "第四代大规模集成电路计算机",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-39c86776",
+                "component_name": "未来计算机发展趋势",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-013086c4",
+            "point_name": "计算机的特点与应用领域",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-907cbee0",
+                "component_name": "计算机的核心特点",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7eaefed8",
+                "component_name": "科学计算应用场景",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b3fd9144",
+                "component_name": "信息数据处理应用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d31fe5cf",
+                "component_name": "自动过程控制应用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5e596613",
+                "component_name": "人工智能应用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c2298169",
+                "component_name": "网络通信应用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4bfc37f8",
+                "component_name": "计算机辅助类应用(CAD/CAM/CAI)",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-5889e863",
+        "block_name": "计算机系统组成",
+        "points": [
+          {
+            "point_id": "point-2fecdb32",
+            "point_name": "硬件系统组成",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-4bddb2ba",
+                "component_name": "冯·诺依曼结构核心思想",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-70177c29",
+                "component_name": "运算器的功能与组成",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-205903bb",
+                "component_name": "控制器的功能与组成",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-be98c262",
+                "component_name": "存储器的分类(主存/辅存)",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-15fa3ea2",
+                "component_name": "常见输入设备特性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2e433d20",
+                "component_name": "常见输出设备特性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-774aa8c9",
+                "component_name": "主板与总线概念",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-714e4c7e",
+            "point_name": "软件系统组成",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-3a92e560",
+                "component_name": "系统软件的定义与分类",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-04d15d7b",
+                "component_name": "应用软件的定义与分类",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1544ba70",
+                "component_name": "程序与进程的基础概念",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-791444de",
+            "point_name": "计算机基本工作原理",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-dbab0043",
+                "component_name": "指令与指令系统概念",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e8389f6a",
+                "component_name": "存储程序控制原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-641231d4",
+                "component_name": "指令的执行过程",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-7bb71404",
+        "block_name": "数据表示与编码",
+        "points": [
+          {
+            "point_id": "point-83f9c71c",
+            "point_name": "数制与数制转换",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-95fa3bdd",
+                "component_name": "二进制的概念与特性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-45496b36",
+                "component_name": "八进制/十六进制基础",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-469e374d",
+                "component_name": "不同数制之间的转换方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bcebe59f",
+                "component_name": "二进制的算术与逻辑运算",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-0d8331ee",
+            "point_name": "数值数据的表示",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-4fa1d3ae",
+                "component_name": "原码表示方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ef5266be",
+                "component_name": "反码表示方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cfa64738",
+                "component_name": "补码表示方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3b9d2be1",
+                "component_name": "定点数与浮点数概念",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-5ceb7d34",
+            "point_name": "字符与汉字编码",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-de1fe516",
+                "component_name": "ASCII编码规则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-700697c5",
+                "component_name": "Unicode编码标准",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ac0cfabb",
+                "component_name": "常用汉字编码标准(GB2312/GBK)",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-84bbeaef",
+                "component_name": "汉字输入/输出编码分类",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-2452d4c9",
+            "point_name": "多媒体数据编码基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-cfc00d45",
+                "component_name": "图像数字化与编码基础",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9b7c94f0",
+                "component_name": "音频数字化与编码基础",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1bb3def5",
+                "component_name": "视频编码基础概念",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-414f3062",
+        "block_name": "操作系统基础",
+        "points": [
+          {
+            "point_id": "point-29b4f8d1",
+            "point_name": "操作系统概述",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-24adf8ae",
+                "component_name": "操作系统的定义与核心功能",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-de0a4f75",
+                "component_name": "操作系统的发展与分类",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-433aac34",
+            "point_name": "进程与线程管理",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-25d2c902",
+                "component_name": "进程的概念与状态转换",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ae65d30f",
+                "component_name": "线程的概念与作用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e4540b85",
+                "component_name": "进程调度基础原理",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-f79fb14f",
+            "point_name": "内存管理",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-bb27d8f4",
+                "component_name": "内存分配基本概念",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-941839ae",
+                "component_name": "虚拟内存技术原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-33816637",
+                "component_name": "内存分页与分段基础",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-8d1405a2",
+            "point_name": "文件与设备管理",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-a0442f93",
+                "component_name": "文件的概念与目录结构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6861e747",
+                "component_name": "文件存储基本原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0948fa1c",
+                "component_name": "设备驱动与I/O管理基础",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-f8310fae",
+            "point_name": "常见操作系统介绍",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-2481a165",
+                "component_name": "Windows系统基础操作",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f9b02829",
+                "component_name": "Linux系统基础命令",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-554a15a5",
+                "component_name": "移动端操作系统基础",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-69362496",
+        "block_name": "计算机网络基础",
+        "points": [
+          {
+            "point_id": "point-df900379",
+            "point_name": "网络概述与分类",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-18aa050c",
+                "component_name": "计算机网络的定义与功能",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-50bb9145",
+                "component_name": "按覆盖范围的网络分类",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2380eb8a",
+                "component_name": "按拓扑结构的网络分类",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-10e4b14c",
+            "point_name": "网络体系结构与协议",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-ba5f2ef9",
+                "component_name": "OSI七层参考模型",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8a62ed06",
+                "component_name": "TCP/IP四层体系结构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-62f57fd0",
+                "component_name": "TCP与UDP协议特性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-12a068b5",
+                "component_name": "IP地址与子网划分基础",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-74b9ff1d",
+                "component_name": "域名系统(DNS)工作原理",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-04642a5f",
+            "point_name": "局域网与Internet应用",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-a9892d16",
+                "component_name": "局域网的基本组成",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ba61f6d9",
+                "component_name": "HTTP协议基础",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-60f0350d",
+                "component_name": "WWW服务与浏览器",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b351bdc9",
+                "component_name": "电子邮件服务原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9e0ff3a1",
+                "component_name": "文件传输(FTP)基础",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-fd5d17ee",
+        "block_name": "常用办公软件基础",
+        "points": [
+          {
+            "point_id": "point-a05ddcf9",
+            "point_name": "文字处理软件(Word)",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-54c28254",
+                "component_name": "文档基础操作(新建/保存/打开)",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ad563a4b",
+                "component_name": "文本格式与段落排版",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2cde2f20",
+                "component_name": "样式与自动目录生成",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-44852587",
+                "component_name": "表格制作与编辑",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0424e907",
+                "component_name": "邮件合并功能使用",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-dd39b6a3",
+            "point_name": "电子表格软件(Excel)",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-c86b8eeb",
+                "component_name": "单元格与工作表基础操作",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bda202b1",
+                "component_name": "公式输入与单元格引用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a345d12e",
+                "component_name": "常用内置函数使用(求和/平均/查找)",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d9884575",
+                "component_name": "数据排序与筛选",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7cf278c6",
+                "component_name": "数据透视表基础使用",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-8200d47a",
+            "point_name": "演示文稿软件(PowerPoint)",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-6310514b",
+                "component_name": "幻灯片基础操作",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-af042273",
+                "component_name": "母版与版式设置",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f3f7e9d6",
+                "component_name": "动画与切换效果设置",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8b7be262",
+                "component_name": "演示文稿放映与输出",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-1081cabc",
+        "block_name": "信息安全与职业道德",
+        "points": [
+          {
+            "point_id": "point-4bc2f787",
+            "point_name": "信息安全基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-70f09f89",
+                "component_name": "信息安全的核心三要素",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c160504d",
+                "component_name": "常见信息安全威胁类型",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-071248fa",
+            "point_name": "计算机病毒与恶意软件",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-c584e12b",
+                "component_name": "计算机病毒的定义与特征",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-923dcc75",
+                "component_name": "常见恶意软件分类(木马/勒索病毒)",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5e9603ce",
+                "component_name": "病毒传播途径与防范",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-4369c9dd",
+            "point_name": "网络安全防护技术",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-b9480004",
+                "component_name": "防火墙技术原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1d54efc0",
+                "component_name": "数据加密基础概念",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-88cc4507",
+                "component_name": "身份认证技术",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4dbc7b1d",
+                "component_name": "常见网络诈骗防范方法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-4f8eccdd",
+            "point_name": "计算机职业道德与法规",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-d7d557e1",
+                "component_name": "计算机知识产权保护法规",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-028a28b0",
+                "component_name": "网络行为道德规范",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "saved_at": "2026-05-11T14:26:13.472578"
+}

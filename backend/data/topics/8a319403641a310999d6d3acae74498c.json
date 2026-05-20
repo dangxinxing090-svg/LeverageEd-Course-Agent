@@ -1,0 +1,391 @@
+{
+  "topic_text": "Python变量与数据类型",
+  "topic_id": "topic-c2cf6ce64b77",
+  "overview": "你好，欢迎踏入Python的第一片核心领地：变量与数据类型。我先给你一张整个区域的俯瞰图，一句话说清它到底是干嘛的：\n\n> **Python的工作是处理信息，变量就是放信息的「带标签的储物柜」，数据类型就是给储物柜分的类——不同的储物柜专门放不同种类的信息，方便Python拿出来用。**\n\n就这么简单，和你家里整理东西：衣服放衣柜、书放书架、碗放橱柜，每个柜子贴好标签，下次用随手就能拿，逻辑完全一样。\n\n接下来我们拆开来，先解决「为什么」，再回答「是什么」：\n\n---\n\n## 第一部分：变量——为什么我们要给信息起名字？\n比如你要算一个月喝奶茶花了多少钱：第一次18块、第二次22块、第三次16块，加起来一共56块。如果你不用变量，每次要用这个总钱数，你都要写一遍`18+22+16`，太麻烦了对吧？\n\n你给这个结果起个好记的名字：`total_money = 18+22+16`，下次你只要喊`total_money`，Python就知道你要的是56，这个`total_money`就是**变量**。\n\n✅ 一句话懂变量本质：\n变量就是「给你要存的信息贴个好记的标签，方便你下次复用」，标签可以重复用，里面的东西随时换——比如你这个月又买了一杯20块的，改成`total_money = 56 + 20`，标签还是`total_money`，里面的数变成76了而已。\n\n👉 你刚入门，只需要记3个最核心规则，别的不用背：\n1. 名字只能用**字母、数字、下划线**，不能用数字开头（比如`1money`不行，`money1`可以）\n2. 尽量起看得懂的名字，别乱起`a`、`x`这种，回头你自己都看不懂是什么意思\n3. 别用Python自带的关键词（比如`print`、`if`，你现在不知道也没关系，报错了再改就行）\n\n---\n\n## 第二部分：数据类型——为什么要给信息分类？\n信息天生就不一样啊：你的年龄是数字，你的名字是文字，今天要不要带伞是「是/否」，能一样吗？Python要是不知道你存的是数字还是文字，就不知道该给你做什么事：\n- 如果是两个数字`18 + 22`，Python会给你算出结果`40`\n- 如果是两个文字`\"18\" + \"22\"`，Python会把它们拼起来变成`\"1822\"`\n\n这就是分数据类型的意义：**告诉Python这是什么种类的信息，该怎么处理**。\n\n你刚入门，只需要先掌握4种最常用的基础类型，覆盖90%的入门场景：\n| 类型俗称 | 英文简称 | 用来存什么 | 例子 |\n| --- | --- | --- | --- |\n| 整数 | `int` | 不带小数点的数 | 年龄`25`、买奶茶的杯数`3` |\n| 浮点数 | `float` | 带小数点的数 | 一杯奶茶价格`18.5`、身高`175.3` |\n| 字符串 | `str` | 一切文字/文本内容（哪怕是数字，只要不用来计算就存在这） | 你的名字`\"张三\"`、手机号`\"13800138000\"` *注意：字符串必须用单/双引号包起来* |\n| 布尔值 | `bool` | 只有「是/否、对/错」两种结果 | 是不是学生：`True`（是），今天下雨了吗：`False`（没下） |\n\n👉 给你一个完整可运行的小例子，复制就能跑，你一看就懂：\n```python\n# 这行是注释，Python不会运行，#后面是给人看的\nname = \"张三\"       # 变量name，存字符串类型的名字\nage = 22           # 变量age，存整数类型的年龄\nheight = 175.6     # 变量height，存浮点数类型的身高\nis_student = True  # 变量is_student，存布尔值，代表\"是学生\"\n\n# 打印出来看结果\nprint(\"我的名字是\", name)\nprint(\"我今年\", age, \"岁\")\nprint(\"我的身高是\", height, \"厘米\")\nprint(\"我是学生吗？\", is_student)\n```\n\n---\n\n## 初学者第一个要避开的坑\n最常见的错误就是**用错类型**：比如你把价格存成了字符串，想算总价结果得到一串文字，刚才说的`\"18\" * 2`得到`\"1818\"`而不是`36`——这个时候你只要检查：需要计算的数字不要加引号，只有文字才加引号，就能解决90%的问题。\n\n---\n\n## 接下来你该怎么走？（给你清晰方向）\n你现在已经掌握了变量和数据类型的核心逻辑了，不用急着背所有冷门类型（比如复数、字节，很多人几年都用不到几次），按这个顺序走就好：\n1. **先练手感**：把你自己的信息，像上面的例子一样存成变量打印出来，试试改值、试试数字相加、试试字符串拼接，先建立直觉，不用抠细节\n2. **下一步深入**：熟练之后再学「不同类型之间怎么转换」，然后再学能存一堆数据的复杂类型（列表、字典这些），循序渐进就好\n\n---\n\n最后说一句：变量和数据类型根本不是什么抽象的编程概念，就是Python里整理信息的基本方法，和你整理书包、整理房间逻辑一模一样。你现在已经看懂核心了，是不是比你想象的简单多了😉",
+  "structure": {
+    "blocks": [
+      {
+        "block_id": "block-73d64330",
+        "block_name": "Python变量核心基础",
+        "points": [
+          {
+            "point_id": "point-381ddea2",
+            "point_name": "变量定义与命名规则",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-f9cd1304",
+                "component_name": "变量的本质（内存引用概念）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5d3b9962",
+                "component_name": "Python变量命名规范",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0bac7c26",
+                "component_name": "保留字与关键字识别",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2c412327",
+                "component_name": "变量赋值与多重链式赋值",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-cbf6c9ac",
+            "point_name": "变量内存管理",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-8e637b98",
+                "component_name": "引用计数机制原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-44f7bd9e",
+                "component_name": "浅拷贝与深拷贝区别",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bd235504",
+                "component_name": "Python垃圾回收机制",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-af954ee3",
+                "component_name": "可变/不可变对象内存差异",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-23239353",
+            "point_name": "变量作用域",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-f16b969b",
+                "component_name": "LEGB作用域规则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-463cd8bf",
+                "component_name": "局部作用域与全局作用域",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-90192fe8",
+                "component_name": "global关键字用法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-edcd7752",
+                "component_name": "nonlocal关键字用法",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-28ab9dd0",
+        "block_name": "Python基本内置数据类型",
+        "points": [
+          {
+            "point_id": "point-4856c324",
+            "point_name": "数值类型",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-a53b5bcb",
+                "component_name": "int整数类型特性与操作",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-fc323e0f",
+                "component_name": "float浮点数精度问题",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-592ba1bb",
+                "component_name": "bool布尔类型本质（继承int）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1a0dbe46",
+                "component_name": "complex复数类型基本用法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-740e5b2d",
+                "component_name": "数值类型常用内置函数",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-e63c730b",
+            "point_name": "字符串类型",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-00298d3b",
+                "component_name": "字符串定义与单/双/三引号规则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1bb92078",
+                "component_name": "转义字符与原字符串",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6c979847",
+                "component_name": "字符串索引与切片操作",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-95d8e685",
+                "component_name": "字符串常用内置方法（查找替换切割）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3801bd16",
+                "component_name": "字符串格式化（%/format/f-string）",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-75d36f75",
+            "point_name": "None空类型",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-4c5251f4",
+                "component_name": "None的定义与使用场景",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-36038dec",
+                "component_name": "None与0/空字符串/False的区别",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-5d2edc4b",
+        "block_name": "Python复合数据类型",
+        "points": [
+          {
+            "point_id": "point-d8125094",
+            "point_name": "列表（List）",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-6ba34850",
+                "component_name": "列表的定义与有序可变特性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2f77f1a0",
+                "component_name": "列表增删改查操作",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2b009bad",
+                "component_name": "列表嵌套用法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e205cf54",
+                "component_name": "列表推导式语法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bf2f8c11",
+                "component_name": "列表常用内置方法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-f23876cb",
+            "point_name": "元组（Tuple）",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-865e8bd8",
+                "component_name": "元组的定义与不可变特性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-16a4f3b3",
+                "component_name": "元组常用操作",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-21d56594",
+                "component_name": "元组与列表的区别",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-7852df2d",
+            "point_name": "字典（Dict）",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-5976ea05",
+                "component_name": "字典的定义与键的要求",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7c924d61",
+                "component_name": "字典增删改查操作",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a77c86bf",
+                "component_name": "字典推导式语法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-182cd079",
+                "component_name": "字典常用内置方法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-63dec977",
+            "point_name": "集合（Set）",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-98209917",
+                "component_name": "集合的定义与去重无序特性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3f67f955",
+                "component_name": "集合交并差补运算",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c5f7d54e",
+                "component_name": "集合常用操作方法",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-e6036169",
+        "block_name": "数据类型转换与进阶应用",
+        "points": [
+          {
+            "point_id": "point-33cf36bb",
+            "point_name": "数据类型转换规则",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-2c79d363",
+                "component_name": "隐式自动类型转换规则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-66a29425",
+                "component_name": "显式强制转换函数用法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a0f2440c",
+                "component_name": "类型转换常见错误处理",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-3a8a1284",
+            "point_name": "可变与不可变类型辨析",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-8fe26824",
+                "component_name": "数据类型可变不可变分类",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-88168e2e",
+                "component_name": "函数参数传值的差异",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e7685ac6",
+                "component_name": "常见使用坑点排查",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-82e28682",
+            "point_name": "综合实践应用",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-b1271b31",
+                "component_name": "简单数值计算场景实现",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-fdd330d1",
+                "component_name": "用户输入数据处理场景",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-57fb35f3",
+                "component_name": "结构化数据存储场景实现",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "saved_at": "2026-05-11T08:17:57.242854"
+}

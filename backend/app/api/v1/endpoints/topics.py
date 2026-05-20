@@ -21,6 +21,8 @@ from app.api.v1.endpoints.knowledge_cache import (
     get_topic_structure as cache_get_structure,
     set_topic_overview,
     get_topic_overview as cache_get_overview,
+    save_topic_to_file,
+    load_topic_from_file,
 )
 
 logger = logging.getLogger(__name__)
@@ -185,6 +187,9 @@ async def _process_topic_background(topic_id: str, topic_name: str):
         structure = _build_structure_dict(parsed)
         set_topic_structure(topic_id, structure)
 
+        # 持久化到本地文件（以topic_name为key）
+        save_topic_to_file(topic_name, topic_id, overview_result, structure)
+
         logger.info(f"主题 {topic_id} 后台处理完成")
     except Exception as e:
         logger.error(f"主题 {topic_id} 后台处理失败: {e}", exc_info=True)
@@ -208,8 +213,20 @@ async def create_topic(
     topic_id = f"topic-{uuid.uuid4().hex[:12]}"
     topic_name = topic_text
 
-    # 启动后台任务处理LLM调用
-    asyncio.create_task(_process_topic_background(topic_id, topic_name))
+    # 检查是否有已保存的主题数据（以topic_text为key匹配）
+    cached_data = load_topic_from_file(topic_text)
+    if cached_data:
+        # 有缓存：直接加载到内存缓存，无需调用LLM
+        cached_overview = cached_data.get("overview", "")
+        cached_structure = cached_data.get("structure")
+        if cached_overview:
+            set_topic_overview(topic_id, cached_overview)
+        if cached_structure:
+            set_topic_structure(topic_id, cached_structure)
+        logger.info(f"主题命中文件缓存: topic_text={topic_text}, topic_id={topic_id}")
+    else:
+        # 无缓存：启动后台任务处理LLM调用
+        asyncio.create_task(_process_topic_background(topic_id, topic_name))
 
     logger.info(f"主题创建已接受: topic_id={topic_id}, topic_name={topic_text}")
 
@@ -311,7 +328,31 @@ async def get_topic_structure(
     if structure:
         # 新流程存储的是dict结构，直接返回blocks列表
         if isinstance(structure, dict) and "blocks" in structure:
-            return format_response(data=structure["blocks"])
+            blocks = structure["blocks"]
+            # 从数据库加载组件学习状态并合并
+            try:
+                from app.db.database import SessionLocal
+                from app.models.progress import LearningProgress
+                db = SessionLocal()
+                try:
+                    progresses = db.query(LearningProgress).filter(
+                        LearningProgress.topic_id == topic_id
+                    ).all()
+                    if progresses:
+                        import copy
+                        blocks = copy.deepcopy(blocks)
+                        status_map = {p.component_id: p.status for p in progresses}
+                        for block in blocks:
+                            for point in block.get("points", []):
+                                for comp in point.get("components", []):
+                                    comp_id = comp.get("component_id")
+                                    if comp_id and comp_id in status_map:
+                                        comp["status"] = status_map[comp_id]
+                finally:
+                    db.close()
+            except Exception as e:
+                logger.warning(f"加载组件学习状态失败: {e}")
+            return format_response(data=blocks)
 
         # 兼容旧版dataclass结构
         data = []

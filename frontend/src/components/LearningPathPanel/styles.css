@@ -1,506 +1,487 @@
 /**
- * U-006 学习路径面板组件样式
- * 列表式展示，跳级建议高亮显示，点击跳级建议触发回调
+ * U-006 定制综合练习面板组件样式
  *
- * 统一设计规范：白色容器、柔和阴影、圆角14px、细窄滚动条、0.2s过渡
+ * 功能：知识点选择对话框、练习题展示、批改结果
  */
 
 /* ============================
-   CSS 变量定义
+   主容器
    ============================ */
 .learning-path-panel {
-  --lp-bg: #ffffff;
-  --lp-radius: 14px;
-  --lp-padding: 14px;
-  --lp-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.03);
-
-  --lp-title-color: #1E293B;
-  --lp-title-size: 0.9rem;
-  --lp-title-weight: 600;
-  --lp-divider: #F1F5F9;
-
-  --lp-label-color: #64748B;
-  --lp-text-color: #334155;
-
-  --lp-section-gap: 12px;
-  --lp-item-gap: 8px;
-
-  /* 已完成知识点 - 绿色系 */
-  --lp-completed-color: #10B981;
-  --lp-completed-bg: #ECFDF5;
-  --lp-completed-tag-radius: 6px;
-
-  /* 后续学习计划卡片 */
-  --lp-plan-bg: #ffffff;
-  --lp-plan-border: #E2E8F0;
-  --lp-plan-radius: 8px;
-  --lp-plan-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-  --lp-plan-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08);
-
-  /* 难度标签 */
-  --lp-difficulty-easy-color: #059669;
-  --lp-difficulty-easy-bg: #ECFDF5;
-  --lp-difficulty-medium-color: #D97706;
-  --lp-difficulty-medium-bg: #FFFBEB;
-  --lp-difficulty-hard-color: #DC2626;
-  --lp-difficulty-hard-bg: #FEF2F2;
-
-  /* 跳级建议 - 浅紫色系 */
-  --lp-skip-bg: #EEF0FF;
-  --lp-skip-border: rgba(91, 108, 240, 0.15);
-  --lp-skip-text: #4338CA;
-  --lp-skip-text-secondary: #6366F1;
-  --lp-skip-radius: 8px;
-
-  /* 刷新按钮 */
-  --lp-refresh-bg: #F1F5F9;
-  --lp-refresh-color: #64748B;
-  --lp-refresh-hover-bg: #5B6CF0;
-  --lp-refresh-hover-color: #ffffff;
-
-  /* 错误状态 */
-  --lp-error-color: #EF4444;
-  --lp-error-bg: #FEF2F2;
-
-  /* 主题色 */
-  --lp-primary: #4F46E5;
-  --lp-primary-hover: #4338CA;
-
-  /* ============================
-     面板容器
-     ============================ */
-  background: var(--lp-bg);
-  border: none;
-  border-radius: var(--lp-radius);
-  box-shadow: var(--lp-shadow);
-  padding: var(--lp-padding);
-  width: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', Roboto, sans-serif;
+  padding: 1rem;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.03);
+  font-family: var(--font-family);
   display: flex;
   flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
+  min-height: 300px;
 }
 
-/* ============================
-   面板标题区域
-   ============================ */
-.learning-path-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--lp-divider);
+.panel-header {
+  margin-bottom: 1rem;
 }
 
-.learning-path-title {
+.panel-title {
   margin: 0;
-  font-size: var(--lp-title-size);
-  font-weight: var(--lp-title-weight);
-  color: var(--lp-title-color);
-  line-height: 1.4;
-}
-
-/* ============================
-   刷新按钮 - 小号 pill 形状
-   ============================ */
-.learning-path-refresh {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  height: 26px;
-  padding: 0 12px;
-  border: none;
-  border-radius: 13px;
-  background: var(--lp-refresh-bg);
-  color: var(--lp-refresh-color);
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.learning-path-refresh:hover:not(:disabled) {
-  background: var(--lp-refresh-hover-bg);
-  color: var(--lp-refresh-hover-color);
-  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
-}
-
-.learning-path-refresh:active:not(:disabled) {
-  transform: scale(0.96);
-}
-
-.learning-path-refresh:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.learning-path-refresh:focus-visible {
-  outline: 2px solid var(--lp-primary);
-  outline-offset: 2px;
-}
-
-/* 刷新图标旋转动画 */
-.refresh-icon.spinning {
-  animation: lp-spin 0.8s linear infinite;
-}
-
-@keyframes lp-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* ============================
-   加载状态
-   ============================ */
-.learning-path-loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 24px 0;
-  color: var(--lp-label-color);
-  font-size: 13px;
-}
-
-.spinner-small {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--lp-plan-border);
-  border-top-color: var(--lp-primary);
-  border-radius: 50%;
-  animation: lp-spin 0.6s linear infinite;
-}
-
-/* ============================
-   错误状态
-   ============================ */
-.learning-path-error {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 10px 14px;
-  background: var(--lp-error-bg);
-  border-radius: 8px;
-  color: var(--lp-error-color);
-  font-size: 13px;
-}
-
-.learning-path-retry {
-  flex-shrink: 0;
-  padding: 4px 12px;
-  border: 1px solid var(--lp-error-color);
-  border-radius: 6px;
-  background: transparent;
-  color: var(--lp-error-color);
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.learning-path-retry:hover {
-  background: var(--lp-error-color);
-  color: #ffffff;
-}
-
-.learning-path-retry:focus-visible {
-  outline: 2px solid var(--lp-error-color);
-  outline-offset: 2px;
-}
-
-/* ============================
-   内容区域（可滚动）
-   ============================ */
-.learning-path-content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--lp-section-gap);
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-}
-
-/* 细窄滚动条 */
-.learning-path-content::-webkit-scrollbar {
-  width: 6px;
-}
-
-.learning-path-content::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.learning-path-content::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
-  border-radius: 3px;
-}
-
-.learning-path-content::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
-}
-
-/* ============================
-   区块
-   ============================ */
-.learning-path-section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--lp-item-gap);
-}
-
-.learning-path-section-title {
-  margin: 0;
-  font-size: 13px;
+  font-size: 0.95rem;
   font-weight: 600;
-  color: var(--lp-title-color);
-  line-height: 1.4;
+  color: #1E293B;
+}
+
+.panel-content {
+  flex: 1;
   display: flex;
-  align-items: center;
-  gap: 6px;
+  flex-direction: column;
 }
 
 /* ============================
-   列表
+   空状态
    ============================ */
-.learning-path-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.custom-exercise-empty {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-}
-
-/* 空状态 */
-.learning-path-empty {
-  padding: 12px 0;
-  color: var(--lp-label-color);
-  font-size: 13px;
-  font-style: italic;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
   text-align: center;
 }
 
-/* ============================
-   已完成知识点 - 绿色系标签
-   ============================ */
-.learning-path-completed-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 12px;
-  background: var(--lp-completed-bg);
-  border-radius: var(--lp-completed-tag-radius);
-  font-size: 13px;
-  transition: all 0.2s ease;
+.empty-text {
+  color: #64748B;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
 }
 
-.learning-path-completed-item:hover {
-  background: #D1FAE5;
+.start-exercise-btn {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #5B6CF0, #818CF8);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.completed-check {
-  color: var(--lp-completed-color);
-  font-weight: 700;
-  font-size: 14px;
-  flex-shrink: 0;
-}
-
-.completed-name {
-  color: var(--lp-text-color);
-  flex: 1;
-  line-height: 1.4;
-}
-
-.completed-score {
-  color: var(--lp-completed-color);
-  font-weight: 600;
-  font-size: 12px;
-  flex-shrink: 0;
+.start-exercise-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(91, 108, 240, 0.3);
 }
 
 /* ============================
-   后续学习计划卡片
+   练习题区域
    ============================ */
-.learning-path-plan-item {
-  padding: 12px 14px;
-  background: var(--lp-plan-bg);
-  border: 1px solid var(--lp-plan-border);
-  border-radius: var(--lp-plan-radius);
-  box-shadow: var(--lp-plan-shadow);
-  transition: all 0.2s ease;
-}
-
-.learning-path-plan-item:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--lp-plan-shadow-hover);
-  border-color: #CBD5E1;
-}
-
-.plan-item-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 6px;
-}
-
-.plan-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--lp-text-color);
-  line-height: 1.4;
-}
-
-/* ============================
-   难度标签
-   ============================ */
-.plan-difficulty {
-  flex-shrink: 0;
-  padding: 2px 8px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 1.6;
-  letter-spacing: 0.02em;
-}
-
-.difficulty-easy {
-  color: var(--lp-difficulty-easy-color);
-  background: var(--lp-difficulty-easy-bg);
-}
-
-.difficulty-medium {
-  color: var(--lp-difficulty-medium-color);
-  background: var(--lp-difficulty-medium-bg);
-}
-
-.difficulty-hard {
-  color: var(--lp-difficulty-hard-color);
-  background: var(--lp-difficulty-hard-bg);
-}
-
-.plan-description {
-  margin: 0 0 6px;
-  font-size: 12px;
-  color: var(--lp-label-color);
-  line-height: 1.6;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.plan-duration {
-  font-size: 11px;
-  color: var(--lp-label-color);
-}
-
-/* ============================
-   跳级建议区域 - 浅紫色系
-   ============================ */
-.learning-path-section-highlight {
-  padding: 10px 12px;
-  background: var(--lp-skip-bg);
-  border: 1px solid var(--lp-skip-border);
-  border-radius: var(--lp-skip-radius);
-}
-
-.section-highlight-icon {
-  color: #5B6CF0;
-  font-size: 14px;
-}
-
-.learning-path-skip-item {
-  list-style: none;
-}
-
-.skip-suggestion-btn {
+.custom-exercise-questions {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  width: 100%;
-  padding: 10px 14px;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(91, 108, 240, 0.1);
+  gap: 1rem;
+}
+
+.exercise-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.exercise-points {
+  font-size: 0.85rem;
+  color: #64748B;
+}
+
+.restart-btn {
+  padding: 0.4rem 0.8rem;
+  background: #F1F5F9;
+  color: #475569;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.restart-btn:hover {
+  background: #E2E8F0;
+}
+
+.questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.question-item {
+  padding: 1rem;
+  background: #F8FAFC;
+  border-radius: 10px;
+  border: 1px solid #E2E8F0;
+}
+
+.question-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.question-number {
+  font-weight: 600;
+  color: #1E293B;
+}
+
+.question-type {
+  font-size: 0.8rem;
+  color: #64748B;
+}
+
+.question-difficulty {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  background: #EEF0FF;
+  color: #5B6CF0;
+}
+
+.question-content {
+  margin: 0 0 0.75rem 0;
+  font-size: 0.9rem;
+  color: #334155;
+  line-height: 1.6;
+}
+
+/* ============================
+   选项样式
+   ============================ */
+.custom-exercise-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.custom-exercise-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  background: #ffffff;
+  border: 1px solid #E2E8F0;
   border-radius: 8px;
   cursor: pointer;
-  text-align: left;
-  transition: all 0.2s ease;
+  transition: all 0.2s;
+}
+
+.custom-exercise-option:hover {
+  border-color: #5B6CF0;
+  background: #FAFBFF;
+}
+
+.custom-exercise-option.selected {
+  border-color: #5B6CF0;
+  background: #EEF0FF;
+}
+
+.custom-exercise-option.disabled {
+  cursor: default;
+  opacity: 0.8;
+}
+
+.custom-exercise-option input {
+  margin: 0;
+}
+
+.custom-exercise-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  font-size: 0.9rem;
   font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.2s;
 }
 
-.skip-suggestion-btn:hover {
-  background: rgba(255, 255, 255, 0.9);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(91, 108, 240, 0.1);
+.custom-exercise-textarea:focus {
+  outline: none;
+  border-color: #5B6CF0;
 }
 
-.skip-suggestion-btn:active {
-  transform: translateY(0);
+/* ============================
+   批改结果
+   ============================ */
+.custom-exercise-result {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 8px;
 }
 
-.skip-suggestion-btn:focus-visible {
-  outline: 2px solid #5B6CF0;
-  outline-offset: 2px;
+.custom-exercise-result.correct {
+  background: #ECFDF5;
+  border: 1px solid #A7F3D0;
 }
 
-.skip-target {
-  font-size: 13px;
+.custom-exercise-result.incorrect {
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.result-icon {
+  font-size: 1rem;
   font-weight: 600;
-  color: var(--lp-skip-text);
-  line-height: 1.4;
 }
 
-.skip-reason {
-  font-size: 12px;
-  color: var(--lp-skip-text-secondary);
-  opacity: 0.85;
+.custom-exercise-result.correct .result-icon {
+  color: #059669;
+}
+
+.custom-exercise-result.incorrect .result-icon {
+  color: #DC2626;
+}
+
+.result-score {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #475569;
+}
+
+.result-feedback {
+  font-size: 0.85rem;
+  color: #64748B;
   line-height: 1.5;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.skip-confidence {
-  font-size: 11px;
-  color: var(--lp-skip-text-secondary);
-  opacity: 0.7;
+.result-correct-answer {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #059669;
   font-weight: 500;
 }
 
 /* ============================
-   响应式设计
+   提交按钮和结果汇总
    ============================ */
-@media (max-width: 768px) {
-  .learning-path-panel {
-    padding: 12px;
-  }
+.submit-btn {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #5B6CF0, #818CF8);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(91, 108, 240, 0.3);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.grade-summary {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #F8FAFC;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.summary-score {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1E293B;
+  margin-bottom: 0.5rem;
+}
+
+.summary-count {
+  font-size: 0.9rem;
+  color: #64748B;
+  margin-bottom: 0.5rem;
+}
+
+.summary-feedback {
+  font-size: 0.85rem;
+  color: #475569;
+  margin-bottom: 1rem;
 }
 
 /* ============================
-   无障碍：减少动画偏好
+   知识点选择对话框
    ============================ */
-@media (prefers-reduced-motion: reduce) {
-  .refresh-icon.spinning {
-    animation-duration: 2s;
-  }
+.point-select-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
 
-  .spinner-small {
-    animation-duration: 2s;
-  }
+.point-select-dialog {
+  background: #ffffff;
+  border-radius: 14px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
 
-  .skip-suggestion-btn,
-  .learning-path-plan-item,
-  .learning-path-completed-item,
-  .learning-path-refresh {
-    transition: none;
-  }
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.dialog-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1E293B;
+}
+
+.dialog-close {
+  width: 28px;
+  height: 28px;
+  background: #F1F5F9;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  color: #64748B;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dialog-close:hover {
+  background: #E2E8F0;
+}
+
+.dialog-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 1.25rem;
+}
+
+.point-tree {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.point-block {
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.block-name {
+  padding: 0.6rem 0.8rem;
+  background: #F8FAFC;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.block-points {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.point-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.point-item:hover {
+  background: #F8FAFC;
+}
+
+.point-item.selected {
+  background: #EEF0FF;
+}
+
+.point-item input {
+  margin: 0;
+}
+
+.point-name {
+  flex: 1;
+  font-size: 0.85rem;
+  color: #334155;
+}
+
+.key-point-tag {
+  font-size: 0.7rem;
+  padding: 0.1rem 0.4rem;
+  background: #FEF3C7;
+  color: #D97706;
+  border-radius: 4px;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #E2E8F0;
+}
+
+.selected-count {
+  font-size: 0.85rem;
+  color: #64748B;
+}
+
+.confirm-btn {
+  padding: 0.6rem 1.25rem;
+  background: linear-gradient(135deg, #5B6CF0, #818CF8);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.confirm-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(91, 108, 240, 0.3);
+}
+
+.confirm-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

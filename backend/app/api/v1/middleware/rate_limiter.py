@@ -203,19 +203,22 @@ class CircuitBreaker:
     """
     熔断器
     基于错误率监控实现服务降级
+    增加滑动时间窗口，每5分钟重置计数器
     """
 
     def __init__(
         self,
         name: str = "default",
-        failure_threshold: float = 0.5,  # 50%错误率触发熔断
+        failure_threshold: float = 0.7,  # 提高到70%错误率触发熔断
         recovery_timeout: int = 30,      # 30秒后尝试恢复
-        half_open_max_calls: int = 3    # 半开状态最多3个请求
+        half_open_max_calls: int = 3,    # 半开状态最多3个请求
+        window_seconds: int = 300        # 5分钟滑动窗口
     ):
         self.name = name
         self.failure_threshold = failure_threshold
         self.recovery_timeout = recovery_timeout
         self.half_open_max_calls = half_open_max_calls
+        self.window_seconds = window_seconds
 
         self.state = CircuitState.CLOSED
         self.failure_count = 0
@@ -223,13 +226,26 @@ class CircuitBreaker:
         self.total_count = 0
         self.last_failure_time = 0
         self.half_open_calls = 0
+        self.window_start_time = int(time.time())  # 窗口开始时间
 
     def _get_redis_key(self, suffix: str) -> str:
         """生成Redis key"""
         return f"circuit:{self.name}:{suffix}"
 
+    def _check_window_reset(self):
+        """检查是否需要重置时间窗口"""
+        current_time = int(time.time())
+        if current_time - self.window_start_time >= self.window_seconds:
+            # 重置计数器
+            logger.debug(f"CircuitBreaker '{self.name}' 重置时间窗口")
+            self.failure_count = 0
+            self.success_count = 0
+            self.total_count = 0
+            self.window_start_time = current_time
+
     def record_success(self):
         """记录成功调用"""
+        self._check_window_reset()
         self.success_count += 1
         self.total_count += 1
 
@@ -241,12 +257,13 @@ class CircuitBreaker:
 
     def record_failure(self):
         """记录失败调用"""
+        self._check_window_reset()
         self.failure_count += 1
         self.total_count += 1
         self.last_failure_time = int(time.time())
 
-        # 检查是否需要打开熔断器
-        if self.state == CircuitState.CLOSED:
+        # 检查是否需要打开熔断器（需要至少10次调用才判断）
+        if self.state == CircuitState.CLOSED and self.total_count >= 10:
             if self._calculate_error_rate() >= self.failure_threshold:
                 self._open_circuit()
 
@@ -259,7 +276,7 @@ class CircuitBreaker:
     def _open_circuit(self):
         """打开熔断器"""
         if self.state != CircuitState.OPEN:
-            logger.warning(f"CircuitBreaker '{self.name}' 打开熔断")
+            logger.warning(f"CircuitBreaker '{self.name}' 打开熔断 (错误率: {self._calculate_error_rate():.1%})")
         self.state = CircuitState.OPEN
         self.half_open_calls = 0
 
@@ -271,6 +288,7 @@ class CircuitBreaker:
         self.success_count = 0
         self.total_count = 0
         self.half_open_calls = 0
+        self.window_start_time = int(time.time())
 
     def _try_half_open(self):
         """尝试进入半开状态"""
@@ -279,6 +297,7 @@ class CircuitBreaker:
             logger.info(f"CircuitBreaker '{self.name}' 进入半开状态")
             self.state = CircuitState.HALF_OPEN
             self.half_open_calls = 0
+            # 进入半开状态时重置计数器
             self.failure_count = 0
             self.success_count = 0
             self.total_count = 0

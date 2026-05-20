@@ -5,15 +5,15 @@
  * 学习页面整合知识讲解、练习题、问答、学习进度等功能
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 // 组件导入
 import { TopicInput } from './components/TopicInput';
 import { TopicRecommendations } from './components/TopicRecommendations';
 import { TeachingPanel } from './components/TeachingPanel';
+import { ChatTeachingPanel } from './components/TeachingPanel/ChatTeachingPanel';
 import { ExercisePanel } from './components/ExercisePanel';
-import { QAPanel } from './components/QAPanel';
 import { ProgressPanel } from './components/ProgressPanel';
 import { PanoramaProgress } from './components/PanoramaProgress';
 import { LearningPathPanel } from './components/LearningPathPanel';
@@ -21,6 +21,9 @@ import { LearningHistory } from './components/LearningHistory';
 import { SkipTest } from './components/SkipTest';
 
 import { getTopicStructure, getTopicOverview, getTopicStatus } from './services/api';
+import { recordLearnStart, recordLearnEnd, recordPracticeComplete } from './api/behavior';
+import { markLearning, getComponentProgress } from './utils/progressStorage';
+import { ComponentSkipSuggestion } from './types';
 import { KnowledgeBlock } from './types';
 
 import './App.css';
@@ -88,19 +91,70 @@ const LearnPage: React.FC = () => {
   // Also support componentId from URL (when coming from panorama page)
   const urlComponentId = searchParams.get('componentId') || '';
 
-  // 判断是否有真实的topicId（来自URL或sessionStorage）
-  const sessionTopicId = sessionStorage.getItem('currentTopicId') || '';
-  const sessionTopicName = sessionStorage.getItem('currentTopicName') || '';
-  const hasTopic = !!(topicId || sessionTopicId);
+  // 判断是否有真实的topicId（来自URL或localStorage）
+  const storedTopicId = localStorage.getItem('currentTopicId') || '';
+  const storedTopicName = localStorage.getItem('currentTopicName') || '';
+  const hasTopic = !!(topicId || storedTopicId);
 
-  const [knowledgeBlocks, setKnowledgeBlocks] = useState<KnowledgeBlock[]>([]);
-  const [currentComponentIndex, setCurrentComponentIndex] = useState(0);
+  const [knowledgeBlocks, setKnowledgeBlocks] = useState<KnowledgeBlock[]>(() => {
+    const tid = topicId || localStorage.getItem('currentTopicId') || '';
+    if (!tid) return [];
+    const cached = localStorage.getItem(`knowledgeBlocks_${tid}`);
+    if (cached) {
+      try { return JSON.parse(cached); } catch { /* ignore */ }
+    }
+    return [];
+  });
   const [exerciseMode, setExerciseMode] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<'teaching' | 'exercise'>('teaching');
+  const [loading, setLoading] = useState(() => {
+    const tid = topicId || localStorage.getItem('currentTopicId') || '';
+    if (!tid) return true;
+    // 如果已有缓存的知识结构或全景介绍，不需要loading
+    const hasBlocks = !!localStorage.getItem(`knowledgeBlocks_${tid}`);
+    const hasOverview = !!localStorage.getItem(`learnPage_overview_${tid}`);
+    return !(hasBlocks || hasOverview);
+  });
   const [error, setError] = useState<string | null>(null);
-  const [overview, setOverview] = useState('');
-  // 如果URL有componentId，直接进入讲解模式；否则保持sessionStorage中的模式
-  const [overviewMode, setOverviewMode] = useState(!urlComponentId);
+  const [overview, setOverview] = useState(() => {
+    const tid = topicId || localStorage.getItem('currentTopicId') || '';
+    if (!tid) return '';
+    return localStorage.getItem(`learnPage_overview_${tid}`) || '';
+  });
+  // 从localStorage恢复状态，无保存值时根据urlComponentId决定默认值
+  // 有urlComponentId时默认显示对应组件，否则默认显示全景介绍
+  const [overviewMode, setOverviewMode] = useState(() => {
+    const tid = topicId || localStorage.getItem('currentTopicId') || '';
+    if (tid) {
+      const savedMode = localStorage.getItem(`learnPage_overviewMode_${tid}`);
+      if (savedMode !== null) {
+        return savedMode === 'true';
+      }
+    }
+    // 无保存值时：有urlComponentId则显示组件，否则显示全景介绍
+    return !urlComponentId;
+  });
+  // 用于触发学习路径面板刷新
+  const [learningPathRefreshKey, setLearningPathRefreshKey] = useState(0);
+
+  // 从localStorage恢复组件索引，无保存值时默认从第一个开始
+  const [currentComponentIndex, setCurrentComponentIndex] = useState(() => {
+    const tid = topicId || localStorage.getItem('currentTopicId') || '';
+    if (tid) {
+      const savedIndex = localStorage.getItem(`learnPage_componentIndex_${tid}`);
+      if (savedIndex !== null) {
+        const idx = parseInt(savedIndex, 10);
+        if (!isNaN(idx) && idx >= 0) {
+          return idx;
+        }
+      }
+    }
+    return 0;
+  });
+
+  // 学习行为记录：追踪学习开始时间
+  const learnStartTimeRef = useRef<number>(0);
+  const lastComponentIdRef = useRef<string>('');
 
   // 获取所有知识组件的扁平列表
   const allComponents = knowledgeBlocks.flatMap(block =>
@@ -111,15 +165,91 @@ const LearnPage: React.FC = () => {
         pointId: point.point_id,
         pointName: point.point_name,
         blockName: block.block_name,
-        isKeyDifficulty: point.is_key_point || false,
+        is_key_point: point.is_key_point || false,
+        difficulty: point.difficulty || 'medium',
       }))
     )
   );
 
   const currentComponent = allComponents[currentComponentIndex];
+  const nextComponent = allComponents[currentComponentIndex + 1];
   const currentPointId = currentComponent?.pointId || '';
-  const effectiveTopicId = topicId || sessionTopicId;
-  const effectiveTopicName = topicName || sessionTopicName;
+  const effectiveTopicId = topicId || storedTopicId;
+  const effectiveTopicName = topicName || storedTopicName;
+
+  // 计算跳级建议（基于重要性+难度二维矩阵）
+  const evaluateSkipSuggestion = (component: { is_key_point: boolean; difficulty: string } | undefined): ComponentSkipSuggestion | undefined => {
+    if (!component) return undefined;
+    
+    const is_key_point = component.is_key_point;
+    const difficulty = component.difficulty.toLowerCase();
+    
+    // 标准化难度值
+    const isEasy = difficulty === 'easy' || difficulty === 'low';
+    const isHard = difficulty === 'hard' || difficulty === 'high';
+    
+    // 基于二维矩阵决策
+    if (is_key_point) {
+      // 重要知识点
+      if (isEasy) {
+        return {
+          componentId: component.componentId || '',
+          componentName: component.componentName || '',
+          pointName: component.pointName || '',
+          is_key_point,
+          difficulty: 'easy',
+          skip_suggestion: 'USER_DECISION',
+          risk_warning: ''
+        };
+      } else {
+        return {
+          componentId: component.componentId || '',
+          componentName: component.componentName || '',
+          pointName: component.pointName || '',
+          is_key_point,
+          difficulty: isHard ? 'hard' : 'medium',
+          skip_suggestion: 'NOT_RECOMMENDED',
+          risk_warning: '该知识点为核心重点内容，跳过可能影响后续学习'
+        };
+      }
+    } else {
+      // 不重要知识点
+      if (isEasy) {
+        return {
+          componentId: component.componentId || '',
+          componentName: component.componentName || '',
+          pointName: component.pointName || '',
+          is_key_point,
+          difficulty: 'easy',
+          skip_suggestion: 'SUGGESTED',
+          risk_warning: ''
+        };
+      } else {
+        return {
+          componentId: component.componentId || '',
+          componentName: component.componentName || '',
+          pointName: component.pointName || '',
+          is_key_point,
+          difficulty: isHard ? 'hard' : 'medium',
+          skip_suggestion: 'USER_DECISION',
+          risk_warning: '该知识点有一定难度，跳过前请确认您是否已掌握相关基础'
+        };
+      }
+    }
+  };
+
+  const currentComponentSkipSuggestion = evaluateSkipSuggestion(currentComponent);
+  const nextComponentSkipSuggestion = evaluateSkipSuggestion(nextComponent);
+
+  // 跳过当前组件
+  const handleSkipComponent = useCallback((componentId: string) => {
+    const skipIndex = allComponents.findIndex(c => c.componentId === componentId);
+    if (skipIndex >= 0 && skipIndex < allComponents.length - 1) {
+      // 跳到下一个组件
+      setCurrentComponentIndex(skipIndex + 1);
+      setOverviewMode(false);
+    }
+  }, [allComponents]);
 
   // 加载知识结构（轮询模式：后端异步处理LLM，前端每2秒查询状态）
   useEffect(() => {
@@ -128,12 +258,29 @@ const LearnPage: React.FC = () => {
       return;
     }
 
+    // 如果已有缓存数据，跳过轮询，直接标记完成
+    const cachedBlocks = localStorage.getItem(`knowledgeBlocks_${effectiveTopicId}`);
+    const cachedOverview = localStorage.getItem(`learnPage_overview_${effectiveTopicId}`);
+    if (cachedBlocks || cachedOverview) {
+      setLoading(false);
+      localStorage.setItem('currentTopicId', effectiveTopicId);
+      localStorage.setItem('currentTopicName', effectiveTopicName);
+      return;
+    }
+
     setLoading(true);
     setError(null);
 
+    let failCount = 0;
+    const MAX_FAIL_COUNT = 5; // 连续失败5次后降级处理
+    let pollCount = 0;
+    const MAX_POLL_COUNT = 15; // 最多轮询15次（约30秒），之后降级渲染
+
     const pollInterval = setInterval(async () => {
       try {
+        pollCount++;
         const status = await getTopicStatus(effectiveTopicId);
+        failCount = 0; // 成功后重置失败计数
 
         if (status.overview_ready && !overview) {
           const overviewData = await getTopicOverview(effectiveTopicId);
@@ -147,17 +294,44 @@ const LearnPage: React.FC = () => {
 
         if (status.status === 'completed') {
           clearInterval(pollInterval);
-          sessionStorage.setItem('currentTopicId', effectiveTopicId);
-          sessionStorage.setItem('currentTopicName', effectiveTopicName);
+          localStorage.setItem('currentTopicId', effectiveTopicId);
+          localStorage.setItem('currentTopicName', effectiveTopicName);
+          setLoading(false);
+        } else if (pollCount >= MAX_POLL_COUNT) {
+          // 超过最大轮询次数，降级渲染
+          console.warn('轮询超时，停止轮询并渲染页面');
+          clearInterval(pollInterval);
+          localStorage.setItem('currentTopicId', effectiveTopicId);
+          localStorage.setItem('currentTopicName', effectiveTopicName);
           setLoading(false);
         }
       } catch (err) {
         console.error('轮询状态失败:', err);
+        failCount++;
+        if (failCount >= MAX_FAIL_COUNT) {
+          // 连续失败多次，降级处理：停止轮询，让页面正常渲染
+          console.warn('轮询状态连续失败多次，停止轮询并渲染页面');
+          clearInterval(pollInterval);
+          localStorage.setItem('currentTopicId', effectiveTopicId);
+          localStorage.setItem('currentTopicName', effectiveTopicName);
+          setLoading(false);
+        }
       }
     }, 2000);
 
     return () => clearInterval(pollInterval);
   }, [effectiveTopicId]);
+
+  // 保存学习状态到localStorage（当状态变化时）
+  useEffect(() => {
+    if (effectiveTopicId) {
+      localStorage.setItem(`learnPage_overviewMode_${effectiveTopicId}`, String(overviewMode));
+      localStorage.setItem(`learnPage_componentIndex_${effectiveTopicId}`, String(currentComponentIndex));
+      if (overview) {
+        localStorage.setItem(`learnPage_overview_${effectiveTopicId}`, overview);
+      }
+    }
+  }, [overviewMode, currentComponentIndex, effectiveTopicId, overview]);
 
   const handleNext = useCallback(() => {
     const current = allComponents[currentComponentIndex];
@@ -188,16 +362,98 @@ const LearnPage: React.FC = () => {
     }
   }, [allComponents]);
 
-  // Handle URL componentId (from panorama page click)
-  useEffect(() => {
-    if (urlComponentId && allComponents.length > 0) {
-      const idx = allComponents.findIndex(c => c.componentId === urlComponentId);
-      if (idx >= 0) {
-        setCurrentComponentIndex(idx);
-        setOverviewMode(false);
+  // Handle exercise completed - refresh knowledge blocks and learning path
+  const handleExerciseCompleted = useCallback(async (completedPointId: string, score: number) => {
+    // 记录练习完成行为
+    if (effectiveTopicId && currentComponent) {
+      try {
+        await recordPracticeComplete(
+          'anonymous',
+          effectiveTopicId,
+          currentPointId,
+          currentComponent.componentId,
+          score >= 60,  // 60分以上视为正确
+          score
+        );
+      } catch (err) {
+        console.error('记录练习行为失败:', err);
       }
     }
-  }, [urlComponentId, allComponents.length]);
+    
+    // 重新获取知识结构（后端已更新status）
+    if (effectiveTopicId) {
+      try {
+        const blocks = await getTopicStructure(effectiveTopicId, 'anonymous');
+        setKnowledgeBlocks(blocks);
+        // 同步更新localStorage（全景知识图谱页面使用）
+        localStorage.setItem(`knowledgeBlocks_${effectiveTopicId}`, JSON.stringify(blocks));
+        // 设置全局刷新标记，通知全景知识页更新
+        localStorage.setItem('knowledgeBlocks_refresh_timestamp', Date.now().toString());
+      } catch (err) {
+        console.error('刷新知识结构失败:', err);
+      }
+    }
+    // 触发学习路径面板刷新
+    setLearningPathRefreshKey(prev => prev + 1);
+  }, [effectiveTopicId, currentComponent, currentPointId]);
+
+  // Handle URL componentId (from panorama page click) - 定位到具体组件
+  useEffect(() => {
+    if (!effectiveTopicId || knowledgeBlocks.length === 0 || !urlComponentId) return;
+
+    // 从全景页点击具体知识点：使用URL参数定位
+    const idx = allComponents.findIndex(c => c.componentId === urlComponentId);
+    if (idx >= 0) {
+      setCurrentComponentIndex(idx);
+      setOverviewMode(false);
+    }
+  }, [urlComponentId, knowledgeBlocks.length, effectiveTopicId, allComponents]);
+
+  // 学习行为记录：进入/离开知识点时记录
+  useEffect(() => {
+    if (overviewMode || !currentComponent || !effectiveTopicId) {
+      // 如果进入全景模式或没有当前组件，记录之前组件的学习结束
+      if (lastComponentIdRef.current && learnStartTimeRef.current > 0) {
+        const duration = Math.floor((Date.now() - learnStartTimeRef.current) / 1000);
+        recordLearnEnd('anonymous', effectiveTopicId, currentPointId, lastComponentIdRef.current, duration).catch(() => {});
+        learnStartTimeRef.current = 0;
+        lastComponentIdRef.current = '';
+      }
+      return;
+    }
+
+    // 进入新的知识点讲解
+    const componentId = currentComponent.componentId;
+    const pointId = currentComponent.pointId;
+
+    // 如果切换到不同的组件，记录之前组件的学习结束
+    if (lastComponentIdRef.current && lastComponentIdRef.current !== componentId && learnStartTimeRef.current > 0) {
+      const duration = Math.floor((Date.now() - learnStartTimeRef.current) / 1000);
+      recordLearnEnd('anonymous', effectiveTopicId, currentPointId, lastComponentIdRef.current, duration).catch(() => {});
+    }
+
+    // 记录新组件的学习开始
+    if (lastComponentIdRef.current !== componentId) {
+      recordLearnStart('anonymous', effectiveTopicId, pointId, componentId).catch(() => {});
+      // 只在未完成学习时才标记为"学习中"，避免覆盖已完成的组件
+      const currentProgress = getComponentProgress(componentId);
+      if (currentProgress.learnStatus !== 'completed') {
+        markLearning(componentId);
+      }
+      learnStartTimeRef.current = Date.now();
+      lastComponentIdRef.current = componentId;
+    }
+  }, [overviewMode, currentComponent, effectiveTopicId, currentPointId]);
+
+  // 组件卸载时记录学习结束
+  useEffect(() => {
+    return () => {
+      if (lastComponentIdRef.current && learnStartTimeRef.current > 0 && effectiveTopicId) {
+        const duration = Math.floor((Date.now() - learnStartTimeRef.current) / 1000);
+        recordLearnEnd('anonymous', effectiveTopicId, currentPointId, lastComponentIdRef.current, duration).catch(() => {});
+      }
+    };
+  }, [effectiveTopicId, currentPointId]);
 
   if (loading) {
     return (
@@ -244,76 +500,105 @@ const LearnPage: React.FC = () => {
   return (
     <div className="learn-page">
       <div className="learn-grid">
-        {/* 左侧：教学面板 */}
-        <div className="learn-grid-left">
-          {overviewMode ? (
-            // Show overview
-            <div className="teaching-panel">
-              <div className="teaching-panel-header">
-                <h3 className="teaching-panel-title">📚 {effectiveTopicName} — 全景介绍</h3>
-              </div>
-              <div className="teaching-panel-messages" style={{ padding: '20px', whiteSpace: 'pre-wrap', lineHeight: '1.8', color: '#334155' }}>
-                {overview || '正在加载全景介绍...'}
-              </div>
-              <div className="teaching-panel-actions">
-                <button className="teaching-action-btn teaching-action-next" onClick={() => { setCurrentComponentIndex(0); setOverviewMode(false); }} disabled={allComponents.length === 0}>
-                  <span>开始学习第一个知识组件</span>
-                </button>
-              </div>
-            </div>
-          ) : (
-            <>
-              <TeachingPanel
-                componentId={currentComponent?.componentId || ''}
-                onNext={handleNext}
-                onExercise={() => setExerciseMode(true)}
-              />
-              {exerciseMode && (
-                <ExercisePanel pointId={currentPointId} totalQuestions={3} />
-              )}
-            </>
-          )}
+        {/* 左侧：Tab 按钮栏 */}
+        <div className="learn-tab-bar">
+          <button
+            className={`learn-tab-btn ${activeTab === 'teaching' ? 'active' : ''}`}
+            onClick={() => setActiveTab('teaching')}
+          >
+            📖 教学
+          </button>
+          <button
+            className={`learn-tab-btn ${activeTab === 'exercise' ? 'active' : ''}`}
+            onClick={() => setActiveTab('exercise')}
+          >
+            📝 综合练习
+          </button>
         </div>
 
-        {/* 右侧：学习路径面板 + 问答面板 */}
-        <div className="learn-grid-right">
-          <LearningPathPanel userId="anonymous" topicId={effectiveTopicId} />
-          <QAPanel userId="anonymous" pointId={currentPointId} />
+        {/* 右侧：内容区域 */}
+        <div className="learn-content">
+          {activeTab === 'teaching' ? (
+            // 对话式教学面板（包含全景介绍和知识讲解）
+            <ChatTeachingPanel
+              topicId={effectiveTopicId}
+              topicName={effectiveTopicName}
+              userId="anonymous"
+              components={allComponents}
+              currentComponentIndex={currentComponentIndex}
+              onComponentChange={setCurrentComponentIndex}
+              initialComponentId={urlComponentId}  // 传递来自全景页的组件ID
+            />
+          ) : (
+            // 综合练习面板
+            <LearningPathPanel
+              blocks={knowledgeBlocks}
+            />
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-// 全景知识图谱页面包装器 - 从URL或sessionStorage读取topicId
+// 全景知识图谱页面包装器 - 从URL或localStorage读取topicId
 const PanoramaPageWrapper: React.FC = () => {
   const [searchParams] = useSearchParams();
   const urlTopicId = searchParams.get('topicId') || '';
-  const sessionTopicId = sessionStorage.getItem('currentTopicId') || '';
-  const topicId = urlTopicId || sessionTopicId || '';
-  const sessionTopicName = sessionStorage.getItem('currentTopicName') || '';
+  const storedTopicId = localStorage.getItem('currentTopicId') || '';
+  const topicId = urlTopicId || storedTopicId || '';
+  const storedTopicName = localStorage.getItem('currentTopicName') || '';
   const urlTopicName = searchParams.get('topicName') || '';
-  const topicName = urlTopicName || sessionTopicName || '未知主题';
+  const topicName = urlTopicName || storedTopicName || '未知主题';
 
   const [blocks, setBlocks] = useState<KnowledgeBlock[]>([]);
+  // 用于触发刷新（当学习页完成学习时）
+  const [refreshKey, setRefreshKey] = useState(0);
 
+  // 加载知识结构
   useEffect(() => {
     if (!topicId) return;
-    // 尝试从 sessionStorage 恢复，或从 API 获取
-    const cached = sessionStorage.getItem(`knowledgeBlocks_${topicId}`);
+    // 尝试从 localStorage 恢复，或从 API 获取
+    const cached = localStorage.getItem(`knowledgeBlocks_${topicId}`);
     if (cached) {
       try {
         setBlocks(JSON.parse(cached));
-        return;
       } catch { /* ignore */ }
     }
-    getTopicStructure(topicId, 'anonymous').then(data => {
-      if (Array.isArray(data) && data.length > 0) {
-        setBlocks(data);
-        sessionStorage.setItem(`knowledgeBlocks_${topicId}`, JSON.stringify(data));
+    // 如果没有缓存，从API获取
+    if (!cached) {
+      getTopicStructure(topicId, 'anonymous').then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setBlocks(data);
+          localStorage.setItem(`knowledgeBlocks_${topicId}`, JSON.stringify(data));
+        }
+      }).catch(() => {});
+    }
+  }, [topicId, refreshKey]);
+
+  // 监听 storage 事件，当学习页更新进度时刷新
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'knowledgeBlocks_refresh_timestamp') {
+        setRefreshKey(prev => prev + 1);
       }
-    }).catch(() => {});
-  }, [topicId]);
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  // 定时检查刷新标记（同一标签页内storage事件不会触发，需要轮询）
+  useEffect(() => {
+    let lastTimestamp = localStorage.getItem('knowledgeBlocks_refresh_timestamp') || '0';
+    const interval = setInterval(() => {
+      const currentTimestamp = localStorage.getItem('knowledgeBlocks_refresh_timestamp') || '0';
+      if (currentTimestamp !== lastTimestamp) {
+        lastTimestamp = currentTimestamp;
+        setRefreshKey(prev => prev + 1);
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return <PanoramaProgress blocks={blocks} topicName={topicName} topicId={topicId} />;
 };
@@ -333,7 +618,6 @@ const App: React.FC = () => {
             <Route path="/recommend" element={<TopicRecommendations />} />
             <Route path="/teaching" element={<TeachingPanel componentId="p1" />} />
             <Route path="/exercise" element={<ExercisePanel pointId="p1" totalQuestions={5} />} />
-            <Route path="/qa" element={<QAPanel userId="u1" pointId="p1" />} />
             <Route path="/progress" element={<ProgressPanel userId="u1" topicId="t1" />} />
             <Route path="/path" element={<LearningPathPanel userId="u1" topicId="t1" />} />
             <Route path="/history" element={<LearningHistory userId="u1" />} />

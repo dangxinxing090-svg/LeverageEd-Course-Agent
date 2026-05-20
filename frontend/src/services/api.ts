@@ -37,8 +37,6 @@ import {
   Question,
   Answer,
   ExerciseResult,
-  QAQuestionInput,
-  QAAnswerOutput,
 } from '../types';
 
 // ============================================
@@ -78,6 +76,11 @@ async function fetchWithTimeout(
 ): Promise<Response> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
+
+  // 如果外部传入了signal，当外部abort时也取消当前请求
+  if (options.signal) {
+    options.signal.addEventListener('abort', () => controller.abort());
+  }
 
   try {
     const response = await fetch(url, {
@@ -406,23 +409,8 @@ export async function submitSkipTest(input: SkipTestSubmitInput): Promise<SkipTe
 // ============================================
 
 /**
- * 获取知识点讲解内容
+ * 获取知识点讲解内容（结构化JSON格式，8维度卡片展示）
  * U-004核心API调用
- *
- * 底层执行逻辑：
- * 1. 校验componentId参数合法性
- * 2. 构造GET请求，user_level作为查询参数
- * 3. 发送请求到/api/v1/knowledge/components/{componentId}/explanation
- * 4. 解析响应，返回讲解内容
- *
- * 内存数据流转：
- * 输入: componentId, userLevel → URL路径和查询参数
- * 输出: HTTP Response → JSON解析 → ExplanationResponse
- *
- * 潜在风险：
- * 1. componentId不存在：后端返回404
- * 2. userLevel无效：后端使用默认值
- * 3. 讲解内容为空：返回空字符串兜底
  *
  * @param componentId 知识组件ID
  * @param userLevel 用户水平（可选）
@@ -457,7 +445,7 @@ export async function getExplanation(
   if (!result.data) {
     return {
       component_id: componentId,
-      content: '',
+      sections: [],
       teaching_method: '',
     };
   }
@@ -639,100 +627,6 @@ export async function getTopicStatus(topicId: string): Promise<{ topic_id: strin
 // U-003 问答面板组件 API
 // ============================================
 
-/**
- * 提交问题获取答案
- * U-003核心API调用
- *
- * 底层执行逻辑：
- * 1. 校验question和point_id参数
- * 2. 构造POST请求
- * 3. 发送请求到/api/v1/qa/ask
- * 4. 解析响应，返回答案
- *
- * 内存数据流转：
- * 输入: QAQuestionInput → JSON序列化 → HTTP Body
- * 输出: HTTP Response → JSON解析 → QAAnswerOutput
- *
- * 潜在风险：
- * 1. question为空：前端校验拦截
- * 2. point_id无效：后端返回404
- * 3. AI服务异常：后端返回503
- *
- * @param input 问答输入
- * @returns Promise<QAAnswerOutput>
- */
-export async function askQuestion(input: QAQuestionInput): Promise<QAAnswerOutput> {
-  // 参数校验
-  if (!input || !input.question || input.question.trim().length === 0) {
-    throw new TopicApiError('参数错误：question不能为空', 400);
-  }
-
-  const url = `${API_BASE_URL}/api/v1/qa/ask`;
-
-  const response = await fetchWithTimeout(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    },
-    body: JSON.stringify(input),
-  });
-
-  const result = await parseResponse<QAAnswerOutput>(response);
-  return result.data;
-}
-
-/**
- * 流式提问 (SSE)
- */
-export async function askQuestionStream(
-  question: string,
-  pointId: string,
-  userId: string,
-  onChunk: (text: string) => void,
-  signal?: AbortSignal
-): Promise<string> {
-  const url = `${API_BASE_URL}/api/v1/learning/qa/ask/stream`;
-
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'text/event-stream' },
-    body: JSON.stringify({ question, point_id: pointId, user_id: userId }),
-    signal,
-  });
-
-  if (!response.ok) {
-    throw new TopicApiError(`HTTP ${response.status}`, response.status);
-  }
-
-  const reader = response.body?.getReader();
-  if (!reader) throw new TopicApiError('无法读取响应流', 0);
-
-  const decoder = new TextDecoder();
-  let fullText = '';
-
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-
-    const chunk = decoder.decode(value, { stream: true });
-    const lines = chunk.split('\n');
-    for (const line of lines) {
-      if (line.startsWith('data: ')) {
-        const data = line.slice(6);
-        if (data === '[DONE]') continue;
-        if (data.startsWith('[ERROR]')) {
-          throw new TopicApiError(data.slice(7), 500);
-        }
-        fullText += data;
-        onChunk(data);
-      }
-    }
-  }
-
-  return fullText;
-}
-
 export async function getLearningHistory(userId: string): Promise<LearningHistoryItem[]> {
   // 参数校验
   if (!userId || typeof userId !== 'string') {
@@ -881,37 +775,40 @@ export async function getUserProgress(userId: string): Promise<UserProgress> {
  * 4. 解析响应，返回题目数组
  *
  * 内存数据流转：
- * 输入: pointId, totalQuestions → URL查询参数
+ * 输入: componentId, totalQuestions → URL查询参数
  * 输出: HTTP Response → JSON解析 → Question[]
  *
  * 潜在风险：
- * 1. pointId不存在：后端返回404
+ * 1. componentId不存在：后端返回404
  * 2. 题目数量不足：返回实际可生成的题目数
  * 3. 网络超时：fetchWithTimeout已处理
  *
- * @param pointId 知识点ID
+ * @param componentId 知识组件ID
  * @param totalQuestions 题目数量
+ * @param signal AbortController信号，用于取消请求
  * @returns Promise<{ questions: Question[] }>
  */
 export async function generateExercises(
-  pointId: string,
-  totalQuestions: number
+  componentId: string,
+  totalQuestions: number,
+  signal?: AbortSignal
 ): Promise<{ questions: Question[] }> {
   // 参数校验
-  if (!pointId || typeof pointId !== 'string') {
-    throw new TopicApiError('参数错误：pointId必须为有效UUID', 400);
+  if (!componentId || typeof componentId !== 'string') {
+    throw new TopicApiError('参数错误：componentId必须为有效字符串', 400);
   }
   if (!totalQuestions || totalQuestions < 1) {
     throw new TopicApiError('参数错误：totalQuestions必须大于0', 400);
   }
 
-  const url = `${API_BASE_URL}/api/v1/exercises/generate?point_id=${encodeURIComponent(pointId)}&total_questions=${totalQuestions}`;
+  const url = `${API_BASE_URL}/api/v1/exercises/generate?component_id=${encodeURIComponent(componentId)}&total_questions=${totalQuestions}`;
 
   const response = await fetchWithTimeout(url, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
     },
+    signal,
   });
 
   const result = await parseResponse<{ questions: Question[] }>(response);
@@ -937,17 +834,18 @@ export async function generateExercises(
  * 2. 答案格式错误：后端返回400
  * 3. 重复提交：后端幂等处理
  *
- * @param pointId 知识点ID
+ * @param componentId 知识组件ID
  * @param answers 答案数组
  * @returns Promise<ExerciseResult>
  */
 export async function submitAnswers(
-  pointId: string,
-  answers: Answer[]
+  componentId: string,
+  answers: Answer[],
+  questionContent: string = ""
 ): Promise<ExerciseResult> {
   // 参数校验
-  if (!pointId || typeof pointId !== 'string') {
-    throw new TopicApiError('参数错误：pointId必须为有效UUID', 400);
+  if (!componentId || typeof componentId !== 'string') {
+    throw new TopicApiError('参数错误：componentId必须为有效字符串', 400);
   }
   if (!Array.isArray(answers) || answers.length === 0) {
     throw new TopicApiError('参数错误：answers必须为非空数组', 400);
@@ -961,9 +859,546 @@ export async function submitAnswers(
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     },
-    body: JSON.stringify({ point_id: pointId, answers }),
+    body: JSON.stringify({ component_id: componentId, answers, question_content: questionContent, user_id: 'default_user' }),
   });
 
   const result = await parseResponse<ExerciseResult>(response);
+  return result.data;
+}
+
+// ============================================
+// 练习历史记录 API
+// ============================================
+
+/**
+ * 获取用户练习历史记录
+ */
+export async function getExerciseHistory(
+  userId: string = 'default_user',
+  limit: number = 50
+): Promise<import('../types').ExerciseHistoryResponse> {
+  const url = `${API_BASE_URL}/api/v1/exercises/history?user_id=${encodeURIComponent(userId)}&limit=${limit}`;
+
+  const response = await fetchWithTimeout(url, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+    },
+  });
+
+  const result = await parseResponse<import('../types').ExerciseHistoryResponse>(response);
+  return result.data;
+}
+
+/**
+ * 获取单条练习记录详情
+ */
+export async function getExerciseDetail(
+  recordId: string,
+  userId: string = 'default_user'
+): Promise<import('../types').ExerciseRecord> {
+  const url = `${API_BASE_URL}/api/v1/exercises/history/${recordId}?user_id=${encodeURIComponent(userId)}`;
+
+  const response = await fetchWithTimeout(url, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+    },
+  });
+
+  const result = await parseResponse<import('../types').ExerciseRecord>(response);
+  return result.data;
+}
+
+// ============================================
+// 定制综合练习 API
+// ============================================
+
+/**
+ * 生成综合练习题
+ * @param pointNames 知识点名称列表
+ * @param totalQuestions 题目总数
+ * @returns Promise<CustomExerciseSet>
+ */
+export async function generateCustomExercise(
+  topicName: string,
+  pointNames: string[]
+): Promise<import('../types').CustomExerciseSet> {
+  if (!Array.isArray(pointNames) || pointNames.length === 0) {
+    throw new TopicApiError('参数错误：pointNames必须为非空数组', 400);
+  }
+
+  const url = `${API_BASE_URL}/api/v1/custom-exercise/generate`;
+
+  const response = await fetchWithTimeout(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: JSON.stringify({ topic_name: topicName, point_names: pointNames }),
+  });
+
+  const result = await parseResponse<import('../types').CustomExerciseSet>(response);
+  return result.data;
+}
+
+/**
+ * 批改综合练习题
+ * @param exerciseId 练习ID
+ * @param questions 题目列表
+ * @param answers 用户答案
+ * @returns Promise<CustomGradeReport>
+ */
+export async function gradeCustomExercise(
+  exerciseId: string,
+  questions: import('../types').CustomQuestion[],
+  answers: Record<string, string>
+): Promise<import('../types').CustomGradeReport> {
+  if (!exerciseId) {
+    throw new TopicApiError('参数错误：exerciseId必须为有效字符串', 400);
+  }
+
+  const url = `${API_BASE_URL}/api/v1/custom-exercise/grade`;
+
+  const response = await fetchWithTimeout(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: JSON.stringify({ exercise_id: exerciseId, questions, answers }),
+  });
+
+  const result = await parseResponse<import('../types').CustomGradeReport>(response);
+  return result.data;
+}
+
+// ============================================
+// 教学Session API (对话式教学)
+// ============================================
+
+export interface Session {
+  id: string;
+  user_id: string;
+  topic_id: string;
+  topic_name: string;
+  status: string;
+  current_component_id?: string;
+  current_component_name?: string;
+  learned_components: string[];
+  created_at: string;
+  last_message_at: string;
+}
+
+export interface ChatMessage {
+  id: string;
+  session_id: string;
+  role: 'user' | 'assistant' | 'system';
+  message_type: string;
+  content: string;
+  structured_content?: any[];
+  component_id?: string;
+  component_name?: string;
+  metadata?: any;
+  created_at: string;
+}
+
+/**
+ * 获取或创建Session
+ * 每个主题对应一个Session
+ */
+export async function getOrCreateSession(
+  userId: string,
+  topicId: string,
+  topicName: string,
+  maxRetries: number = 2
+): Promise<Session> {
+  const url = `${API_BASE_URL}/api/v1/sessions`;
+  const requestBody = JSON.stringify({ user_id: userId, topic_id: topicId, topic_name: topicName });
+
+  let lastError: Error | null = null;
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      if (attempt > 0) {
+        // 重试前等待，递增延迟
+        await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+      }
+      const response = await fetchWithTimeout(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: requestBody,
+      });
+
+      const result = await parseResponse<any>(response);
+      // 后端返回 session_id，前端接口期望 id，做字段映射
+      const data = result.data;
+      if (data.session_id && !data.id) {
+        data.id = data.session_id;
+      }
+      return data as Session;
+    } catch (error) {
+      lastError = error as Error;
+      // 只对服务端错误重试（500/502/503/504），客户端错误不重试
+      if (error instanceof TopicApiError && error.status >= 400 && error.status < 500) {
+        break;
+      }
+    }
+  }
+  throw lastError;
+}
+
+/**
+ * 获取Session详情
+ */
+export async function getSession(sessionId: string, includeMessages: boolean = true): Promise<Session & { messages?: ChatMessage[] }> {
+  const url = `${API_BASE_URL}/api/v1/sessions/${sessionId}?include_messages=${includeMessages}`;
+
+  const response = await fetchWithTimeout(url, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+    },
+  });
+
+  const result = await parseResponse<Session & { messages?: ChatMessage[] }>(response);
+  return result.data;
+}
+
+/**
+ * 获取Session消息列表
+ */
+export async function getSessionMessages(sessionId: string, limit: number = 50): Promise<ChatMessage[]> {
+  const url = `${API_BASE_URL}/api/v1/sessions/${sessionId}/messages?limit=${limit}`;
+
+  const response = await fetchWithTimeout(url, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+    },
+  });
+
+  const result = await parseResponse<{ messages: ChatMessage[] }>(response);
+  return result.data?.messages || [];
+}
+
+/**
+ * 切换当前知识组件
+ */
+export async function switchComponent(
+  sessionId: string,
+  componentId: string,
+  componentName: string
+): Promise<Session> {
+  const url = `${API_BASE_URL}/api/v1/sessions/${sessionId}/component`;
+
+  const response = await fetchWithTimeout(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: JSON.stringify({ component_id: componentId, component_name: componentName }),
+  });
+
+  const result = await parseResponse<Session>(response);
+  return result.data;
+}
+
+/**
+ * 发送聊天消息 (SSE流式响应)
+ */
+export async function sendChatMessage(
+  sessionId: string,
+  content: string,
+  onChunk: (chunk: string) => void,
+  messageType: string = 'chat',
+  componentId?: string,
+  componentName?: string,
+  signal?: AbortSignal
+): Promise<string> {
+  const url = `${API_BASE_URL}/api/v1/sessions/${sessionId}/chat`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'text/event-stream',
+    },
+    body: JSON.stringify({
+      content,
+      message_type: messageType,
+      component_id: componentId,
+      component_name: componentName,
+    }),
+    signal,
+  });
+
+  if (!response.ok) {
+    throw new TopicApiError(`HTTP ${response.status}`, response.status);
+  }
+
+  const reader = response.body?.getReader();
+  if (!reader) throw new TopicApiError('无法读取响应流', 0);
+
+  const decoder = new TextDecoder();
+  let fullContent = '';
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    const chunk = decoder.decode(value, { stream: true });
+    const lines = chunk.split('\n');
+    
+    for (const line of lines) {
+      if (line.startsWith('data: ')) {
+        const data = line.slice(6);
+        try {
+          const parsed = JSON.parse(data);
+          if (parsed.chunk) {
+            fullContent += parsed.chunk;
+            onChunk(parsed.chunk);
+          } else if (parsed.done) {
+            return fullContent;
+          } else if (parsed.error) {
+            throw new TopicApiError(parsed.error, 500);
+          }
+        } catch (e) {
+          // 忽略解析错误，继续处理
+        }
+      }
+    }
+  }
+
+  return fullContent;
+}
+
+/**
+ * 生成全景介绍 (SSE流式响应)
+ * 模拟用户发送"请介绍{主题}的全景知识"消息
+ */
+export async function generateOverview(
+  sessionId: string,
+  onChunk?: (data: any) => void,
+  signal?: AbortSignal
+): Promise<{ content: string }> {
+  const url = `${API_BASE_URL}/api/v1/sessions/${sessionId}/overview`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'text/event-stream',
+    },
+    signal,
+  });
+
+  if (!response.ok) {
+    throw new TopicApiError(`HTTP ${response.status}`, response.status);
+  }
+
+  const reader = response.body?.getReader();
+  if (!reader) throw new TopicApiError('无法读取响应流', 0);
+
+  const decoder = new TextDecoder();
+  let fullContent = '';
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    const chunk = decoder.decode(value, { stream: true });
+    const lines = chunk.split('\n');
+    
+    for (const line of lines) {
+      if (line.startsWith('data: ')) {
+        const data = line.slice(6);
+        try {
+          const parsed = JSON.parse(data);
+          if (parsed.content) {
+            fullContent = parsed.content;
+            onChunk?.(parsed);
+          } else if (parsed.done) {
+            return { content: fullContent };
+          } else if (parsed.error) {
+            throw new TopicApiError(parsed.error, 500);
+          }
+        } catch (e) {
+          // 忽略解析错误
+        }
+      }
+    }
+  }
+
+  return { content: fullContent };
+}
+
+/**
+ * 获取知识组件讲解 (SSE流式响应)
+ * 每次都调用LLM生成，不依赖缓存
+ */
+export async function explainComponent(
+  sessionId: string,
+  componentId: string,
+  componentName: string,
+  onChunk: (data: any) => void,
+  signal?: AbortSignal
+): Promise<{ sections: any[]; is_cached: boolean }> {
+  const url = `${API_BASE_URL}/api/v1/sessions/${sessionId}/explain`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'text/event-stream',
+    },
+    body: JSON.stringify({ component_id: componentId, component_name: componentName }),
+    signal,
+  });
+
+  if (!response.ok) {
+    throw new TopicApiError(`HTTP ${response.status}`, response.status);
+  }
+
+  // SSE流式响应（后端总是返回SSE，不再检查缓存）
+  const reader = response.body?.getReader();
+  if (!reader) throw new TopicApiError('无法读取响应流', 0);
+
+  const decoder = new TextDecoder();
+  let fullData: any = null;
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    const chunk = decoder.decode(value, { stream: true });
+    const lines = chunk.split('\n');
+    
+    for (const line of lines) {
+      if (line.startsWith('data: ')) {
+        const data = line.slice(6);
+        try {
+          const parsed = JSON.parse(data);
+          if (parsed.sections) {
+            fullData = parsed;
+            onChunk(parsed);
+          } else if (parsed.done && fullData) {
+            return { sections: fullData.sections || [], is_cached: false };
+          } else if (parsed.error) {
+            throw new TopicApiError(parsed.error, 500);
+          }
+        } catch (e) {
+          // 忽略解析错误
+        }
+      }
+    }
+  }
+
+  return fullData || { sections: [], is_cached: false };
+}
+
+/**
+ * 生成练习题 (SSE流式响应)
+ */
+export async function generateExercise(
+  sessionId: string,
+  componentId?: string,
+  onChunk?: (data: any) => void,
+  signal?: AbortSignal
+): Promise<{ question: any }> {
+  const url = `${API_BASE_URL}/api/v1/sessions/${sessionId}/exercise`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'text/event-stream',
+    },
+    body: JSON.stringify({ component_id: componentId }),
+    signal,
+  });
+
+  if (!response.ok) {
+    throw new TopicApiError(`HTTP ${response.status}`, response.status);
+  }
+
+  const reader = response.body?.getReader();
+  if (!reader) throw new TopicApiError('无法读取响应流', 0);
+
+  const decoder = new TextDecoder();
+  let fullData: any = null;
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    const chunk = decoder.decode(value, { stream: true });
+    const lines = chunk.split('\n');
+    
+    for (const line of lines) {
+      if (line.startsWith('data: ')) {
+        const data = line.slice(6);
+        try {
+          const parsed = JSON.parse(data);
+          if (parsed.question) {
+            fullData = parsed;
+            onChunk?.(parsed);
+          } else if (parsed.done && fullData) {
+            return { question: fullData.question };
+          } else if (parsed.error) {
+            throw new TopicApiError(parsed.error, 500);
+          }
+        } catch (e) {
+          // 忽略解析错误
+        }
+      }
+    }
+  }
+
+  return fullData || { question: null };
+}
+
+/**
+ * 提交练习题答案
+ */
+export async function submitExerciseAnswer(
+  sessionId: string,
+  questionContent: string,
+  userAnswer: string,
+  componentId?: string
+): Promise<{
+  is_correct: boolean;
+  score: number;
+  feedback: string;
+  error_analysis: string;
+  correct_answer: string;
+}> {
+  const url = `${API_BASE_URL}/api/v1/sessions/${sessionId}/exercise/submit`;
+
+  const response = await fetchWithTimeout(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: JSON.stringify({
+      question_content: questionContent,
+      user_answer: userAnswer,
+      component_id: componentId,
+    }),
+  });
+
+  const result = await parseResponse<{
+    is_correct: boolean;
+    score: number;
+    feedback: string;
+    error_analysis: string;
+    correct_answer: string;
+  }>(response);
+  
   return result.data;
 }

@@ -6,7 +6,7 @@ API v1 路由模块
 
 from fastapi import APIRouter
 
-from .endpoints import topics, learning, users
+from .endpoints import topics, learning, users, behavior, sessions
 
 # 创建主路由
 api_router = APIRouter()
@@ -15,6 +15,8 @@ api_router = APIRouter()
 api_router.include_router(topics.router, prefix="/topics", tags=["Topics"])
 api_router.include_router(learning.router, prefix="/learning", tags=["Learning"])
 api_router.include_router(users.router, prefix="/users", tags=["Users"])
+api_router.include_router(behavior.router, prefix="/behavior", tags=["Behavior"])
+api_router.include_router(sessions.router, prefix="/sessions", tags=["Sessions"])
 
 # 兼容前端直接调用的路径（不带 /learning 前缀）
 # 前端 api.ts 直接请求 /api/v1/knowledge/...、/api/v1/qa/... 等路径

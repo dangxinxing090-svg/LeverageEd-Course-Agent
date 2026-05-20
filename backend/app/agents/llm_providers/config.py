@@ -23,6 +23,7 @@ DEFAULT_MODELS = {
     ProviderType.KIMI: "moonshot-v1-8k",
     ProviderType.QWEN: "qwen-turbo",
     ProviderType.DOUBAO: "doubao-pro-4k",
+    ProviderType.DEEPSEEK: "deepseek-v4-flash",
 }
 
 # Provider API基础URL
@@ -32,6 +33,7 @@ DEFAULT_API_BASES = {
     ProviderType.KIMI: "https://api.moonshot.cn/v1",
     ProviderType.QWEN: "https://dashscope.aliyuncs.com/api/v1",
     ProviderType.DOUBAO: "https://ark.cn-beijing.volces.com/api/v3",
+    ProviderType.DEEPSEEK: "https://api.deepseek.com/v1",
 }
 
 # 环境变量映射
@@ -60,6 +62,11 @@ ENV_VAR_MAPPING = {
         "api_key": "DOUBAO_API_KEY",
         "api_base": "DOUBAO_API_BASE",
         "model": "DOUBAO_MODEL",
+    },
+    ProviderType.DEEPSEEK: {
+        "api_key": "DEEPSEEK_API_KEY",
+        "api_base": "DEEPSEEK_API_BASE",
+        "model": "DEEPSEEK_MODEL",
     },
 }
 
@@ -91,6 +98,13 @@ class LLMConfigManager:
     _initialized = False
 
     def __new__(cls):
+        # 检查是否需要强制重新加载
+        import os
+        if os.environ.get('_LLM_CONFIG_FORCE_RELOAD') == '1':
+            cls._instance = None
+            cls._initialized = False
+            os.environ['_LLM_CONFIG_FORCE_RELOAD'] = '0'
+        
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
@@ -101,7 +115,17 @@ class LLMConfigManager:
 
         self._configs: Dict[ProviderType, ProviderConfig] = {}
         self._global_config = LLMGlobalConfig()
-        self._load_all_configs()
+
+        # 优先从 JSON 配置文件加载
+        import os
+        config_dir = os.path.dirname(os.path.abspath(__file__))
+        json_config_path = os.path.join(config_dir, 'llm_config.json')
+        if os.path.exists(json_config_path):
+            self.load_from_json_file(json_config_path)
+        else:
+            # 备选：从环境变量加载
+            self._load_all_configs()
+
         LLMConfigManager._initialized = True
 
     def _load_all_configs(self) -> None:
@@ -111,6 +135,12 @@ class LLMConfigManager:
             if config:
                 self._configs[provider_type] = config
                 logger.info(f"已加载 {provider_type.value} Provider配置")
+
+    def reload_configs(self) -> None:
+        """重新加载所有Provider配置"""
+        self._configs.clear()
+        self._load_all_configs()
+        logger.info("已重新加载所有Provider配置")
 
     def _load_provider_config(self, provider_type: ProviderType) -> Optional[ProviderConfig]:
         """

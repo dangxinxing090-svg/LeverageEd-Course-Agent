@@ -1,0 +1,505 @@
+{
+  "topic_text": "测试主题",
+  "topic_id": "topic-8b3ed46f1b39",
+  "overview": "你好呀👋 我是你的入门知识向导。现在请告诉我你想要初步探索、建立整体认知的具体主题是什么呢？\n\n无论是某门学科、某项技术、还是某个新领域的概念（比如「大语言模型微调」「宏观经济学入门」「摄影基础曝光逻辑」这类都可以），我会帮你先搭好清晰的整体框架，帮你建立「我能学会」的信心，也帮你找准接下来深入的方向✨",
+  "structure": {
+    "blocks": [
+      {
+        "block_id": "block-9557706d",
+        "block_name": "软件测试核心基础",
+        "points": [
+          {
+            "point_id": "point-fefb058f",
+            "point_name": "软件测试基本概念",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-71f3ee9e",
+                "component_name": "测试定义与核心目的",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f38eb6d0",
+                "component_name": "测试与调试的核心区别",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-985356a7",
+                "component_name": "软件测试七大原则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0d9ed367",
+                "component_name": "ISO软件质量模型",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e57bb377",
+                "component_name": "缺陷定义与常见分类",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-af929242",
+            "point_name": "软件测试生命周期",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-00446048",
+                "component_name": "需求阶段测试介入要点",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-715b61b5",
+                "component_name": "测试计划编制流程",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ba4c8a61",
+                "component_name": "测试用例设计阶段要求",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f44b541d",
+                "component_name": "测试执行流程规范",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-749c6bea",
+                "component_name": "测试总结输出要求",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-309d5cf1",
+                "component_name": "验收交付阶段测试工作",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-3a56bcfd",
+            "point_name": "软件测试常见分类",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-b1bd93be",
+                "component_name": "按开发阶段的测试分类",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8f9320c3",
+                "component_name": "按测试技术的测试分类",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-29b87f33",
+                "component_name": "按测试对象的测试分类",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-70ee05ad",
+                "component_name": "按执行主体的测试分类",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-59f69da3",
+        "block_name": "测试用例设计技术",
+        "points": [
+          {
+            "point_id": "point-a222cee5",
+            "point_name": "黑盒测试设计方法",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-804438ef",
+                "component_name": "等价类划分法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2286e09f",
+                "component_name": "边界值分析法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-419b40eb",
+                "component_name": "错误推测法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f03956a1",
+                "component_name": "因果图法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3b2e2f22",
+                "component_name": "判定表法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-715507ab",
+                "component_name": "场景法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bff9f723",
+                "component_name": "正交试验法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-a51e53d7",
+            "point_name": "白盒测试设计方法",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-74b78ad2",
+                "component_name": "静态白盒测试方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c5206a4f",
+                "component_name": "逻辑覆盖法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5be22f7b",
+                "component_name": "路径覆盖法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-64e4434e",
+                "component_name": "基本路径测试法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-ddd01b3c",
+            "point_name": "灰盒测试设计方法",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-f73017a0",
+                "component_name": "灰盒测试适用场景",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5c73efa0",
+                "component_name": "接口测试用例设计要点",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-52997ff3",
+        "block_name": "测试流程与缺陷管理",
+        "points": [
+          {
+            "point_id": "point-74a6e28a",
+            "point_name": "测试计划与方案编写",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-a4f487fa",
+                "component_name": "测试范围界定方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c2c00452",
+                "component_name": "测试资源估算方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f00b988a",
+                "component_name": "测试进度排期方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-432b096b",
+                "component_name": "测试风险分析与应对",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c57e48ad",
+                "component_name": "测试方案撰写规范",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-de7b1484",
+            "point_name": "测试执行与缺陷跟踪",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-f15fb284",
+                "component_name": "测试环境搭建规范",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cf1f38e6",
+                "component_name": "测试执行流程标准",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1b0dca53",
+                "component_name": "缺陷记录规范要求",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ce122288",
+                "component_name": "缺陷生命周期管理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-36ed88ad",
+                "component_name": "缺陷状态流转规则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7e5f9153",
+                "component_name": "缺陷报告编写规范",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-a4531630",
+            "point_name": "测试总结与结果评估",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-9583608a",
+                "component_name": "测试覆盖率统计方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9813dd26",
+                "component_name": "测试结果分析方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-57094d24",
+                "component_name": "测试总结报告撰写",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-532ab518",
+        "block_name": "自动化测试基础",
+        "points": [
+          {
+            "point_id": "point-46dafbe0",
+            "point_name": "自动化测试核心概念",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-2c921a58",
+                "component_name": "自动化测试适用场景",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bb0be4e8",
+                "component_name": "自动化测试局限性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-dac3ddd2",
+                "component_name": "自动化测试常见分类",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-c6d31a40",
+            "point_name": "主流测试工具基础使用",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-5183623c",
+                "component_name": "禅道/Jira缺陷工具使用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c1708662",
+                "component_name": "Git版本管理基础操作",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d9fa9192",
+                "component_name": "Postman接口工具使用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1dd6c49f",
+                "component_name": "SeleniumWeb自动化基础",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9d9a8fdb",
+                "component_name": "JMeter性能测试基础",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-a81f1f23",
+            "point_name": "自动化用例开发基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-461a6b81",
+                "component_name": "自动化用例设计原则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5b1cde4d",
+                "component_name": "自动化用例分层结构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e34bf27b",
+                "component_name": "测试断言设计方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bfa7ec2b",
+                "component_name": "自动化用例维护方法",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-8ae097b4",
+        "block_name": "常见专项测试技术",
+        "points": [
+          {
+            "point_id": "point-6e87f9d0",
+            "point_name": "接口测试",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-06e4a6bc",
+                "component_name": "接口基础概念与协议",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5975446b",
+                "component_name": "HTTP/HTTPS协议核心要点",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8122ef53",
+                "component_name": "接口测试用例设计",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4e1ad685",
+                "component_name": "接口测试执行流程",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a9e25c35",
+                "component_name": "接口断言设计要点",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-f3e2d64e",
+            "point_name": "性能测试",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-b42ea198",
+                "component_name": "性能测试核心指标定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-787f23c6",
+                "component_name": "性能测试常见类型",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-644792fb",
+                "component_name": "性能测试标准流程",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f42cbe5b",
+                "component_name": "性能瓶颈基础分析方法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-ea99304a",
+            "point_name": "移动端测试",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-cb43124f",
+                "component_name": "移动端测试核心特性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b5934505",
+                "component_name": "兼容性测试方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d5aea81c",
+                "component_name": "适配测试要点",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "saved_at": "2026-05-11T21:09:17.692343"
+}

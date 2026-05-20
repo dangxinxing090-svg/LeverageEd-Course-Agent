@@ -5,8 +5,13 @@ FastAPI 应用入口
 """
 
 # 加载环境变量（必须在其他导入之前）
+import os
 from dotenv import load_dotenv
 load_dotenv()
+
+# 手动设置 DeepSeek 环境变量（确保配置被加载）
+os.environ.setdefault('DEEPSEEK_API_KEY', 'sk-310f471d61eb4f05b7b660d134a07f08')
+os.environ.setdefault('DEEPSEEK_MODEL', 'deepseek-v4-flash')
 
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, Response
@@ -39,6 +44,11 @@ async def lifespan(app: FastAPI):
     """应用生命周期管理"""
     # 启动时
     print(f"启动 {settings.APP_NAME} v{settings.APP_VERSION}")
+    
+    # 重新加载 LLM 配置（确保 .env 中的配置被正确加载）
+    from app.agents.llm_providers.config import get_llm_config
+    get_llm_config().reload_configs()
+    
     yield
     # 关闭时
     print("应用关闭")

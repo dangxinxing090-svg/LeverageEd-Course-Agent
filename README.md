@@ -6,11 +6,11 @@
 
 | 模块 | 功能 | 说明 |
 |------|------|------|
-| 知识处理 | 知识拆分 / 难度标注 | 将学习主题自动拆解为「板块 → 知识点 → 知识组件」三层体系 |
-| 学习支持 | 讲解 / 练习 / 批改 / 问答 | AI 生成通俗易懂的讲解内容、高难度实操性练习题，自动批改并答疑 |
-| 路径规划 | 学习路径 / 跳级建议 | 根据用户画像生成个性化学习路径，支持跳级测试 |
-| 激励系统 | 鼓励奖励 | 在关键学习节点生成个性化鼓励文案和积分奖励 |
-| 行为分析 | 行为记录 / 学习画像 | 基于 BKT 模型追踪学习行为，输出活跃度与掌握度分析 |
+| 知识处理 | 知识拆分 / 难度标注 | 由 UnifiedTeachingAgent 统一负责，将学习主题自动拆解为三层体系 |
+| 学习支持 | 讲解 / 练习 / 批改 | UnifiedTeachingAgent 生成7维度结构化讲解、实操性问答题，自动批改 |
+| 综合练习 | 定制定制练习 / 批改 | CustomExerciseAgent 根据多知识点生成综合问答题并批改 |
+| 路径规划 | 学习路径 / 跳级建议 | 在 API endpoint 层直接调用 LLM 实现 |
+| 行为分析 | 学习画像 / 记忆压缩 | BehaviorAnalysisAgent 基于 BKT 模型分析，MemoryCompressionAgent 归档压缩 |
 | 全景视图 | 知识图谱 / 架构图 | 分层架构图风格展示三层知识体系，支持交互式浏览 |
 
 ## 环境要求
@@ -127,21 +127,15 @@ ai-education-platform/
 │   │   │   ├── dependency.py         # Agent 依赖管理
 │   │   │   ├── aggregator.py         # 多 Agent 结果聚合
 │   │   │   ├── error_handler.py      # Agent 错误处理
-│   │   │   ├── knowledge/            # 知识处理 Agent
-│   │   │   │   ├── knowledge_split.py    # 知识拆分
-│   │   │   │   └── difficulty_tag.py     # 难度标注
-│   │   │   ├── learning/             # 学习支持 Agent（已合并为 UnifiedTeachingAgent）
-│   │   │   │   ├── unified_teaching_agent.py  # 统一教学Agent（讲解/出题/批改/问答）
-│   │   │   │   ├── exercise_generate.py       # 练习题生成（独立版本）
-│   │   │   │   └── answer_grade.py            # 题目批改
-│   │   │   ├── path_planning/        # 路径规划 Agent
-│   │   │   │   ├── path_planning.py      # 学习路径规划
-│   │   │   │   └── skip_suggest.py       # 跳级建议
-│   │   │   ├── incentive/            # 激励系统 Agent
-│   │   │   │   └── reward_generate.py    # 鼓励奖励生成
+│   │   │   ├── knowledge/            # 知识处理模块（功能已合并至 UnifiedTeachingAgent）
+│   │   │   ├── learning/             # 学习支持 Agent
+│   │   │   │   ├── unified_teaching_agent.py  # 统一教学Agent（讲解/出题/批改）
+│   │   │   │   └── custom_exercise.py        # 定制综合练习Agent
+│   │   │   ├── path_planning/        # 路径规划模块（功能在 API endpoint 层实现）
+│   │   │   ├── incentive/            # 激励系统模块（待开发）
 │   │   │   ├── behavior/             # 行为分析 Agent
-│   │   │   │   ├── behavior_record.py    # 行为记录
-│   │   │   │   └── behavior_analysis.py  # 行为分析（BKT 模型）
+│   │   │   │   ├── behavior_analysis.py  # 行为分析（BKT 模型）
+│   │   │   │   └── memory_compression.py # 记忆压缩
 │   │   │   └── llm_providers/        # 多模型 Provider 层
 │   │   │       ├── base.py               # Provider 抽象接口
 │   │   │       ├── config.py             # 配置管理
@@ -169,7 +163,8 @@ ai-education-platform/
 │   │   └── repositories/            # 数据访问层
 │   │       ├── user_repo.py         # 用户数据仓库
 │   │       ├── knowledge_repo.py    # 知识数据仓库
-│   │       └── progress_repo.py     # 学习进度仓库
+│   │       ├── progress_repo.py     # 学习进度仓库
+│   │       └── exercise_repo.py     # 练习记录仓库（用户答题历史）
 │   ├── tests/
 │   │   └── test_agents.py           # Agent 系统测试脚本
 │   └── requirements.txt             # Python 依赖
@@ -180,8 +175,7 @@ ai-education-platform/
 │   │   │   ├── TopicInput/           # 主题输入
 │   │   │   ├── TopicRecommendations/ # 推荐主题
 │   │   │   ├── TeachingPanel/        # 教学面板
-│   │   │   ├── ExercisePanel/        # 练习面板
-│   │   │   ├── QAPanel/              # 问答面板
+│   │   │   ├── ExercisePanel/        # 练习面板（含历史记录）
 │   │   │   ├── ProgressPanel/        # 进度面板
 │   │   │   ├── PanoramaProgress/     # 全景进度（含分层架构图）
 │   │   │   │   ├── KnowledgeGraphArch.tsx     # 分层架构图组件
@@ -209,17 +203,61 @@ ai-education-platform/
     └── AI智能教育课程平台_专家评审意见.docx
 ```
 
-## 核心架构更新
+## 核心架构
 
-### Agent 合并优化
-- 将原有的 11 个独立 Agent 合并为 9 个，减少调度开销
-- **UnifiedTeachingAgent** 统一负责：知识讲解、练习题生成、答案批改、实时问答
-- 采用异步任务模式 + 轮询机制，提升响应速度
+### Agent 架构（精简后）
+
+当前项目仅保留 4 个实际运行的 Agent，其余废弃 Agent 已删除：
+
+| Agent | 文件 | 职责 | 是否需要 LLM |
+|-------|------|------|:---:|
+| **UnifiedTeachingAgent** | `learning/unified_teaching_agent.py` | 知识讲解（7维度）、练习题生成、答案批改、知识拆分 | ✅ |
+| **CustomExerciseAgent** | `learning/custom_exercise.py` | 多知识点综合问答题生成与批改 | ✅ |
+| **BehaviorAnalysisAgent** | `behavior/behavior_analysis.py` | 用户行为四维度分析、BKT 知识追踪、学习画像生成 | ❌ 纯代码 |
+| **MemoryCompressionAgent** | `behavior/memory_compression.py` | 行为日志冷热分类、日/周聚合压缩 | ❌ 纯代码 |
+
+### 已删除的废弃 Agent（10 个）
+
+以下 Agent 已从代码库中移除，其功能已被其他实现替代：
+
+| 废弃 Agent | 替代方案 |
+|------------|----------|
+| ContentExplainAgent | UnifiedTeachingAgent 内置讲解 |
+| ExerciseGenerateAgent | UnifiedTeachingAgent 内置出题 |
+| AnswerGradeAgent | UnifiedTeachingAgent 内置批改 |
+
+| KnowledgeSplitAgent | UnifiedTeachingAgent.split_knowledge() |
+| DifficultyTagAgent | UnifiedTeachingAgent 内联处理 |
+| PathPlanningAgent | users.py endpoint 直接调用 LLM |
+| SkipSuggestAgent | users.py / learning.py endpoint 直接调用 LLM |
+| RewardGenerateAgent | 功能未实现，已删除 |
+| BehaviorRecordAgent | behavior.py endpoint 直接操作数据库 |
 
 ### 练习题升级
 - 从简单选择题升级为**高难度实操性问答题**
 - 支持 5 种题型：故障排查、方案设计、代码优化、安全攻防、工程实践
 - 每次只出一道题，确保质量
+- **ExercisePanel 增强**：
+  - 新增大文本域支持详细答题
+  - 题目提示（Hints）展示功能
+  - 知识点关联展示
+  - 前后端类型兼容性优化
+- **智能批改升级**（2025-05-18）：
+  - LLM 批改传入完整上下文（知识主题 + 知识点 + 题目内容）
+  - 批改结果包含：正确/错误判断、错误分析（指出哪里出错）、改进建议
+  - 错题提供"查看正确答案"按钮，展开显示原题 + 正确答案
+- **练习历史记录**（2025-05-18）：
+  - 后端 `ExerciseRepository` 保存用户每次练习记录
+  - 前端"做过的练习题"按钮查看历史列表
+  - 点击列表项展开详情：原题 + 用户答案 + 正确答案 + 错误分析
+- **学习页布局改造**（2025-05-19）：
+  - 左侧新增"教学"和"综合练习"两个 Tab 按钮
+  - 点击 Tab 切换显示对应面板，面板铺满学习页
+  - 教学面板移除问答输入功能（智能答疑功能已删除）
+- **删除智能答疑功能**（2025-05-19）：
+  - 移除 QAPanel 组件及相关代码
+  - 后端移除 `/qa/ask` 和 `/qa/ask/stream` 接口
+  - UnifiedTeachingAgent 移除 `answer_question` 方法
 
 ### 全景知识图谱
 - 新增**分层架构图**视图（蓝色系技术架构风格）
@@ -253,8 +291,10 @@ ai-education-platform/
 | GET | `/api/v1/topics/{id}/overview` | 获取主题全景介绍 |
 | GET | `/api/v1/knowledge/components/{id}/explanation` | 获取知识点讲解（流式） |
 | GET | `/api/v1/exercises/generate` | 生成练习题 |
-| POST | `/api/v1/exercises/submit` | 提交练习答案 |
-| POST | `/api/v1/qa/ask` | 提交问答（流式） |
+| POST | `/api/v1/exercises/submit` | 提交练习答案（单题批改，保存记录，返回 isCorrect/errorAnalysis/correctAnswer） |
+| GET | `/api/v1/exercises/history` | 获取用户练习历史列表 |
+| GET | `/api/v1/exercises/history/{record_id}` | 获取单条练习记录详情 |
+
 | POST | `/api/v1/skip/test` | 发起跳级测试 |
 | POST | `/api/v1/skip/test/submit` | 提交跳级测试 |
 | GET | `/api/v1/users/{id}/history` | 获取学习历史 |

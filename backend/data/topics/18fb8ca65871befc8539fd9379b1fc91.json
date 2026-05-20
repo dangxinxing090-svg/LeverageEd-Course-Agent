@@ -1,0 +1,522 @@
+{
+  "topic_text": "Python函数",
+  "topic_id": "topic-9f028bb254a6",
+  "overview": "欢迎来到Python函数的世界，我会用10分钟帮你把函数的核心逻辑理清楚，你看完就能get到它的本质，还能知道接下来该怎么学👇\n\n---\n\n### 第一步：先想清楚「为什么要有函数？我不用行不行？」\n先给你个生活场景：\n你开了一家奶茶店，每次做奶茶都要重复：拿杯子→放茶包→冲热水→加奶加糖→盖盖子，你每次接待客人都要把这5步默念一遍再做吗？肯定不会，你会把这一整套动作打包，起个名字叫「做一杯原味奶茶」，下次有客人点，你直接说「做一杯原味奶茶」，不用再拆分说一遍所有步骤。\n\n写代码也是一样：\n你写程序的时候，是不是经常要重复用同一段逻辑？比如要算3次不同半径的圆面积，你总不能把`面积=3.14*r*r`复制粘贴3次吧？如果之后你要提高精度，把3.14改成3.1415926，你还要改3次，漏改一次就错了。\n\n函数就是干这个的：**把你经常要重复用的一段逻辑/代码打包，给它起个名字，要用的时候喊名字就行，不用每次重新写**。\n\n不用函数行不行？写个几十行的小程序当然可以，但代码稍微长一点，会乱成一锅粥，改一次错一堆，所以函数是Python写复杂程序的基础，必须得会。\n\n---\n\n### 第二步：建立核心直觉：函数就像一台榨汁机\n函数本质上只有两个核心部分，一讲就懂：\n✅ **输入（参数）：你给函数的原材料**，比如你榨汁机要出果汁，总得放水果吧？算圆面积总得给我半径吧？这个原材料就叫「参数」\n✅ **输出（返回值）：函数给你加工好的结果**，放苹果出苹果汁，算完半径出面积，这个结果就叫「返回值」\n\n你不用管榨汁机里面刀片怎么转，只要知道「放什么，出什么」就行，函数也是一样：不用每次都把加工逻辑写一遍，只要调用名字给参数，拿结果就好。\n\n---\n\n### 第三步：看一个能上手的最简单例子，一秒看懂\n我们刚才说的算圆面积，写成函数就是这样，哪怕你刚学Python，也能看懂每一行：\n```python\n# 1. 打包定义函数：def是Python说「我要开始定义函数了」的固定暗号\ndef 计算圆面积(半径): # 函数名自己起，括号里是输入的原材料（参数）\n    面积 = 3.14159 * 半径 * 半径 # 函数内部干的活：计算\n    return 面积 # 把算好的结果扔出来（输出返回值）\n\n# 2. 用函数（调用）：直接喊名字，给参数就行\n结果1 = 计算圆面积(5) # 算半径是5的圆面积\nprint(result1) # 输出：78.53975\n\n结果2 = 计算圆面积(10) # 算半径是10的圆面积，直接再喊一次就行\nprint(result2) # 输出：314.159\n```\n看到了吗？太方便了！要算多少个圆面积，只要喊一声，改精度只要改函数里那一个3.14159就够了，所有结果自动更新。\n\n而且我告诉你一个秘密：你其实早就会用函数了！Python提前给你打包好的工具叫「内置函数」，你之前天天用的`print()`、`input()`、`len()`全都是函数！你早就会调用了，只是原来不知道那就是函数而已😉\n\n---\n\n### 第四步：初学者最容易懵的3个小问题，一次说清\n1. ❓函数必须要有输入吗？\n   不一定，如果你的函数不需要原材料，比如就是每次打印「欢迎光临」，括号空着就行：`def 打招呼(): print(\"欢迎光临\")`，调用就写`打招呼()`就行\n2. ❓函数必须要有输出吗？\n   也不一定，比如刚才的打招呼就是只打印，不需要返回结果，不写`return`就可以，默认返回空\n3. ❓参数的名字必须叫xx吗？\n   完全不用，参数名就是你给原材料起的外号，你把刚才的`半径`改成`r`，结果完全一样，你自己好记就行。\n\n---\n\n### 第五步：给你接下来的学习路径，不用瞎啃复杂内容\n你现在已经搞懂函数最核心的逻辑了，接下来按这个顺序学就不会乱：\n1. **入门先练这个**：把你写过的重复代码，改成自定义函数，比如算长方形面积、统计列表里的偶数，练会「定义函数→调用函数」就够\n2. **下一步再学这个**：参数的几种用法（位置参数、默认参数、不定长参数），还有变量作用域（哪些变量只有函数里能用）\n3. **最后再碰进阶内容**：递归、高阶函数、闭包、装饰器这些，新手不用上来就啃，等你写过几十个函数之后再学完全来得及。\n\n---\n\n### 最后给你信心\n函数本质真的非常简单，核心就是六个字：**打包代码，重复用**。你现在已经掌握了90%初学者需要的核心逻辑，只要动手写几个自己的函数，马上就能熟练，根本没有你想的那么难✨",
+  "structure": {
+    "blocks": [
+      {
+        "block_id": "block-b8a1f368",
+        "block_name": "Python函数基础核心",
+        "points": [
+          {
+            "point_id": "point-8aca177b",
+            "point_name": "函数的本质与作用",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-6ad91267",
+                "component_name": "函数的定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-07a53151",
+                "component_name": "函数的核心作用（代码复用/模块化）",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-139d110f",
+            "point_name": "函数定义语法",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-79adfc82",
+                "component_name": "def关键字用法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-54ea1dba",
+                "component_name": "函数名命名规则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8d7fbec0",
+                "component_name": "参数列表格式",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-db964eb1",
+                "component_name": "代码块缩进规则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-89b4326f",
+                "component_name": "return语句用法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1b154991",
+                "component_name": "空函数定义",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-b2df3b3d",
+            "point_name": "函数调用机制",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-147acc67",
+                "component_name": "函数调用语法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bb831351",
+                "component_name": "形参与实参的区别",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1b549af4",
+                "component_name": "函数调用执行流程",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-dca2824f",
+                "component_name": "NameError异常场景处理",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-250a0e85",
+            "point_name": "基础参数类型",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-711438df",
+                "component_name": "必需参数",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b2707cdb",
+                "component_name": "位置参数",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-af8da652",
+                "component_name": "默认参数",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-1590aaef",
+            "point_name": "函数返回值",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-18dbede3",
+                "component_name": "单返回值",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-83cccd8a",
+                "component_name": "多返回值与元组解包",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d05b5cff",
+                "component_name": "无返回值与None",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6af5be82",
+                "component_name": "return与print的区别",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-2939ad49",
+        "block_name": "Python函数进阶特性",
+        "points": [
+          {
+            "point_id": "point-91613bd2",
+            "point_name": "可变参数与关键字可变参数",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-4e4085a7",
+                "component_name": "*args可变位置参数",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f4eac886",
+                "component_name": "**kwargs可变关键字参数",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9a20234b",
+                "component_name": "多类型参数组合顺序规则",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-201a9e67",
+            "point_name": "变量作用域规则",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-ffe87762",
+                "component_name": "局部变量",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f634fce9",
+                "component_name": "全局变量",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9a40cb82",
+                "component_name": "global关键字",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a99e61b5",
+                "component_name": "nonlocal关键字",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6e9eb856",
+                "component_name": "LEGB作用域规则",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-3e67f52c",
+            "point_name": "lambda匿名函数",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-e364303c",
+                "component_name": "lambda语法规则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2810acd9",
+                "component_name": "lambda常用应用场景",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-dad2e83a",
+                "component_name": "lambda与普通函数的区别",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-2f0b7299",
+            "point_name": "闭包",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-ddf15250",
+                "component_name": "闭包的定义条件",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-34cf0fc3",
+                "component_name": "闭包的核心作用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d1b46e9d",
+                "component_name": "闭包变量引用陷阱",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-352ad6aa",
+            "point_name": "装饰器基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-044bbc68",
+                "component_name": "函数作为一等对象",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-eba4838d",
+                "component_name": "装饰器原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-091dada2",
+                "component_name": "简单装饰器编写",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b146dbbf",
+                "component_name": "带参数装饰器",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-05449588",
+                "component_name": "多个装饰器堆叠规则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9e968afa",
+                "component_name": "functools.wraps的作用",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-aa4f18af",
+            "point_name": "生成器函数",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-13b9cc2b",
+                "component_name": "yield关键字用法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1cca438c",
+                "component_name": "生成器与普通函数的区别",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cd950e62",
+                "component_name": "生成器惰性计算特性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ce804099",
+                "component_name": "send()方法使用",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-21645339",
+        "block_name": "Python函数高级应用",
+        "points": [
+          {
+            "point_id": "point-ceb543ba",
+            "point_name": "递归函数",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-db2808d2",
+                "component_name": "递归的定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-dc71186d",
+                "component_name": "递归基例与递归链条",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-00d9b1be",
+                "component_name": "递归常见案例实现",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1f67db06",
+                "component_name": "Python递归深度限制",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-3855f5fd",
+            "point_name": "常用高阶函数",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-3a46ad9a",
+                "component_name": "一等函数概念",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6644c320",
+                "component_name": "map()函数用法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f28b5613",
+                "component_name": "filter()函数用法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-de9d374d",
+                "component_name": "sorted()的key参数应用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-26f9d916",
+                "component_name": "functools.reduce()用法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-b21f9307",
+            "point_name": "偏函数",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-48c9af6b",
+                "component_name": "functools.partial语法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ae5d19e5",
+                "component_name": "偏函数应用场景",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-97ff08c7",
+            "point_name": "函数式编程基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-b63da798",
+                "component_name": "纯函数概念",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a7ae0384",
+                "component_name": "函数柯里化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-88043b07",
+                "component_name": "函数式编程核心思想",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-1d64d7d9",
+        "block_name": "Python函数调试与最佳实践",
+        "points": [
+          {
+            "point_id": "point-e8eed892",
+            "point_name": "函数常见错误与调试",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-e0f5c0e9",
+                "component_name": "参数不匹配异常",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4db3c0c3",
+                "component_name": "作用域相关错误",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c64361c0",
+                "component_name": "递归栈溢出错误",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c703fdbb",
+                "component_name": "函数logging调试方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3266afb5",
+                "component_name": "pdb函数调试方法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-4d7e8ed3",
+            "point_name": "函数编写规范与最佳实践",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-e76565d2",
+                "component_name": "函数单一职责原则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bab70f6a",
+                "component_name": "函数命名规范",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-421022de",
+                "component_name": "函数参数个数设计原则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-06fa4334",
+                "component_name": "文档字符串(docstring)编写",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-72a9a49a",
+                "component_name": "函数类型注解(typing模块)用法",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "saved_at": "2026-05-11T09:17:02.478164"
+}

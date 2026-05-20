@@ -46,22 +46,35 @@ L1 知识板块 → L2 知识点 → L3 知识组件
 - L2：每个L1下拆分为若干核心知识点
 - L3：每个L2下拆到最小学习组件，不可再拆分，是可单次学习、单次刷题、单次测评的最小单元
 
-2. 必须输出内容包含：
+2. 重点知识点标注标准（is_key_point）
+- **核心隐喻**：重点知识点是这个主题的"承重墙"——没有它，整个知识体系会坍塌
+- **标注原则**：极少数知识点才是承重墙，大部分知识点是"填充墙"
+- **严格判断标准**（必须同时满足以下2条以上才可标为重点）：
+  ① 移除后，后续大量知识点（半数以上）失去学习基础
+  ② 它是这个主题最底层的基石概念，其他知识点建立在它之上
+  ③ 不掌握它，整个知识体系无法成立
+- **比例约束**：重点知识点数量应控制在总知识点数的 25%-35% 左右
+- **反例**（以下情况不应标为重点）：
+  - 仅仅是"有用"或"重要"的知识点
+  - 仅仅是某个子领域的入口，而非全局基石
+  - 可以通过实践自然掌握，不需要专门重点学习的知识点
+- **注意事项**：
+  - 不要把"重要"和"重点"混淆，大多数知识点都重要，但只有承重墙级别的才是重点
+  - 如果一个主题有10个知识点，重点知识点应该只有3个左右
+  - 宁缺毋滥，重点知识点应该让学习者一眼就知道"这是整个体系的基石"
+
+3. 难度标注标准（difficulty）
+- **easy**：概念直观，容易理解，学习时间短
+- **medium**：需要一定理解和练习，学习时间适中
+- **hard**：概念抽象或复杂，需要大量练习和巩固
+
+4. 必须输出内容包含：
 ① 该学习主题 全景知识版图总览（文字树形大图）
 ② 完整三层结构化列表 L1→L2→L3
-③ 梳理所有知识点前置依赖关系
-④ 生成最优线性学习路径（按先后顺序，循序渐进）
-⑤ 配套精细化评估体系：
-   - L3组件掌握度自评维度
-   - L2知识点阶段考核标准
-   - L1板块结业评估标准
-   - 薄弱点定位、查漏补缺建议
 
-3. 输出格式：
+5. 输出格式：
 - 先总览全景版图
 - 再分层级结构化罗列
-- 再单独给出学习路径路线图
-- 最后给出完整评估&测评方案
 
 现在学习主题为：【{topic}】
 
@@ -86,65 +99,109 @@ L1 知识板块 → L2 知识点 → L3 知识组件
   ]
 }}"""
 
-    EXPLAIN_PROMPT = """请以专业知识向导的身份，为我精讲单个知识点，遵循以下固定讲解结构：
-1. 先用一句通俗人话，给知识点下定义，讲清它核心是什么、解决什么问题
-2. 再讲底层本质原理，挖到深度层面，不只讲表面
-3. 给出极简入门示例 + 实操案例
-4. 拆解核心/结构/组成要素，逐条解释每一部分作用
-5. 对比易混淆知识点，做异同区分，帮我避坑
-6. 列出新手高频错误、典型误区
-7. 给出适用场景、什么时候该用、什么时候不该用
-8. 最后总结一句核心口诀，方便记忆
-讲解风格：由浅入深、先直觉再原理、再落地实操，不用晦涩术语，必要时用生活化类比，结构清晰、分层讲解。
-现在要讲解的知识点：【{knowledge}】"""
 
-    EXERCISE_PROMPT = """你是一位资深的技术面试官和实战导师，专注于生成高质量、有深度的实操性练习题。
+    EXPLAIN_JSON_PROMPT = """=== 知识向导 ===
+=== 你的角色 ===
+一位深谙学习之道的引路人。你知道每个领域都有其隐秘的入口，也知道初学者最容易在哪里迷失。
+
+=== 核心使命 ===
+为渴望理解【{topic_name}】的探索者点亮第一盏灯。不是给他们一张地图，而是让他们看懂这片土地的纹理。
+
+=== 价值序列 ===
+可理解性 > 完整性
+实用性 > 系统性
+激发兴趣 > 灌输知识
+建立信心 > 展示深度
+
+请以专业知识向导的身份，为我精讲单个知识，严格按以下7个维度输出结构化讲解内容：
+
+## 目标知识信息
+- 知识主题：{topic_name}
+- 知识：{component_name}
+
+请基于以上知识体系上下文进行讲解，确保内容与知识主题的范围一致，深度和广度适配该知识组件的定位。
+
+## 维度说明
+1. definition - 通俗定义：用一句通俗人话，给知识组件下定义，讲清它核心是什么、解决什么问题
+2. principle - 底层原理：讲底层本质原理，挖到深度层面，不只讲表面
+3. example - 入门示例：给出极简入门示例和实操案例
+4. structure - 核心拆解：拆解核心/结构/组成要素，逐条解释每一部分作用
+5. comparison - 易混对比：对比易混淆知识点，做异同区分，帮我避坑
+6. mistake - 常见错误：列出新手高频错误、典型误区
+7. scenario - 适用场景：给出适用场景、什么时候该用、什么时候不该用
+
+讲解风格：由浅入深、先直觉再原理、再落地实操，不用晦涩术语，必要时用生活化类比。
+
+请严格按照以下JSON格式输出（只输出JSON，不要输出其他内容）：
+{{
+  "sections": [
+    {{
+      "type": "definition",
+      "title": "通俗定义",
+      "icon": "💡",
+      "content": "定义内容..."
+    }},
+    {{
+      "type": "principle",
+      "title": "底层原理",
+      "icon": "🔬",
+      "content": "原理内容..."
+    }},
+    {{
+      "type": "example",
+      "title": "入门示例",
+      "icon": "📝",
+      "content": "示例内容..."
+    }},
+    {{
+      "type": "structure",
+      "title": "核心拆解",
+      "icon": "🔧",
+      "content": "拆解内容..."
+    }},
+    {{
+      "type": "comparison",
+      "title": "易混对比",
+      "icon": "⚖️",
+      "content": "对比内容..."
+    }},
+    {{
+      "type": "mistake",
+      "title": "常见错误",
+      "icon": "⚠️",
+      "content": "错误内容..."
+    }},
+    {{
+      "type": "scenario",
+      "title": "适用场景",
+      "icon": "🎯",
+      "content": "场景内容..."
+    }},
+  ]
+}}"""
+
+    EXERCISE_PROMPT = """你是一位实战导师，专注于生成有针对性、注重实操的练习题。
 
 ## 核心任务
 每次只生成**一道**练习题，必须满足以下标准：
 
 ### 难度要求
-- 高级难度：不是基础概念背诵，而是需要综合运用多个知识点
-- 场景复杂：涉及真实业务场景中的多维度问题
-- 陷阱设计：包含容易忽略的细节或常见误区
+- 中等难度：围绕当前知识点的核心概念和应用场景
+- 场景贴合：基于实际工作/项目中的常见问题
+- 循序渐进：帮助学员巩固理解、学以致用
 
 ### 实操性要求
 - 真实场景：基于实际工作/项目中的真实问题改编
 - 可执行：学员可以动手实践验证答案
-- 工具/技术明确：涉及具体的技术栈、工具或框架
 
 ### 实用性要求
 - 解决痛点：针对实际工作中常见难题
 - 经验沉淀：考察最佳实践和工程化思维
 - 举一反三：学完后能应用到类似场景
 
-## 题目类型（随机选择一种）
-
-### 1. 故障排查类
-场景：描述一个复杂的生产环境问题，给出症状描述、日志片段或监控信息，包含多个可能的原因线索，需要系统性分析才能定位根因。
-方向：性能瓶颈分析、分布式系统一致性问题、并发竞争或死锁问题、数据异常或丢失问题。
-
-### 2. 方案设计类
-场景：给定业务需求和技术约束，需要权衡多个技术选型，考虑性能、可用性、扩展性、成本，需要给出架构设计或核心代码。
-方向：高并发系统架构设计、数据一致性保障方案、海量数据存储/查询优化、微服务拆分与治理。
-
-### 3. 代码优化类
-场景：给出一段有问题的代码或低效实现，代码能运行但存在隐患或性能问题，需要指出3个以上改进点并给出重构代码。
-方向：算法复杂度优化、内存泄漏/资源未释放、并发安全问题、SQL/查询性能优化。
-
-### 4. 安全攻防类
-场景：描述一个安全漏洞或攻击场景，需要理解攻击原理和利用条件，给出防御方案和修复代码，考虑纵深防御策略。
-方向：Web安全漏洞、加密/签名方案设计、API安全防护、数据脱敏与隐私保护。
-
-### 5. 工程实践类
-场景：给出一个工程化场景和挑战，涉及DevOps/CI/CD/监控/测试等实践，需要设计完整的流程或脚本，考虑可维护性和自动化。
-方向：自动化部署流水线设计、监控告警体系搭建、测试策略与质量保障、容灾备份与恢复方案。
-
 ## 出题原则
 1. 一题一练：每次只输出一道题，确保质量
-2. 场景新鲜：避免经典面试题，使用真实案例改编
-3. 答案开放：允许有多个合理答案，鼓励深度思考
-4. 紧跟趋势：涉及云原生、AI工程、现代架构等前沿技术
+2. 难度适中：围绕当前知识点的核心概念，帮助学员巩固理解
 
 ## 禁止事项
 - 基础概念题（如"什么是RESTful"）
@@ -152,11 +209,11 @@ L1 知识板块 → L2 知识点 → L3 知识组件
 - 简单选择题或判断题
 - 脱离实际的手写算法题
 
-## 当前知识点信息
-- 知识点：{knowledge}
-- 所属板块：{block}
+## 目标知识信息
+- 知识主题：{topic_name}
+- 知识：{component_name}
 
-请根据以上知识点，生成一道符合标准的高质量实操性问答题。
+请根据以上信息，生成一道针对当前知识的练习题。
 
 请严格按照以下JSON格式输出（只输出JSON，不要其他内容）：
 {{
@@ -164,43 +221,56 @@ L1 知识板块 → L2 知识点 → L3 知识组件
     {{
       "id": "q-1",
       "type": "practical_qa",
-      "category": "故障排查/方案设计/代码优化/安全攻防/工程实践",
       "content": "完整的题目描述，包含场景背景、约束条件、具体问题",
-      "hints": ["提示1：考察方向", "提示2：关键思路", "提示3：易错点"],
-      "reference_answer": "详细的参考答案，包含核心结论、分析过程、最佳实践",
-      "key_points": ["考察的知识点1", "考察的知识点2", "考察的知识点3"],
-      "difficulty": "hard"
+      "difficulty": "medium"
     }}
   ]
 }}"""
 
     GRADE_PROMPT = """你是一位专业的教师，请批改学生的练习答案。
 
-知识点：{knowledge}
+知识主题：{topic_name}
+知识点：{point_name}
 
-学生的答案：
-{answers}
+题目：
+{question_content}
 
-请按以下JSON格式输出批改结果（只输出JSON）：
+学生答案：
+{user_answer}
+
+请按以下JSON格式输出批改结果（只输出JSON，不要输出其他内容）：
 {{
-  "total_score": 100,
-  "correct_count": 3,
-  "total_count": 5,
-  "details": [
-    {{"question_id": "q-1", "is_correct": true, "user_answer": "A", "correct_answer": "A"}},
-    {{"question_id": "q-2", "is_correct": false, "user_answer": "B", "correct_answer": "A"}}
-  ],
-  "feedback": "整体评价和改进建议"
+  "is_correct": true,
+  "user_answer": "学生的答案原文",
+  "correct_answer": "如果学生答错，给出正确答案；如果答对，填空字符串",
+  "error_analysis": "如果学生答错，指出答案中什么地方出错、为什么错；如果答对，填空字符串",
+  "feedback": "对该题回答的整体评价和改进建议"
 }}"""
 
-    QA_PROMPT = """你是一位耐心的AI学习助手。用户正在学习一个知识点，请针对用户的问题给出清晰、准确的回答。
-回答要求：
-- 通俗易懂，避免过于专业的术语
-- 适当举例说明
-- 如果问题与当前知识点相关，结合知识点内容回答
-- 回答简洁，不超过300字
+    EXPLAIN_PROMPT = """=== 知识向导 ===
+=== 你的角色 ===
+一位深谙学习之道的引路人。你知道每个领域都有其隐秘的入口，也知道初学者最容易在哪里迷失。
 
-用户问题：{question}"""
+=== 核心使命 ===
+为渴望理解【{knowledge}】的探索者点亮第一盏灯。不是给他们一张地图，而是让他们看懂这片土地的纹理。
+
+=== 价值序列 ===
+可理解性 > 完整性
+实用性 > 系统性
+激发兴趣 > 灌输知识
+建立信心 > 展示深度
+
+讲解风格：由浅入深、先直觉再原理、再落地实操，不用晦涩术语，必要时用生活化类比。
+
+请为我详细讲解【{knowledge}】这个知识概念，包括：
+1. 通俗定义：用一句通俗人话，讲清它核心是什么、解决什么问题
+2. 底层原理：讲底层本质原理，挖到深度层面，不只讲表面
+3. 入门示例：给出极简入门示例和实操案例
+4. 核心拆解：拆解核心/结构/组成要素，逐条解释每一部分作用
+5. 易混对比：对比易混淆知识点，做异同区分，帮我避坑
+6. 常见错误：列出新手高频错误、典型误区
+7. 适用场景：给出适用场景、什么时候该用、什么时候不该用
+"""
 
     # ==================== 核心方法 ====================
 
@@ -221,7 +291,100 @@ L1 知识板块 → L2 知识点 → L3 知识组件
             system_prompt="你是一位专业的教育内容生成专家，擅长结构化知识体系搭建。请只输出JSON，不要输出其他内容。",
             max_tokens=8000
         )
-        return self._parse_json(result)
+        data = self._parse_json(result)
+        # 后处理：校验并调整重点知识点比例
+        return self._validate_and_adjust_key_points(data)
+
+    def _validate_and_adjust_key_points(self, data: dict) -> dict:
+        """
+        校验并调整重点知识点比例
+        
+        目标比例：25%-35%
+        如果超出范围，按重要性排序，保留最核心的知识点为重点
+        """
+        if "blocks" not in data:
+            return data
+        
+        # 收集所有知识点
+        all_points = []
+        for block in data["blocks"]:
+            if "points" not in block:
+                continue
+            for point in block["points"]:
+                all_points.append({
+                    "block": block,
+                    "point": point
+                })
+        
+        if not all_points:
+            return data
+        
+        total_points = len(all_points)
+        key_points_count = sum(1 for item in all_points if item["point"].get("is_key_point", False))
+        current_ratio = key_points_count / total_points if total_points > 0 else 0
+        
+        # 目标比例范围：25%-35%
+        min_ratio = 0.25
+        max_ratio = 0.35
+        target_ratio = 0.30  # 目标30%
+        
+        # 如果比例在合理范围内，不做调整
+        if min_ratio <= current_ratio <= max_ratio:
+            logger.info(f"重点知识点比例 {current_ratio:.1%} 在合理范围内")
+            return data
+        
+        # 计算目标数量（四舍五入，至少1个，最多不超过总数的25%）
+        target_count = max(1, min(int(total_points * target_ratio + 0.5), int(total_points * max_ratio)))
+        
+        logger.info(f"调整重点知识点数量：{key_points_count} -> {target_count}（总数：{total_points}）")
+        
+        # 如果当前重点太多，需要减少
+        if key_points_count > target_count:
+            # 按难度排序，优先保留 hard 和 medium 难度的重点知识点
+            # difficulty 优先级：hard > medium > easy
+            difficulty_priority = {"hard": 3, "medium": 2, "easy": 1}
+            
+            # 获取所有当前重点知识点及其优先级
+            key_points_with_priority = []
+            for item in all_points:
+                point = item["point"]
+                if point.get("is_key_point", False):
+                    difficulty = point.get("difficulty", "medium")
+                    priority = difficulty_priority.get(difficulty, 2)
+                    key_points_with_priority.append({
+                        "item": item,
+                        "priority": priority
+                    })
+            
+            # 按优先级排序（高优先级在前）
+            key_points_with_priority.sort(key=lambda x: x["priority"], reverse=True)
+            
+            # 先将所有知识点设为非重点
+            for item in all_points:
+                item["point"]["is_key_point"] = False
+            
+            # 保留优先级最高的 target_count 个知识点为重点
+            for i, kp in enumerate(key_points_with_priority[:target_count]):
+                kp["item"]["point"]["is_key_point"] = True
+        
+        # 如果当前重点太少，需要增加
+        elif key_points_count < target_count:
+            # 获取所有非重点知识点
+            non_key_points = [item for item in all_points if not item["point"].get("is_key_point", False)]
+            
+            # 按难度排序，优先选择 hard 和 medium 难度的知识点作为重点
+            difficulty_priority = {"hard": 3, "medium": 2, "easy": 1}
+            non_key_points.sort(
+                key=lambda x: difficulty_priority.get(x["point"].get("difficulty", "medium"), 2),
+                reverse=True
+            )
+            
+            # 选择难度最高的知识点设为重点
+            need_add = target_count - key_points_count
+            for item in non_key_points[:need_add]:
+                item["point"]["is_key_point"] = True
+        
+        return data
 
     async def explain_knowledge(self, knowledge_name: str) -> str:
         """讲解单个知识点"""
@@ -232,39 +395,46 @@ L1 知识板块 → L2 知识点 → L3 知识组件
             max_tokens=4000
         )
 
-    async def generate_exercises(self, knowledge_name: str, block_name: str = "", count: int = 1) -> dict:
-        """生成练习题（每次只出一道高难度实操性问答题）"""
-        prompt = self.EXERCISE_PROMPT.format(
-            knowledge=knowledge_name,
-            block=block_name
+    async def explain_knowledge_json(self, knowledge_name: str, topic_name: str = "") -> dict:
+        """讲解单个知识组件（结构化JSON输出，含知识体系上下文）"""
+        prompt = self.EXPLAIN_JSON_PROMPT.format(
+            component_name=knowledge_name,
+            topic_name=topic_name or "未知主题",
         )
         result = await self._llm_client.generate(
             prompt,
-            system_prompt="你是一位资深的技术面试官和实战导师，专注于生成高难度、实操性、实用性的问答题。每次只出一道题，确保质量。",
+            system_prompt="你是一位专业的教育内容生成专家，擅长深入浅出地讲解知识。请只输出JSON，不要输出其他内容。",
             max_tokens=4000
         )
         return self._parse_json(result)
 
-    async def grade_answers(self, knowledge_name: str, answers_text: str) -> dict:
-        """批改练习答案"""
-        prompt = self.GRADE_PROMPT.format(knowledge=knowledge_name, answers=answers_text)
+    async def generate_exercises(self, component_name: str, topic_name: str = "", count: int = 1) -> dict:
+        """生成练习题（每次只出一道中等难度实操性问答题，基于具体知识组件）"""
+        prompt = self.EXERCISE_PROMPT.format(
+            component_name=component_name,
+            topic_name=topic_name or "未知主题"
+        )
+        result = await self._llm_client.generate(
+            prompt,
+            system_prompt="你是一位实战导师，专注于生成中等难度、注重实操的练习题，帮助学员巩固理解、学以致用。每次只出一道题，确保质量。",
+            max_tokens=4000
+        )
+        return self._parse_json(result)
+
+    async def grade_answers(self, topic_name: str, point_name: str, question_content: str, user_answer: str) -> dict:
+        """批改练习答案（单题）"""
+        prompt = self.GRADE_PROMPT.format(
+            topic_name=topic_name,
+            point_name=point_name,
+            question_content=question_content,
+            user_answer=user_answer
+        )
         result = await self._llm_client.generate(
             prompt,
             system_prompt="你是一位专业的教育批改专家，擅长分析学生答案并给出精准反馈。",
             max_tokens=2000
         )
         return self._parse_json(result)
-
-    async def answer_question(self, question: str) -> str:
-        """实时问答"""
-        prompt = self.QA_PROMPT.format(question=question)
-        return await self._llm_client.generate(
-            prompt,
-            system_prompt="你是一位专业的教育AI助手，擅长用通俗易懂的语言解答学习问题。",
-            max_tokens=1000
-        )
-
-    # ==================== 流式方法 ====================
 
     async def explain_knowledge_stream(self, knowledge_name: str):
         """流式讲解单个知识点"""
@@ -273,16 +443,6 @@ L1 知识板块 → L2 知识点 → L3 知识组件
             prompt,
             system_prompt="你是一位专业的教育内容生成专家，擅长深入浅出地讲解知识。",
             max_tokens=4000
-        ):
-            yield chunk
-
-    async def answer_question_stream(self, question: str):
-        """流式问答"""
-        prompt = self.QA_PROMPT.format(question=question)
-        async for chunk in self._llm_client.generate_stream(
-            prompt,
-            system_prompt="你是一位专业的教育AI助手，擅长用通俗易懂的语言解答学习问题。",
-            max_tokens=1000
         ):
             yield chunk
 

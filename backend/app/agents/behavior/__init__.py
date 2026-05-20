@@ -2,39 +2,12 @@
 M08 数据基础模块
 
 核心职责：
-- U-029 用户行为记录Agent：采集、清洗、存储用户行为事件
-- U-030 用户行为分析Agent：多维度分析学习行为，BKT建模
+- U-030 用户行为分析：多维度分析学习行为，BKT建模
+- U-031 记忆压缩：归档旧行为数据，生成学习摘要
 
-底层执行逻辑：
-1. 行为记录：原始事件 → 格式校验 → 数据清洗 → 去重 → 存储确认
-2. 行为分析：行为事件 → 四维度聚合 → BKT建模 → 学习画像 → 报告
-
-内存数据流转：
-行为事件 → 校验清洗 → 存储确认 / 聚合分析 → BKT计算 → 结构化报告 → 返回
-
-潜在风险：
-1. 内存泄漏：高频事件堆积（已实现批量限制+缓存上限）
-2. 逻辑漏洞：BKT参数不合理（已使用教育领域经验值）
-3. 边界条件：空数据/超大数据（已有兜底+采样）
-4. 质量风险：重复事件/分析偏差（已实现去重+多维度交叉验证）
-
-依赖：
-- app.agents.base: TaskRequest, TaskType等基础类型
-- app.agents.error_handler: 错误处理器
+注意：原 BehaviorRecordAgent（U-029）已废弃删除，
+行为记录功能由 behavior.py API endpoint 直接操作数据库实现。
 """
-
-# ============================================
-# U-029 行为记录相关模型
-# ============================================
-
-from app.agents.behavior.behavior_record import (
-    BehaviorCategory,         # 行为大类枚举
-    BehaviorAction,           # 行为动作枚举
-    BehaviorEvent,            # 行为事件
-    RecordResult,             # 记录结果
-    BehaviorRecordAgent,      # 行为记录Agent
-    record_behavior,          # 便捷函数
-)
 
 # ============================================
 # U-030 行为分析相关模型
@@ -58,17 +31,23 @@ from app.agents.behavior.behavior_analysis import (
 )
 
 # ============================================
+# U-031 记忆压缩相关模型
+# ============================================
+
+from app.agents.behavior.memory_compression import (
+    DataTemperature,            # 数据温度枚举
+    CompressionConfig,          # 压缩配置
+    DailySummary,               # 每日行为摘要
+    CompressionResult,          # 压缩结果
+    MemoryCompressionAgent,     # 记忆压缩Agent
+    compress_logs,              # 便捷函数
+)
+
+# ============================================
 # 模块元数据
 # ============================================
 
 __all__ = [
-    # U-029 行为记录
-    "BehaviorCategory",
-    "BehaviorAction",
-    "BehaviorEvent",
-    "RecordResult",
-    "BehaviorRecordAgent",
-    "record_behavior",
     # U-030 行为分析
     "ActivityLevel",
     "MasteryLevel",
@@ -84,4 +63,11 @@ __all__ = [
     "BKTParams",
     "bkt_update",
     "bkt_from_events",
+    # U-031 记忆压缩
+    "DataTemperature",
+    "CompressionConfig",
+    "DailySummary",
+    "CompressionResult",
+    "MemoryCompressionAgent",
+    "compress_logs",
 ]

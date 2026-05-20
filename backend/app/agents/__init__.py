@@ -7,6 +7,12 @@ Agent调度中心模块
 - U-017 依赖解析器 (dependency.py)
 - U-018 结果聚合器 (aggregator.py)
 - U-019 异常处理器 (error_handler.py)
+
+当前在运行时使用的Agent：
+- UnifiedTeachingAgent：统一教学Agent（知识讲解、出题、批改、问答）
+- CustomExerciseAgent：定制综合练习Agent
+- BehaviorAnalysisAgent：用户行为分析Agent
+- MemoryCompressionAgent：记忆压缩Agent
 """
 
 # 基础模型
@@ -77,97 +83,8 @@ from .error_handler import (
     get_error_handler,
 )
 
-# M04 知识处理模块
-from .knowledge import (
-    # 知识拆分
-    KnowledgeSplitAgent,
-    split_knowledge,
-    KnowledgeComponent,
-    KnowledgePoint,
-    KnowledgeBlock,
-    KnowledgeStructure,
-    # 难度标注
-    DifficultyTagAgent,
-    tag_difficulty,
-    DifficultyLevel,
-    ImportanceLevel,
-    KnowledgePointAnnotation,
-    DifficultyTagResult,
-)
-
-# M05 学习支持模块
-from .learning import (
-    # U-022 知识讲解
-    ExplanationSection,
-    ExplanationContent,
-    ContentExplainAgent,
-    explain_content,
-    # U-023 练习题生成
-    QuestionType,
-    DifficultyLevel as ExerciseDifficultyLevel,
-    QuestionOption,
-    Question,
-    ExerciseSet,
-    ExerciseGenerateAgent,
-    generate_exercise,
-    # U-024 题目批改
-    GradeQuestionType,
-    GradeResult,
-    QuestionGrade,
-    GradeReport,
-    AnswerGradeAgent,
-    grade_answers,
-    # U-025 答疑问答
-    QAQuestionType,
-    AnswerQuality,
-    RelatedKnowledge,
-    AnswerSection,
-    QAAnswer,
-    QAAnswerAgent,
-    answer_question,
-)
-
-# M06 路径规划模块
-from .path_planning import (
-    # U-026 路径规划
-    NodeStatus,
-    PathNodeType,
-    PathNode,
-    LearningPath,
-    PathPlanningAgent,
-    plan_learning_path,
-    # U-027 跳级建议
-    SkipConfidence,
-    SkipReason,
-    MasteryMetrics,
-    SkipSuggestion,
-    SkipSuggestionReport,
-    SkipSuggestAgent,
-    suggest_skip,
-)
-
-# M07 激励系统模块
-from .incentive import (
-    RewardType,
-    RewardLevel,
-    TriggerScene,
-    RewardContent,
-    Reward,
-    RewardResult,
-    RewardGenerateAgent,
-    generate_reward,
-)
-
-# M08 数据基础模块
+# M08 数据基础模块（保留：行为分析 + 记忆压缩）
 from .behavior import (
-    # U-029 行为记录
-    BehaviorCategory,
-    BehaviorAction,
-    BehaviorEvent,
-    RecordResult,
-    BehaviorRecordAgent,
-    record_behavior,
-    # U-030 行为分析
     ActivityLevel,
     MasteryLevel,
     TimeAnalysis,
@@ -182,6 +99,12 @@ from .behavior import (
     BKTParams,
     bkt_update,
     bkt_from_events,
+    DataTemperature,
+    CompressionConfig,
+    DailySummary,
+    CompressionResult,
+    MemoryCompressionAgent,
+    compress_logs,
 )
 
 # LLM Provider 多模型支持
@@ -265,74 +188,7 @@ __all__ = [
     "TaskErrorHandler",
     "with_error_handling",
     "get_error_handler",
-    # M04 Knowledge
-    "KnowledgeSplitAgent",
-    "split_knowledge",
-    "KnowledgeComponent",
-    "KnowledgePoint",
-    "KnowledgeBlock",
-    "KnowledgeStructure",
-    "DifficultyTagAgent",
-    "tag_difficulty",
-    "DifficultyLevel",
-    "ImportanceLevel",
-    "KnowledgePointAnnotation",
-    "DifficultyTagResult",
-    # M05 Learning
-    "ExplanationSection",
-    "ExplanationContent",
-    "ContentExplainAgent",
-    "explain_content",
-    "QuestionType",
-    "ExerciseDifficultyLevel",
-    "QuestionOption",
-    "Question",
-    "ExerciseSet",
-    "ExerciseGenerateAgent",
-    "generate_exercise",
-    "GradeQuestionType",
-    "GradeResult",
-    "QuestionGrade",
-    "GradeReport",
-    "AnswerGradeAgent",
-    "grade_answers",
-    "QAQuestionType",
-    "AnswerQuality",
-    "RelatedKnowledge",
-    "AnswerSection",
-    "QAAnswer",
-    "QAAnswerAgent",
-    "answer_question",
-    # M06 Path Planning
-    "NodeStatus",
-    "PathNodeType",
-    "PathNode",
-    "LearningPath",
-    "PathPlanningAgent",
-    "plan_learning_path",
-    "SkipConfidence",
-    "SkipReason",
-    "MasteryMetrics",
-    "SkipSuggestion",
-    "SkipSuggestionReport",
-    "SkipSuggestAgent",
-    "suggest_skip",
-    # M07 Incentive
-    "RewardType",
-    "RewardLevel",
-    "TriggerScene",
-    "RewardContent",
-    "Reward",
-    "RewardResult",
-    "RewardGenerateAgent",
-    "generate_reward",
     # M08 Behavior
-    "BehaviorCategory",
-    "BehaviorAction",
-    "BehaviorEvent",
-    "RecordResult",
-    "BehaviorRecordAgent",
-    "record_behavior",
     "ActivityLevel",
     "MasteryLevel",
     "TimeAnalysis",
@@ -347,6 +203,12 @@ __all__ = [
     "BKTParams",
     "bkt_update",
     "bkt_from_events",
+    "DataTemperature",
+    "CompressionConfig",
+    "DailySummary",
+    "CompressionResult",
+    "MemoryCompressionAgent",
+    "compress_logs",
     # LLM Provider
     "LLMProvider",
     "LLMResponse",

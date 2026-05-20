@@ -1,0 +1,840 @@
+{
+  "topic_text": "量化交易",
+  "topic_id": "topic-a2f4f0174d36",
+  "overview": "我会帮你一眼看懂量化交易的全貌，拿走最实用的入门认知，完全不用怕复杂术语：\n\n---\n\n### 第一步：先打破神秘感——量化交易到底是什么？\n一句话说透：**量化交易就是用系统化方法，借助计算机完成交易的「找机会、做决策、下单执行」全流程**。\n\n它既不是华尔街大佬专属的黑魔法，也不是包赚不赔的圣杯，本质就是一套比人工交易更高效、更客观的交易工具而已。\n\n---\n\n### 第二步：先回答「为什么」——我们为什么需要量化？\n它只解决人工交易两个最核心的痛点：\n1. **突破人的能力边界**：你人工同时盯10只股票就已经很累了，量化一秒可以扫描几千个品种，不会漏掉任何符合你规则的机会；\n2. **消灭情绪化错误**：你明明定好了「跌5%止损」，真跌了会扛着不止损；明明定好了「赚10%止盈」，涨了又贪心想赚更多最后回吐——量化会严格执行你的规则，不会犯这种低级错误。\n\n这就是量化的全部核心价值，没有更多花里胡哨的东西。\n\n---\n\n### 第三步：再看整片森林——量化交易永远绕不开4步流程\n整个领域，不管是千亿级对冲基金还是个人交易者，所有工作都是围绕这四件事转的，格局一目了然：\n1. **找逻辑（挖规律）**：先有一个赚钱的猜想，比如「低市盈率的股票长期比高市盈率赚得多」「均线金叉买死叉卖能赚钱」——这个猜想就是你的策略，是整个量化的根，比什么技术都重要。\n2. **做回测**：把你的逻辑放到过去十几年的历史行情里跑一遍，看看按这个规则做过去能赚多少钱、最大亏多少，相当于提前模拟考，检验方法行不行。\n3. **实盘运行**：回测过关了，就真金白银放到市场里，计算机自动下单执行，不用人工盯盘。\n4. **监控迭代**：市场永远在变，去年有效的规律今年可能就没用了，你得一直监控收益，不行就调整逻辑。\n\n就这四步，没了，所有复杂的知识都是给这四步填血肉。\n\n---\n\n### 第四步：入门必懂的3个核心常识，避免走歪\n#### 1. 核心概念说人话（不用记公式）\n- **因子**：就是你找规律用的「线索」，比如市盈率、公司市值、换手率，这些都是最常见的因子，大部分普通量化策略都是靠因子找机会。\n- **阿尔法/贝塔**：贝塔是市场本身涨跌给你带来的收益，比如大盘涨10%你也赚10%，这就是贝塔；阿尔法是你靠自己策略赚的、超出市场平均的收益，量化大多数时候就是在赚阿尔法。\n- **过拟合**：量化入门第一大坑——你把策略调得太适配历史数据了，相当于背完了过去所有的考试题，一到新的实盘考试就考砸，90%的新手都栽在这里。\n\n#### 2. 澄清两个最大误解\n- ❌ 误解1：量化很高深，必须会机器学习高等数学，只有大机构能玩。  \n  ✅ 事实：最简单的低市盈率选股逻辑，小学生都能懂，用国内免费的在线量化平台，不用自己搭复杂环境，几千块起步就能做，个人交易者完全可以玩。\n- ❌ 误解2：量化就是稳赚不赔。  \n  ✅ 事实：量化只是帮你执行规则、捕捉更多机会，它不能消灭风险，如果你的逻辑本身就是错的，量化只会让你亏得更快。\n\n#### 3. 最重要的排序\n**交易逻辑 > 工具/技术**。很多新手搞反了，上来就学深度学习、啃复杂数学，其实量化赚钱的核心是你找的规律对不对、你对市场的理解对不对，工具只是帮你实现逻辑而已。\n\n---\n\n### 第五步：零起点入门路径，给你清晰方向\n不用乱学，按这个顺序走，2个月就能摸到量化的门：\n1. **第一步（0-1个月）：先搞懂交易本身**  \n如果你连股票/期货是什么、怎么交易都不清楚，先开个模拟盘做1-2个月人工交易，搞懂市场是怎么运转的、你要赚的是什么钱，再碰量化——不要没学会走路就跑。\n\n2. **第二步（1-4周）：工具入门**  \n不用读四年计算机，只要学会：Python基础语法 + 会用pandas处理表格数据，之后直接用国内免费的在线量化平台（聚宽、米筐、优矿都有免费额度），不用自己搭环境，上来就能用；不想学编程，部分平台支持零代码拖放写策略，也能玩。\n\n3. **第三步（1-2个月）：从最简单的策略练手**  \n别上来搞花里胡哨的，就做两个经典策略练手：①均线择时策略 ②低市盈率选股策略，自己跑回测、调参数、找坑，走完这一遍，你就已经对量化有真实体感了，超过一半的入门新手。\n\n4. **第四步：选你的进阶方向**\n- 如果想做个人交易者赚收益：深耕中低频因子策略，优化风险控制，慢慢迭代出自己的稳定策略就行，很多个人交易者靠简单策略就能获得不错的收益；\n- 如果想进量化机构工作：再补高等数学、线性代数、机器学习这些知识，往多因子模型、指数增强、算法交易这些方向深耕。\n\n---\n\n### 最后给你信心\n量化交易一点都不遥不可及，它本质就是把你对交易的思考系统化，只要你有基础的逻辑能力、愿意动手练，完全可以入门。不用一开始就被复杂术语吓到，先走完前面三步，你就已经拥有这个领域的清晰方向感了。",
+  "structure": {
+    "blocks": [
+      {
+        "block_id": "block-0c9ae305",
+        "block_name": "L1 基础理论与前置知识",
+        "points": [
+          {
+            "point_id": "point-b24f882f",
+            "point_name": "L2 金融市场基础知识",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-97ee9eb2",
+                "component_name": "金融市场分类与结构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8086caef",
+                "component_name": "订单类型与交易规则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d5e5a23c",
+                "component_name": "常见交易标的属性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-24da5002",
+                "component_name": "交易时段与交割规则",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-17d45fca",
+            "point_name": "L2 数学统计基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-09c27e8d",
+                "component_name": "微积分基础",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-68a42deb",
+                "component_name": "线性代数基础",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a0b44dca",
+                "component_name": "常见概率分布",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e15b4445",
+                "component_name": "统计推断与假设检验",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7c36f622",
+                "component_name": "时间序列分析基础",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-22d69977",
+            "point_name": "L2 Python编程基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-c8126600",
+                "component_name": "Python基础语法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-28bf308c",
+                "component_name": "Numpy数值计算",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ffe71443",
+                "component_name": "Pandas数据处理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bc8e685e",
+                "component_name": "Matplotlib数据可视化",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-861fd56f",
+            "point_name": "L2 量化交易核心概念",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-d99a8292",
+                "component_name": "量化交易定义与分类",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f64f57d5",
+                "component_name": "量化交易完整流程",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ae0e9691",
+                "component_name": "交易频率分类",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7013a6d3",
+                "component_name": "市场微观结构基础",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-9b543370",
+        "block_name": "L1 量化数据工程",
+        "points": [
+          {
+            "point_id": "point-37dfe595",
+            "point_name": "L2 数据获取",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-4d645ff9",
+                "component_name": "公开免费数据源",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0c0aefd3",
+                "component_name": "付费商业数据源",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e8bdaffb",
+                "component_name": "另类数据源介绍",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6798dee6",
+                "component_name": "API接口调用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-af718201",
+                "component_name": "网页爬虫基础",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-27ac4be6",
+            "point_name": "L2 数据清洗与预处理",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-77e445e0",
+                "component_name": "缺失值处理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c009059c",
+                "component_name": "异常值处理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3eab7f67",
+                "component_name": "复权除权处理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cf0de5b1",
+                "component_name": "数据标准化/归一化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-996035f0",
+                "component_name": "数据对齐拼接",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-076e624c",
+            "point_name": "L2 数据存储与管理",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-ccb9e055",
+                "component_name": "结构化数据存储",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f4deb72f",
+                "component_name": "行情数据库搭建",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f694d368",
+                "component_name": "增量数据更新维护",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-eb20470a",
+        "block_name": "L1 核心量化策略开发",
+        "points": [
+          {
+            "point_id": "point-463b95b3",
+            "point_name": "L2 趋势跟踪策略",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-cdedd78e",
+                "component_name": "移动均线策略",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d0c33bc6",
+                "component_name": "MACD趋势策略",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-91b22145",
+                "component_name": "布林带趋势策略",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a1b08e2f",
+                "component_name": "海龟交易法则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-46ff8e0f",
+                "component_name": "多因子趋势过滤",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-94274ac8",
+            "point_name": "L2 均值回复与统计套利策略",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-8d70dc2c",
+                "component_name": "协整检验方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-dbcde4bd",
+                "component_name": "成对交易策略",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8147282d",
+                "component_name": "多资产统计套利",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2511d67d",
+                "component_name": "布林带均值回复",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-c61fe0d3",
+            "point_name": "L2 多因子选股策略",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-3c460fe6",
+                "component_name": "因子构造方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-293bd721",
+                "component_name": "因子IC/IR测试",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1c2da4aa",
+                "component_name": "因子正交化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cd53ddb5",
+                "component_name": "因子加权方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-76b54373",
+                "component_name": "投资组合构建",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-ec708790",
+            "point_name": "L2 指数增强策略",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-ce2d73cc",
+                "component_name": "基准指数构建",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9a5c8c83",
+                "component_name": "风格中性化处理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-876f78a0",
+                "component_name": "超额收益目标设定",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c9271f5c",
+                "component_name": "定期调仓规则",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-dfa00d3f",
+            "point_name": "L2 期权量化策略",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-b6bcfdb6",
+                "component_name": "BSM期权定价模型",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-dd9ee51c",
+                "component_name": "波动率套利",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-05f9cad0",
+                "component_name": "希腊值动态对冲",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1e7750be",
+                "component_name": "备兑开仓策略",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-e012862f",
+            "point_name": "L2 高频做市策略",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-42e1d523",
+                "component_name": "挂单报价逻辑",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a26fba1f",
+                "component_name": "存货风险控制",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0ad5c112",
+                "component_name": "延迟处理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9fdd1fef",
+                "component_name": "流动性提供策略",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-e2da433c",
+        "block_name": "L1 策略回测与绩效优化",
+        "points": [
+          {
+            "point_id": "point-3a0db99a",
+            "point_name": "L2 回测框架基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-622ae1af",
+                "component_name": "回测基本原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1aea7e26",
+                "component_name": "主流回测框架使用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-16d1ad75",
+                "component_name": "自定义回测编写",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-2780771b",
+            "point_name": "L2 回测偏差控制",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-075d13f5",
+                "component_name": "前视偏差避免",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b526ff02",
+                "component_name": "幸存者偏差避免",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-91d78ad0",
+                "component_name": "交易成本估算",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0b659fa1",
+                "component_name": "过拟合预防",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-0160c777",
+            "point_name": "L2 策略绩效评估",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-9cd51017",
+                "component_name": "收益类指标计算",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3c7e57b5",
+                "component_name": "风险类指标计算",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8fa9cf19",
+                "component_name": "胜率盈亏比分析",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9c5ad43b",
+                "component_name": "收益曲线分析",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-a95e017d",
+            "point_name": "L2 策略优化方法",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-63f87277",
+                "component_name": "参数网格搜索",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e4032d42",
+                "component_name": "贝叶斯优化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-70292e00",
+                "component_name": "样本外测试",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e2b243fe",
+                "component_name": "滚动窗口分析",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-f1bf209b",
+        "block_name": "L1 实盘交易系统落地",
+        "points": [
+          {
+            "point_id": "point-3402688c",
+            "point_name": "L2 券商接口对接",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-7633784f",
+                "component_name": "公开API对接",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e40e15fd",
+                "component_name": "订单发送与查询",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-05007db6",
+                "component_name": "实盘滑点处理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-613936c7",
+                "component_name": "异步订单管理",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-dfc6ae0e",
+            "point_name": "L2 资金管理规则",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-1f8c67dd",
+                "component_name": "仓位计算方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6dc815c3",
+                "component_name": "凯利公式应用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5b798829",
+                "component_name": "止损止盈规则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6b9a2cef",
+                "component_name": "动态仓位调整",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-c44856e0",
+            "point_name": "L2 交易系统架构设计",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-bdc01838",
+                "component_name": "模块化架构设计",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-83ef6cfb",
+                "component_name": "日志系统搭建",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-08eed1eb",
+                "component_name": "监控告警配置",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7b898aef",
+                "component_name": "故障自动恢复",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-ab7cce1f",
+            "point_name": "L2 算法交易执行",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-7d91a687",
+                "component_name": "VWAP执行算法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ab70716a",
+                "component_name": "TWAP执行算法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-838a2c5a",
+                "component_name": "冲击成本模型",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b50b1697",
+                "component_name": "大单拆分策略",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-bb81e637",
+        "block_name": "L1 风险管理与合规",
+        "points": [
+          {
+            "point_id": "point-68069a99",
+            "point_name": "L2 量化交易常见风险类型",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-5b10d278",
+                "component_name": "市场风险",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8c473623",
+                "component_name": "模型风险",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-830d468b",
+                "component_name": "操作风险",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6eaeb4fb",
+                "component_name": "流动性风险",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-2dd8ab27",
+            "point_name": "L2 风险度量与控制方法",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-0da484af",
+                "component_name": "VaR风险度量",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-37a3cc22",
+                "component_name": "压力测试",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-671f722f",
+                "component_name": "风险限额设置",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-51ddd41f",
+                "component_name": "动态对冲方法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-3d35a4ec",
+            "point_name": "L2 合规监管要求",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-49b4ac18",
+                "component_name": "境内量化监管规则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b354e2d4",
+                "component_name": "境外量化监管规则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b240adac",
+                "component_name": "合规风控流程",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-2019111d",
+        "block_name": "L1 进阶量化专题",
+        "points": [
+          {
+            "point_id": "point-995e0d32",
+            "point_name": "L2 机器学习量化应用",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-ba21dda5",
+                "component_name": "有监督学习选股",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-714ef028",
+                "component_name": "聚类算法板块轮动",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f4d53aff",
+                "component_name": "强化学习策略优化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0355dc78",
+                "component_name": "深度学习价格预测",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-c04a1324",
+            "point_name": "L2 量化CTA策略",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-93af244c",
+                "component_name": "商品期货基础特性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7e942e45",
+                "component_name": "CTA趋势策略",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4a089451",
+                "component_name": "CTA跨期套利",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7365791e",
+                "component_name": "保证金管理",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-36ecdf9b",
+            "point_name": "L2 另类数据应用",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-58b48273",
+                "component_name": "舆情因子构建",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0d22e1b0",
+                "component_name": "另类数据源处理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ad2ce739",
+                "component_name": "另类因子回测",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "saved_at": "2026-05-17T00:18:36.473641"
+}

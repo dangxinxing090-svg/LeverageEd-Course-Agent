@@ -149,7 +149,7 @@
 /* ===== 主内容区 ===== */
 .app-main {
   flex: 1;
-  padding: 2rem;
+  padding: 1.5rem;
   background-color: var(--color-bg-page);
   min-height: calc(100vh - 56px);
 }
@@ -211,37 +211,58 @@
 }
 
 .learn-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
-  gap: 1rem;
-  height: calc(100vh - 56px - 4rem);
+  display: flex;
+  flex: 1;
   overflow: hidden;
 }
 
-.learn-grid-left {
+/* 左侧 Tab 按钮栏 */
+.learn-tab-bar {
+  width: 100px;
+  background: #F8FAFC;
+  border-right: 1px solid #E2E8F0;
   display: flex;
   flex-direction: column;
-  min-height: 0;
+  padding-top: 1rem;
+}
+
+.learn-tab-btn {
+  padding: 14px 16px;
+  border: none;
+  background: transparent;
+  color: #64748B;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: left;
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease;
+  margin: 4px 0;
+}
+
+.learn-tab-btn:hover {
+  background: #EEF0FF;
+  color: #5B6CF0;
+}
+
+.learn-tab-btn.active {
+  background: #EEF0FF;
+  color: #5B6CF0;
+  border-left-color: #5B6CF0;
+  font-weight: 500;
+}
+
+/* 右侧内容区域 */
+.learn-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
-}
-
-.learn-grid-right {
-  display: flex;
-  flex-direction: column;
+  padding: 1rem;
   gap: 1rem;
-  min-height: 0;
 }
 
-/* 右侧两个面板各占50%高度 */
-.learn-grid-right > :nth-child(1) {
-  flex: 1 1 0;
-  min-height: 0;
-  overflow-y: auto;
-}
-
-.learn-grid-right > :nth-child(2) {
-  flex: 1 1 0;
+.learn-content > * {
+  flex: 1;
   min-height: 0;
   overflow-y: auto;
 }

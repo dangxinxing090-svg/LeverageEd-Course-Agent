@@ -188,6 +188,9 @@ async def jwt_auth_middleware(request: Request, call_next):
         or request.url.path.startswith("/api/v1/qa")
         or request.url.path.startswith("/api/v1/exercises")
         or request.url.path.startswith("/api/v1/skip")
+        or request.url.path.startswith("/api/v1/custom-exercise")
+        or request.url.path.startswith("/api/v1/sessions")
+        or request.url.path.startswith("/api/v1/behavior")
     )
     if is_public:
         # 公开路径，设置默认用户信息（未登录用户）

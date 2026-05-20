@@ -49,6 +49,7 @@ from .zhipu_provider import ZhipuProvider
 from .kimi_provider import KimiProvider
 from .qwen_provider import QwenProvider
 from .doubao_provider import DoubaoProvider
+from .deepseek_provider import DeepSeekProvider
 
 # Agent适配器
 from .agent_adapter import (

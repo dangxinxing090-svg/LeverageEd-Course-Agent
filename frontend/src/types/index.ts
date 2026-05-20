@@ -99,53 +99,6 @@ export interface TopicRecommendationsState {
 }
 
 // ============================================
-// U-003 答疑问答面板组件类型定义
-// ============================================
-
-// 问答输入
-export interface QAQuestionInput {
-  question: string;
-  context?: {
-    topic_id?: UUID;
-    point_id?: UUID;
-    current_content?: string;
-  };
-}
-
-// 问答输出
-export interface QAAnswerOutput {
-  answer: string;
-  related_points?: UUID[];
-  confidence: number;
-  suggested_questions?: string[];
-}
-
-// 问答消息
-export interface QAMessage {
-  id: UUID;
-  type: 'user' | 'assistant';
-  content: string;
-  timestamp: number;
-}
-
-// U-003组件Props
-export interface QAPanelProps {
-  userId?: UUID;
-  pointId: UUID;
-  onQuestionSubmit?: (question: string, answer: string) => void;
-  onError?: (error: Error) => void;
-  className?: string;
-}
-
-// U-003组件内部状态
-export interface QAPanelState {
-  messages: QAMessage[];
-  inputValue: string;
-  isLoading: boolean;
-  errorMessage: string | null;
-}
-
-// ============================================
 // U-004 知识全景页组件类型定义
 // ============================================
 
@@ -301,9 +254,17 @@ export interface LearningHistoryState {
 export type TeachingPanelAction = 'next' | 'exercise' | 'panorama';
 
 // 知识点讲解响应
+export interface ExplanationSection {
+  type: string;
+  title: string;
+  icon: string;
+  content: string;
+}
+
 export interface ExplanationResponse {
   component_id: UUID;
-  content: string;
+  content?: string;
+  sections?: ExplanationSection[];
   teaching_method: string;
 }
 
@@ -311,6 +272,7 @@ export interface ExplanationResponse {
 export interface TeachingPanelProps {
   pointId?: UUID;
   componentId?: UUID;
+  componentName?: string;
   userLevel?: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED';
   content?: string;
   teachingMethod?: string;
@@ -376,7 +338,21 @@ export interface NextPlanItem {
   difficulty: 'easy' | 'medium' | 'hard';
 }
 
-// 跳级建议
+// 跳级建议类型
+export type SkipSuggestionType = 'SUGGESTED' | 'USER_DECISION' | 'NOT_RECOMMENDED';
+
+// 跳级建议（新版本：基于重要性+难度）
+export interface ComponentSkipSuggestion {
+  componentId: string;
+  componentName: string;
+  pointName: string;
+  is_key_point: boolean;
+  difficulty: string;
+  skip_suggestion: SkipSuggestionType;
+  risk_warning: string;
+}
+
+// 跳级建议（旧版本，保留兼容）
 export interface SkipSuggestion {
   suggestion_id: UUID;
   from_point_id: UUID;
@@ -391,6 +367,7 @@ export interface LearningPath {
   completed_points: CompletedPoint[];
   next_plan: NextPlanItem[];
   skip_suggestions: SkipSuggestion[];
+  total_points?: number;
 }
 
 // U-006组件Props
@@ -401,6 +378,12 @@ export interface LearningPathPanelProps {
   onSkipSuggestionClick?: (fromPointId: UUID, toPointId: UUID) => void;
   onError?: (error: Error) => void;
   className?: string;
+  refreshKey?: number;
+  // 新增：当前组件和下一个组件的跳级建议
+  currentComponentSkipSuggestion?: ComponentSkipSuggestion;
+  nextComponentSkipSuggestion?: ComponentSkipSuggestion;
+  // 新增：跳过当前组件的回调
+  onSkipComponent?: (componentId: string) => void;
 }
 
 // U-006组件内部状态
@@ -415,7 +398,7 @@ export interface LearningPathPanelState {
 // ============================================
 
 // 题目类型
-export type QuestionType = 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE' | 'FILL_BLANK' | 'TRUE_FALSE';
+export type QuestionType = 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE' | 'FILL_BLANK' | 'TRUE_FALSE' | 'practical_qa';
 
 // 难度等级
 export type DifficultyLevel = 'EASY' | 'MEDIUM' | 'HARD';
@@ -428,6 +411,10 @@ export interface Question {
   options?: string[];
   difficulty: DifficultyLevel;
   explanation?: string;
+  hints?: string[];
+  key_points?: string[];
+  reference_answer?: string;
+  category?: string;
 }
 
 // 答案
@@ -442,11 +429,48 @@ export interface ExerciseResult {
   totalCount: number;
   correctCount: number;
   feedback?: string;
+  isCorrect?: boolean;
+  userAnswer?: string;
+  correctAnswer?: string;
+  errorAnalysis?: string;
+  questionContent?: string;
+}
+
+// 练习记录（历史）
+export interface ExerciseRecord {
+  recordId: string;
+  componentId: string;
+  componentName: string;
+  topicName: string;
+  pointName?: string;
+  questionContent: string;
+  userAnswer: string;
+  correctAnswer: string;
+  isCorrect: boolean;
+  errorAnalysis?: string;
+  feedback?: string;
+  submittedAt: string;
+}
+
+// 练习历史列表项
+export interface ExerciseHistoryItem {
+  recordId: string;
+  componentId: string;
+  componentName: string;
+  topicName: string;
+  isCorrect: boolean;
+  submittedAt: string;
+}
+
+// 练习历史响应
+export interface ExerciseHistoryResponse {
+  total: number;
+  records: ExerciseHistoryItem[];
 }
 
 // 练习题面板Props
 export interface ExercisePanelProps {
-  pointId: UUID;
+  componentId: string;  // 知识组件ID
   totalQuestions?: number;
   onComplete?: (result: ExerciseResult) => void;
   onError?: (error: string) => void;
@@ -460,4 +484,54 @@ export interface ExercisePanelState {
   submitting: boolean;
   result: ExerciseResult | null;
   error: string;
+}
+
+// ============================================
+// 定制综合练习相关类型
+// ============================================
+
+// 综合练习题
+export interface CustomQuestion {
+  question_id: string;
+  question_type: 'SINGLE_CHOICE' | 'MULTIPLE_CHOICE' | 'FILL_BLANK';
+  content: string;
+  options: string[];
+  correct_answer: string;
+  explanation: string;
+  related_points: string[];
+  difficulty: 'EASY' | 'MEDIUM' | 'HARD';
+}
+
+// 综合练习题集
+export interface CustomExerciseSet {
+  exercise_id: string;
+  questions: CustomQuestion[];
+  point_names: string[];
+  created_at: string;
+}
+
+// 批改结果
+export interface CustomGradeResult {
+  question_id: string;
+  user_answer: string;
+  is_correct: boolean;
+  score: number;
+  feedback: string;
+}
+
+// 批改报告
+export interface CustomGradeReport {
+  exercise_id: string;
+  results: CustomGradeResult[];
+  total_score: number;
+  correct_count: number;
+  total_count: number;
+  overall_feedback: string;
+}
+
+// 综合练习面板Props
+export interface CustomExercisePanelProps {
+  blocks: KnowledgeBlock[];
+  onClose?: () => void;
+  onError?: (error: string) => void;
 }

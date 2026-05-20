@@ -1,0 +1,1109 @@
+{
+  "topic_text": "C语言",
+  "topic_id": "topic-666fb66b94df",
+  "overview": "欢迎来闯C语言这片最硬核也最基础的计算机核心领地，我先带你站在高处看清整片森林，咱们不钻细碎知识点，先搞懂「为什么学」「C到底是什么」「接下来该往哪走」，帮你快速拿到入门的方向和「我能学会」的信心。\n\n---\n\n### 第一步：先回答你最关心的问题：C过时了吗？我为什么要学它？\nC绝对不是过时的老语言，反而它是计算机领域最值得你先踩实的地基：\n1. **它是所有主流语言的“源头”**：C++、Java、Go、Objective-C全都是从C衍生来的，语法逻辑、底层思路一脉相承，学会C再学其他语言，你一眼就能看懂底层逻辑，相当于开了上帝视角\n2. **它是核心领域的不可替代的主力**：Windows、Linux、安卓的内核全是C写的，嵌入式、自动驾驶、高性能服务器、底层框架这些高薪核心领域，至今C都是绝对主力\n3. **它是唯一能让你真正懂计算机的入门语言**：不像高层语言把内存、硬件都封装成黑盒，C把计算机的运行逻辑直接摆在你面前，学完C你不会是只会调API的“工具使用者”，你会真正懂计算机的思考方式，基本功比谁都扎实。\n\n---\n\n### 第二步：先见森林：所有C程序的骨架永远只有一种\n一句话说透C：**C是规则极简的、让你直接指挥计算机干活的工具**。整个C语言核心只有32个关键字，没有任何花里胡哨的自带功能，所有复杂能力都是用现成“工具包”（库函数/头文件）拼出来的。\n\n不管是几万行的操作系统内核，还是你写的10行入门小程序，骨架永远一模一样，一眼就能看懂：\n```c\n// 1. 开头：告诉编译器，我要用哪些现成工具（比如要打印就引stdio.h）\n#include <stdio.h>\n\n// 2. 入口：所有C程序必须有且只有一个main函数，计算机从这里开始干活\nint main() {\n    // 3. 你写的所有命令，本质只做三件事：\n    // ① 存数据：找一块内存放你要用的内容（就是「变量」）\n    int my_num = 10;\n    // ② 做操作：对数据做计算、或者让计算机输出内容\n    printf(\"我的第一个C数据是：%d\", my_num);\n    // ③ 控流程：判断走哪条路（if）、重复干活（for/while循环），都是控制执行顺序\n    // 最后结束程序，返回结果\n    return 0;\n}\n```\n所有C程序都是在这个骨架上扩展出来的，没有例外，是不是比你想象的简单太多？\n\n---\n\n### 第三步：给核心难点先建直觉，不用记，先懂就行\n很多人说C难，其实就是难在指针，我用大白话给你讲透：\n刚才存数据`int my_num = 10`，相当于你在计算机内存里找了一个“装数据的盒子”，每个盒子都有自己独一无二的门牌号码（就是内存地址）。**指针就是一个专门存「盒子门牌号码」的盒子**——你拿到门牌，就能直接找到对应的盒子改内容，就这么简单，没有任何玄乎的，写多了自然就通了。\n\n---\n\n### 第四步：给你清晰的进阶路线，不会走偏\n✅ 首先：你能看懂上面的例子，能把它跑起来，你就已经入门C了。初学者常见的漏分号、编译错误都是非常正常的，不是你笨，C就是需要你和编译器磨合，练多了就熟了。\n\n✅ 接下来按这个顺序学，绝对不会迷路：\n1. **第一周：搞定第一步**：装环境、跑通第一个HelloWorld。初学者不用纠结复杂工具，Windows用Dev-C++、Mac用Xcode、Linux用gcc，10分钟就能装好，跑通第一个程序你就赢了第一步\n2. **第一个月：练熟基础积木**：搞定变量、数据类型、运算符、if/for/while流程控制，写点小例子比如猜数字游戏、简易计算器，把基础练熟，不用提前抠难点\n3. **第二个月：啃核心**：搞定数组、函数、指针、动态内存管理（malloc/free），这是C的灵魂，慢慢来，多画内存图理解，多敲代码，啃完这部分你就算真正学会C了\n4. **之后：拓展+选方向**：学点结构体、文件操作，写个小项目比如通讯录、贪吃蛇巩固，接下来就可以选方向了：想做硬件/嵌入式就深入C+硬件开发，想做系统开发就学Linux下C编程，就算转其他语言，你的底层基础也已经比绝大多数初学者扎实太多。\n\n---\n\nC其实一点都不神秘，也没有你听说的那么难，它只是足够朴素、足够贴近计算机本身。你迈出第一步写出第一个能跑的程序，就已经拿到了打开计算机底层世界的钥匙，接下来慢慢走就好。",
+  "structure": {
+    "blocks": [
+      {
+        "block_id": "block-6c5b3a52",
+        "block_name": "C语言入门基础",
+        "points": [
+          {
+            "point_id": "point-5e6b73dd",
+            "point_name": "C语言发展与环境搭建",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-6d2c471e",
+                "component_name": "C语言发展历史与应用场景",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5f520fd8",
+                "component_name": "主流编译环境安装配置（GCC/VSCode/Dev-C++）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f5805259",
+                "component_name": "第一个C程序编写与编译运行",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bbc726ab",
+                "component_name": "C程序基本结构认知",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-b6b356d0",
+            "point_name": "基本数据类型",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-5bc18128",
+                "component_name": "关键字与标识符命名规则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bedd5699",
+                "component_name": "常量定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f4deef9d",
+                "component_name": "变量声明与初始化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ea312490",
+                "component_name": "基本数据类型（整型/浮点型/字符型）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a7b4ba5a",
+                "component_name": "隐式类型转换",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-95a4fd11",
+                "component_name": "显式类型转换",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d0cbf03f",
+                "component_name": "标准输入输出函数（scanf/printf/getchar/putchar）",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-b8a4fda8",
+            "point_name": "运算符与表达式",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-0e47251f",
+                "component_name": "算术运算符",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-26dd43dc",
+                "component_name": "关系运算符",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6652f903",
+                "component_name": "逻辑运算符",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7ee0a54c",
+                "component_name": "位运算符",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-06bb2f16",
+                "component_name": "赋值运算符",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6341d67a",
+                "component_name": "三目运算符",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-29339d6d",
+                "component_name": "逗号运算符",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d2b69e83",
+                "component_name": "运算符优先级与结合性",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-a9d28919",
+        "block_name": "程序流程控制",
+        "points": [
+          {
+            "point_id": "point-5fad9640",
+            "point_name": "顺序结构",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-0f523f2d",
+                "component_name": "语句分类（表达式语句/空语句/复合语句）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-50916e0d",
+                "component_name": "顺序执行逻辑",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-dbbc23e3",
+            "point_name": "分支结构",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-5f759ac0",
+                "component_name": "if单分支结构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b005242c",
+                "component_name": "if-else双分支结构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-28de32ac",
+                "component_name": "else if多分支结构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e359fce4",
+                "component_name": "switch-case多分支结构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c203d8f1",
+                "component_name": "分支嵌套",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-e4793ace",
+            "point_name": "循环结构",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-43b15f1e",
+                "component_name": "while循环",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f7bdb79b",
+                "component_name": "do-while循环",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-83d5980e",
+                "component_name": "for循环",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-edeb9c93",
+                "component_name": "循环嵌套",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-eb7c9ece",
+                "component_name": "break与continue的用法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-55436fc1",
+            "point_name": "跳转语句",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-26407826",
+                "component_name": "goto语句",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-82fdc422",
+                "component_name": "return语句",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-eead9fb2",
+                "component_name": "exit()终止函数",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-35ffd102",
+        "block_name": "复合数据类型",
+        "points": [
+          {
+            "point_id": "point-2d671517",
+            "point_name": "数组",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-3f1165da",
+                "component_name": "一维数组定义与初始化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ba387075",
+                "component_name": "一维数组遍历与访问",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bb432b6c",
+                "component_name": "一维数组基础应用（查找/排序）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a76d8881",
+                "component_name": "二维数组定义与初始化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b19f6550",
+                "component_name": "二维数组遍历与访问",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9635f75e",
+                "component_name": "二维数组应用（矩阵运算）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a2a2e2cd",
+                "component_name": "多维数组概念",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-421d4d35",
+            "point_name": "字符串",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-124479de",
+                "component_name": "字符串存储与'\\0'结束符",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c3586a06",
+                "component_name": "字符串的输入输出",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7a8586e5",
+                "component_name": "常用字符串处理函数（strlen/strcpy/strcmp/strcat/strstr）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0913c660",
+                "component_name": "字符数组与字符指针的区别",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-66d94ffd",
+            "point_name": "结构体",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-80ad79f6",
+                "component_name": "结构体定义与变量声明",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4ae6e7d9",
+                "component_name": "结构体成员访问",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-130a60fe",
+                "component_name": "结构体赋值与拷贝",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c352ca9a",
+                "component_name": "结构体数组",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8eb819a6",
+                "component_name": "结构体指针",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d2262a7b",
+                "component_name": "嵌套结构体",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-c800b868",
+            "point_name": "共用体",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-7b605f04",
+                "component_name": "共用体定义与存储特点",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a953092d",
+                "component_name": "共用体应用场景",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-090081ce",
+            "point_name": "枚举类型",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-b6613d50",
+                "component_name": "枚举定义与使用方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-97dd2f58",
+                "component_name": "枚举的应用场景",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-88f24a92",
+            "point_name": "typedef类型别名",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-88b61089",
+                "component_name": "typedef基本用法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cbd7d541",
+                "component_name": "typedef与#define的区别",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-9327a6be",
+        "block_name": "函数",
+        "points": [
+          {
+            "point_id": "point-971940c3",
+            "point_name": "函数基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-4cfcde8e",
+                "component_name": "函数定义语法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d5478e4c",
+                "component_name": "函数声明与原型",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-209bad08",
+                "component_name": "main函数的参数与返回值",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-659acda4",
+                "component_name": "标准库函数的调用方法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-af5eaf12",
+            "point_name": "函数参数与返回值",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-e4881742",
+                "component_name": "值传递机制",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-36aed449",
+                "component_name": "形参与实参",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-94110cfa",
+                "component_name": "返回值规则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d6d01d09",
+                "component_name": "无返回值函数的使用",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-cacfb48e",
+            "point_name": "函数嵌套与递归",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-957a7019",
+                "component_name": "函数嵌套调用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4944c9d2",
+                "component_name": "递归的定义与调用过程",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-da27c087",
+                "component_name": "递归出口设计",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0e2a6911",
+                "component_name": "经典递归问题实现（阶乘/汉诺塔）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-66647bcb",
+                "component_name": "递归转迭代方法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-6d51037e",
+            "point_name": "变量作用域与存储类型",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-b470891d",
+                "component_name": "局部变量与全局变量",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-553f6377",
+                "component_name": "auto自动变量",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7add65f2",
+                "component_name": "static静态变量",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e018e674",
+                "component_name": "extern外部变量",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7721123e",
+                "component_name": "register寄存器变量",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cb2fb3ff",
+                "component_name": "变量生命周期概念",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-7b4b5939",
+        "block_name": "指针与内存管理",
+        "points": [
+          {
+            "point_id": "point-d15305e2",
+            "point_name": "指针基础概念",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-68e20e9c",
+                "component_name": "指针与内存地址",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-549716bc",
+                "component_name": "指针变量定义与初始化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2e40ea10",
+                "component_name": "指针解引用操作",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-589c87fb",
+                "component_name": "空指针与野指针",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5cf6b136",
+                "component_name": "指针的算术/关系运算",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8ec85fa0",
+                "component_name": "二级指针与多级指针概念",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-fea24b71",
+            "point_name": "指针与数组",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-66b3df5e",
+                "component_name": "数组名的指针含义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-74f4751a",
+                "component_name": "指针访问一维数组",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-295ddd2b",
+                "component_name": "指针访问二维数组",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b16bbdb8",
+                "component_name": "数组指针的定义与使用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f8d81173",
+                "component_name": "指针数组的定义与使用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-97c01580",
+                "component_name": "数组指针与指针数组的区别",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-36ef798c",
+            "point_name": "指针与函数",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-41c17b10",
+                "component_name": "指针作为函数参数",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3b2c6c0f",
+                "component_name": "返回值为指针的函数",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-49d9b2bd",
+                "component_name": "函数指针的定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-58004587",
+                "component_name": "函数指针数组",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-558a4bd8",
+                "component_name": "回调函数基础概念",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-241a2d32",
+            "point_name": "指针与字符串",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-f6e9a47b",
+                "component_name": "字符指针与字符串",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b140a291",
+                "component_name": "字符指针与字符数组的区别",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ad0a5f67",
+                "component_name": "字符串常量的存储特点",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-67261c70",
+            "point_name": "动态内存管理",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-0601d380",
+                "component_name": "堆内存与栈内存的区别",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-eccf6327",
+                "component_name": "malloc内存分配函数",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1d91893e",
+                "component_name": "calloc内存分配函数",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-45caeab2",
+                "component_name": "realloc内存调整函数",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d45a2ee2",
+                "component_name": "free内存释放",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9bbf8b98",
+                "component_name": "内存泄漏问题",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cb40f54e",
+                "component_name": "野指针的避免方法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-cc239b6e",
+            "point_name": "指针进阶特性",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-e2cb6684",
+                "component_name": "const修饰指针的三种形式",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-eba0dd22",
+                "component_name": "void*泛型指针",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1da7e6da",
+                "component_name": "结构体指针",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8d412582",
+                "component_name": "单向链表基础结构",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-40640c92",
+        "block_name": "文件操作",
+        "points": [
+          {
+            "point_id": "point-4c946965",
+            "point_name": "文件基础概念",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-bc88d40f",
+                "component_name": "文件的概念与分类（文本文件/二进制文件）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d082fa97",
+                "component_name": "FILE文件指针",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-dd40efcb",
+                "component_name": "文件打开fopen",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1ed19deb",
+                "component_name": "文件关闭fclose",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-13a19515",
+                "component_name": "文件打开模式说明",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-4dfe65c0",
+            "point_name": "文件读写操作",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-04c872f5",
+                "component_name": "字符读写fgetc/fputc",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4384c39e",
+                "component_name": "行读写fgets/fputs",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-abccc389",
+                "component_name": "格式化读写fscanf/fprintf",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cc873982",
+                "component_name": "二进制读写fread/fwrite",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-157f8d99",
+            "point_name": "文件定位与错误处理",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-c40d2793",
+                "component_name": "文件位置指针",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6aa53d4d",
+                "component_name": "fseek定位操作",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d6c6e7b5",
+                "component_name": "rewind复位操作",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-417a44bb",
+                "component_name": "ftell获取位置",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2ea114aa",
+                "component_name": "feof文件结束判断",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-66f46c18",
+                "component_name": "ferror错误检测",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d8f0fa1f",
+                "component_name": "clearerr错误清除",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-24d77da8",
+        "block_name": "预处理与高级特性",
+        "points": [
+          {
+            "point_id": "point-07f3356d",
+            "point_name": "预处理基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-f88f8d6b",
+                "component_name": "预处理的概念与执行过程",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e04d4e11",
+                "component_name": "#include文件包含指令",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-608ee297",
+                "component_name": "头文件卫士的写法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-933fe87a",
+            "point_name": "宏定义",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-5c431592",
+                "component_name": "对象式宏定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f27286ff",
+                "component_name": "函数式宏定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-be473fe2",
+                "component_name": "宏与函数的区别",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a280ed81",
+                "component_name": "#与##预处理运算符",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e125adfa",
+                "component_name": "#undef取消宏定义",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-9255a487",
+            "point_name": "条件编译",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-1009f3d2",
+                "component_name": "条件编译常见指令",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-121fdc59",
+                "component_name": "条件编译的应用场景",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-724d33a9",
+            "point_name": "C语言高级特性",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-79c4e1ed",
+                "component_name": "位段定义与使用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-737f51ff",
+                "component_name": "内存对齐规则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-236aa1bb",
+                "component_name": "标准库qsort排序函数的使用",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-88aa8c2b",
+                "component_name": "回调函数应用实例",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-bdcd1af6",
+        "block_name": "C语言工程实践",
+        "points": [
+          {
+            "point_id": "point-c1049678",
+            "point_name": "C语言编码规范",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-2ddf041d",
+                "component_name": "命名规范",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3653aaef",
+                "component_name": "注释规范",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-86c058de",
+                "component_name": "代码排版与缩进规范",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-7061371c",
+            "point_name": "程序调试技巧",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-9ef4f110",
+                "component_name": "GDB基础调试命令",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8f54fe5e",
+                "component_name": "IDE图形化调试方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9bbad74b",
+                "component_name": "常见错误类型排查（编译/链接/逻辑错误）",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-01081425",
+            "point_name": "模块化项目开发",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-a56aad27",
+                "component_name": "多文件项目的组织结构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ae27444a",
+                "component_name": "头文件与源文件的分工",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-97e33b97",
+                "component_name": "静态库与动态库基础概念",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-e02a1c59",
+            "point_name": "综合项目实践",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-d89f296e",
+                "component_name": "通讯录管理系统开发",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f910586c",
+                "component_name": "学生成绩管理系统开发",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-523da1a8",
+                "component_name": "简易文本管理器开发",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "saved_at": "2026-05-11T12:49:01.543474"
+}

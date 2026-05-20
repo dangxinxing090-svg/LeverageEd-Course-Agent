@@ -1,342 +1,329 @@
 /**
- * U-006 学习路径面板组件
+ * U-006 定制综合练习面板组件
  *
- * 核心职责：学习页右中部，展示已完成的重点难点知识点、后续学习计划、推荐跳级选项
+ * 核心职责：学习页右中部，提供综合练习功能
  *
- * 底层执行逻辑：
- * 1. 组件挂载时根据userId和topicId调用getLearningPath API
- * 2. 获取数据后分三个区块渲染：已完成知识点列表、后续学习计划列表、跳级建议列表
- * 3. 跳级建议高亮显示，点击时触发onSkipSuggestionClick回调
- * 4. 支持手动刷新，使用isLoading状态锁防止重复请求
- *
- * 内存数据流转：
- * Props(userId, topicId) → useEffect触发 → API调用 →
- * State(learningPath) → 分区渲染列表 → 点击跳级建议 → 回调
- *
- * 潜在风险：
- * 1. 内存泄漏：组件卸载时未取消pending的API请求（已用AbortController处理）
- * 2. 数据异常：后端返回数组字段缺失（已在API层兜底为空数组）
- * 3. 快速切换主题时可能产生竞态条件（已用isMountedRef处理）
+ * 功能流程：
+ * 1. 用户点击"综合练习题"按钮
+ * 2. 弹出对话框，展示知识点选择树（三层结构）
+ * 3. 用户选择一个或多个知识点，点击确定
+ * 4. 调用后端生成综合练习题
+ * 5. 在面板中展示题目
+ * 6. 用户提交答案，后端批改
+ * 7. 显示批改结果
  */
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
-  LearningPathPanelProps,
-  LearningPath,
-  SkipSuggestion,
-  NextPlanItem,
-  CompletedPoint,
-  TopicApiError
+  KnowledgeBlock,
+  CustomQuestion,
+  CustomExerciseSet,
+  CustomGradeReport
 } from '../../types';
-import { getLearningPath } from '../../services/api';
+import { generateCustomExercise, gradeCustomExercise } from '../../services/api';
 import './styles.css';
 
-/**
- * 获取难度对应的中文标签
- * @param difficulty 难度级别
- * @returns 中文标签
- */
-function getDifficultyLabel(difficulty: NextPlanItem['difficulty']): string {
-  const map: Record<NextPlanItem['difficulty'], string> = {
-    easy: '简单',
-    medium: '中等',
-    hard: '困难',
-  };
-  return map[difficulty] || '中等';
+interface LearningPathPanelProps {
+  blocks: KnowledgeBlock[];
+  onClose?: () => void;
+  onError?: (error: string) => void;
 }
 
-/**
- * 获取难度对应的CSS类名
- * @param difficulty 难度级别
- * @returns CSS类名
- */
-function getDifficultyClass(difficulty: NextPlanItem['difficulty']): string {
-  return `difficulty-${difficulty}`;
-}
-
-/**
- * 格式化预计学习时长
- * @param minutes 分钟数
- * @returns 格式化字符串
- */
-function formatDuration(minutes: number): string {
-  if (minutes < 60) return `${minutes}分钟`;
-  const hours = Math.floor(minutes / 60);
-  const mins = minutes % 60;
-  return mins > 0 ? `${hours}小时${mins}分钟` : `${hours}小时`;
-}
-
-/**
- * U-006 学习路径面板组件
- */
 export const LearningPathPanel: React.FC<LearningPathPanelProps> = ({
-  userId,
-  topicId,
-  onSkipSuggestionClick,
-  onError,
-  className = '',
+  blocks,
+  onError
 }) => {
-  // ===== 状态管理 =====
-  const [learningPath, setLearningPath] = useState<LearningPath | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  // 状态
+  const [showDialog, setShowDialog] = useState(false);
+  const [selectedPoints, setSelectedPoints] = useState<Set<string>>(new Set());
+  const [exercise, setExercise] = useState<CustomExerciseSet | null>(null);
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [gradeReport, setGradeReport] = useState<CustomGradeReport | null>(null);
 
-  // 用于取消pending请求和判断组件是否已挂载
-  const abortControllerRef = useRef<AbortController | null>(null);
-  const isMountedRef = useRef<boolean>(true);
-  const isFetchingRef = useRef<boolean>(false);
-
-  // ===== 副作用：组件卸载清理 =====
-  useEffect(() => {
-    isMountedRef.current = true;
-    return () => {
-      isMountedRef.current = false;
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-      }
-    };
+  // 打开对话框
+  const handleOpenDialog = useCallback(() => {
+    setShowDialog(true);
+    setSelectedPoints(new Set());
   }, []);
 
-  // ===== 数据获取 =====
+  // 关闭对话框
+  const handleCloseDialog = useCallback(() => {
+    setShowDialog(false);
+    setSelectedPoints(new Set());
+  }, []);
 
-  /**
-   * 获取学习路径数据
-   */
-  const fetchLearningPath = useCallback(async () => {
-    // 防御性检查：参数为空时不发请求
-    if (!userId || !topicId) return;
+  // 切换知识点选择
+  const togglePoint = useCallback((pointId: string) => {
+    setSelectedPoints(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(pointId)) {
+        newSet.delete(pointId);
+      } else {
+        newSet.add(pointId);
+      }
+      return newSet;
+    });
+  }, []);
 
-    // 防止重复请求
-    if (isFetchingRef.current) return;
+  // 获取知识点名称列表
+  const getSelectedPointNames = useCallback((): string[] => {
+    const names: string[] = [];
+    blocks.forEach(block => {
+      block.points.forEach(point => {
+        if (selectedPoints.has(point.point_id)) {
+          names.push(point.point_name);
+        }
+      });
+    });
+    return names;
+  }, [blocks, selectedPoints]);
 
-    isFetchingRef.current = true;
-    setIsLoading(true);
-    setErrorMessage(null);
+  // 生成练习题
+  const handleGenerateExercise = useCallback(async () => {
+    if (selectedPoints.size === 0) {
+      onError?.('请至少选择一个知识点');
+      return;
+    }
+
+    setLoading(true);
+    setGradeReport(null);
+    setAnswers({});
 
     try {
-      const data = await getLearningPath(userId, topicId);
-
-      // 竞态条件：仅在组件仍挂载时更新状态
-      if (isMountedRef.current) {
-        setLearningPath(data);
-      }
-    } catch (error) {
-      if (isMountedRef.current) {
-        const message = error instanceof TopicApiError
-          ? error.message
-          : '获取学习路径失败，请稍后重试';
-        setErrorMessage(message);
-        onError?.(error as Error);
-      }
+      const pointNames = getSelectedPointNames();
+      const topicName = localStorage.getItem('currentTopicName') || '';
+      const result = await generateCustomExercise(topicName, pointNames);
+      setExercise(result);
+      setShowDialog(false);
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : '生成练习题失败';
+      onError?.(errorMsg);
     } finally {
-      isFetchingRef.current = false;
-      if (isMountedRef.current) {
-        setIsLoading(false);
-      }
+      setLoading(false);
     }
-  }, [userId, topicId, onError]);
+  }, [selectedPoints, getSelectedPointNames, onError]);
 
-  // ===== 副作用：挂载及参数变化时获取数据 =====
-  useEffect(() => {
-    fetchLearningPath();
-  }, [fetchLearningPath]);
+  // 更新答案
+  const handleAnswerChange = useCallback((questionId: string, answer: string) => {
+    setAnswers(prev => ({ ...prev, [questionId]: answer }));
+  }, []);
 
-  // ===== 事件处理 =====
+  // 提交答案
+  const handleSubmit = useCallback(async () => {
+    if (!exercise) return;
 
-  /**
-   * 手动刷新
-   */
-  const handleRefresh = useCallback(() => {
-    setIsLoading(false); // 重置loading锁以允许重新请求
-    fetchLearningPath();
-  }, [fetchLearningPath]);
+    setSubmitting(true);
+    try {
+      const report = await gradeCustomExercise(
+        exercise.exercise_id,
+        exercise.questions,
+        answers
+      );
+      setGradeReport(report);
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : '提交答案失败';
+      onError?.(errorMsg);
+    } finally {
+      setSubmitting(false);
+    }
+  }, [exercise, answers, onError]);
 
-  /**
-   * 跳级建议点击处理
-   */
-  const handleSkipClick = useCallback((suggestion: SkipSuggestion) => {
-    onSkipSuggestionClick?.(suggestion.from_point_id, suggestion.to_point_id);
-  }, [onSkipSuggestionClick]);
+  // 重新开始
+  const handleRestart = useCallback(() => {
+    setExercise(null);
+    setAnswers({});
+    setGradeReport(null);
+    setShowDialog(true);
+  }, []);
 
-  // ===== 渲染辅助 =====
-
-  /**
-   * 渲染已完成知识点列表
-   */
-  const renderCompletedPoints = (points: CompletedPoint[]) => {
-    if (points.length === 0) {
+  // 渲染选项
+  const renderOptions = (question: CustomQuestion) => {
+    if (question.question_type === 'FILL_BLANK') {
       return (
-        <li className="learning-path-empty">
-          暂无已完成知识点
-        </li>
+        <textarea
+          className="custom-exercise-textarea"
+          value={answers[question.question_id] || ''}
+          onChange={(e) => handleAnswerChange(question.question_id, e.target.value)}
+          placeholder="请输入你的答案..."
+          disabled={!!gradeReport}
+          rows={4}
+        />
       );
     }
 
-    return points.map((point) => (
-      <li key={point.point_id} className="learning-path-completed-item">
-        <span className="completed-check" aria-hidden="true">&#10003;</span>
-        <span className="completed-name">{point.point_name}</span>
-        {point.score !== undefined && (
-          <span className="completed-score">{point.score}分</span>
-        )}
-      </li>
-    ));
+    return (
+      <div className="custom-exercise-options">
+        {question.options.map((option, idx) => (
+          <label
+            key={idx}
+            className={`custom-exercise-option ${
+              answers[question.question_id] === option.charAt(0) ? 'selected' : ''
+            } ${gradeReport ? 'disabled' : ''}`}
+          >
+            <input
+              type={question.question_type === 'MULTIPLE_CHOICE' ? 'checkbox' : 'radio'}
+              name={question.question_id}
+              value={option.charAt(0)}
+              checked={answers[question.question_id] === option.charAt(0)}
+              onChange={() => handleAnswerChange(question.question_id, option.charAt(0))}
+              disabled={!!gradeReport}
+            />
+            <span>{option}</span>
+          </label>
+        ))}
+      </div>
+    );
   };
 
-  /**
-   * 渲染后续学习计划列表
-   */
-  const renderNextPlan = (plans: NextPlanItem[]) => {
-    if (plans.length === 0) {
-      return (
-        <li className="learning-path-empty">
-          暂无后续计划
-        </li>
-      );
-    }
+  // 渲染批改结果
+  const renderGradeResult = (question: CustomQuestion) => {
+    if (!gradeReport) return null;
 
-    return plans.map((plan) => (
-      <li key={plan.plan_id} className="learning-path-plan-item">
-        <div className="plan-item-header">
-          <span className="plan-name">{plan.plan_name}</span>
-          <span className={`plan-difficulty ${getDifficultyClass(plan.difficulty)}`}>
-            {getDifficultyLabel(plan.difficulty)}
-          </span>
+    const result = gradeReport.results.find(r => r.question_id === question.question_id);
+    if (!result) return null;
+
+    return (
+      <div className={`custom-exercise-result ${result.is_correct ? 'correct' : 'incorrect'}`}>
+        <div className="result-header">
+          <span className="result-icon">{result.is_correct ? '✓' : '✗'}</span>
+          <span className="result-score">{result.score}分</span>
         </div>
-        <p className="plan-description">{plan.description}</p>
-        <span className="plan-duration">{formatDuration(plan.estimated_minutes)}</span>
-      </li>
-    ));
+        <div className="result-feedback">{result.feedback}</div>
+        {!result.is_correct && (
+          <div className="result-correct-answer">
+            正确答案: {question.correct_answer}
+          </div>
+        )}
+      </div>
+    );
   };
-
-  /**
-   * 渲染跳级建议列表
-   */
-  const renderSkipSuggestions = (suggestions: SkipSuggestion[]) => {
-    if (suggestions.length === 0) {
-      return null; // 无跳级建议时不渲染整个区块
-    }
-
-    return suggestions.map((suggestion) => (
-      <li key={suggestion.suggestion_id} className="learning-path-skip-item">
-        <button
-          className="skip-suggestion-btn"
-          onClick={() => handleSkipClick(suggestion)}
-          aria-label={`跳级到${suggestion.target_topic_name}，原因：${suggestion.reason}`}
-        >
-          <span className="skip-target">如果希望跳级学习，可以考虑跳过以下部分</span>
-          <span className="skip-reason">{suggestion.reason}</span>
-          <span className="skip-confidence">
-            推荐度 {Math.round(suggestion.confidence * 100)}%
-          </span>
-        </button>
-      </li>
-    ));
-  };
-
-  // ===== 渲染 =====
-  const hasSkipSuggestions = learningPath && learningPath.skip_suggestions.length > 0;
 
   return (
-    <div
-      className={`learning-path-panel ${className}`}
-      role="region"
-      aria-label="学习路径面板"
-    >
-      {/* 面板标题 */}
-      <div className="learning-path-header">
-        <h3 className="learning-path-title">学习路径</h3>
-        <button
-          className="learning-path-refresh"
-          onClick={handleRefresh}
-          disabled={isLoading}
-          aria-label="刷新学习路径"
-          aria-busy={isLoading}
-        >
-          <svg
-            className={`refresh-icon ${isLoading ? 'spinning' : ''}`}
-            viewBox="0 0 24 24"
-            fill="none"
-            width="16"
-            height="16"
-            aria-hidden="true"
-          >
-            <path
-              d="M4 4v5h5M20 20v-5h-5"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M20.49 9A9 9 0 005.64 5.64L4 4m16 16l-1.64-1.64A9 9 0 014 15"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
+    <div className="learning-path-panel">
+      {/* 标题 */}
+      <div className="panel-header">
+        <h3 className="panel-title">综合练习</h3>
       </div>
 
-      {/* 加载状态 */}
-      {isLoading && !learningPath && (
-        <div className="learning-path-loading" aria-live="polite">
-          <span className="spinner-small" aria-hidden="true" />
-          <span>加载中...</span>
-        </div>
-      )}
+      {/* 主内容区 */}
+      <div className="panel-content">
+        {!exercise ? (
+          // 初始状态：显示开始按钮
+          <div className="custom-exercise-empty">
+            <p className="empty-text">选择知识点进行综合练习</p>
+            <button className="start-exercise-btn" onClick={handleOpenDialog}>
+              开始综合练习
+            </button>
+          </div>
+        ) : (
+          // 练习题展示
+          <div className="custom-exercise-questions">
+            <div className="exercise-header">
+              <span className="exercise-points">
+                知识点: {exercise.point_names.join('、')}
+              </span>
+              <button className="restart-btn" onClick={handleRestart}>
+                重新选择
+              </button>
+            </div>
 
-      {/* 错误状态 */}
-      {errorMessage && (
-        <div className="learning-path-error" role="alert">
-          <span>{errorMessage}</span>
-          <button
-            className="learning-path-retry"
-            onClick={handleRefresh}
-            aria-label="重试"
-          >
-            重试
-          </button>
-        </div>
-      )}
+            <div className="questions-list">
+              {exercise.questions.map((q, idx) => (
+                <div key={q.question_id} className="question-item">
+                  <div className="question-header">
+                    <span className="question-number">{idx + 1}.</span>
+                    <span className="question-type">
+                      [{q.question_type === 'SINGLE_CHOICE' ? '单选' :
+                        q.question_type === 'MULTIPLE_CHOICE' ? '多选' : '填空'}]
+                    </span>
+                    <span className="question-difficulty">{q.difficulty}</span>
+                  </div>
+                  <p className="question-content">{q.content}</p>
+                  {renderOptions(q)}
+                  {renderGradeResult(q)}
+                </div>
+              ))}
+            </div>
 
-      {/* 路径内容 */}
-      {!isLoading && !errorMessage && learningPath && (
-        <div className="learning-path-content">
-          {/* 已完成知识点 */}
-          <section className="learning-path-section">
-            <h4 className="learning-path-section-title">已完成知识点</h4>
-            <ul className="learning-path-list" aria-label="已完成知识点列表">
-              {renderCompletedPoints(learningPath.completed_points)}
-            </ul>
-          </section>
+            {/* 提交按钮或结果 */}
+            {!gradeReport ? (
+              <button
+                className="submit-btn"
+                onClick={handleSubmit}
+                disabled={submitting || Object.keys(answers).length < exercise.questions.length}
+              >
+                {submitting ? '提交中...' : '提交答案'}
+              </button>
+            ) : (
+              <div className="grade-summary">
+                <div className="summary-score">
+                  总分: {gradeReport.total_score}分
+                </div>
+                <div className="summary-count">
+                  正确: {gradeReport.correct_count}/{gradeReport.total_count}
+                </div>
+                <div className="summary-feedback">
+                  {gradeReport.overall_feedback}
+                </div>
+                <button className="restart-btn" onClick={handleRestart}>
+                  再练一次
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
 
-          {/* 后续学习计划 */}
-          <section className="learning-path-section">
-            <h4 className="learning-path-section-title">后续学习计划</h4>
-            <ul className="learning-path-list" aria-label="后续学习计划列表">
-              {renderNextPlan(learningPath.next_plan)}
-            </ul>
-          </section>
-
-          {/* 跳级建议（高亮显示） */}
-          {hasSkipSuggestions && (
-            <section className="learning-path-section learning-path-section-highlight">
-              <h4 className="learning-path-section-title">
-                <span className="section-highlight-icon" aria-hidden="true">&#9733;</span>
-                跳级建议
-              </h4>
-              <ul className="learning-path-list" aria-label="跳级建议列表">
-                {renderSkipSuggestions(learningPath.skip_suggestions)}
-              </ul>
-            </section>
-          )}
+      {/* 知识点选择对话框 */}
+      {showDialog && (
+        <div className="point-select-dialog-overlay" onClick={handleCloseDialog}>
+          <div className="point-select-dialog" onClick={e => e.stopPropagation()}>
+            <div className="dialog-header">
+              <h3>选择知识点</h3>
+              <button className="dialog-close" onClick={handleCloseDialog}>×</button>
+            </div>
+            <div className="dialog-content">
+              <div className="point-tree">
+                {blocks.map(block => (
+                  <div key={block.block_id} className="point-block">
+                    <div className="block-name">{block.block_name}</div>
+                    <div className="block-points">
+                      {block.points.map(point => (
+                        <label
+                          key={point.point_id}
+                          className={`point-item ${selectedPoints.has(point.point_id) ? 'selected' : ''}`}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={selectedPoints.has(point.point_id)}
+                            onChange={() => togglePoint(point.point_id)}
+                          />
+                          <span className="point-name">{point.point_name}</span>
+                          {point.is_key_point && <span className="key-point-tag">重点</span>}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="dialog-footer">
+              <span className="selected-count">已选择 {selectedPoints.size} 个知识点</span>
+              <button
+                className="confirm-btn"
+                onClick={handleGenerateExercise}
+                disabled={loading || selectedPoints.size === 0}
+              >
+                {loading ? '生成中...' : '确定'}
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
   );
 };
 
-// 默认导出
 export default LearningPathPanel;
