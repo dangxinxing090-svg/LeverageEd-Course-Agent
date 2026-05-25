@@ -91,6 +91,12 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
   
   // 初始化状态机：用 useState 替代 useRef，防止 React StrictMode 并发问题
   const [initStatus, setInitStatus] = useState<'idle' | 'loading' | 'completed' | 'error'>('idle');
+  
+  // 使用ref标记是否正在初始化，防止useEffect依赖变化导致的无限循环
+  const isInitializingRef = useRef(false);
+  
+  // 使用ref记录上次加载的组件，防止重复加载
+  const lastLoadedComponentRef = useRef<string>('');
 
   // 获取当前组件
   const currentComponent = components[currentIndex];
@@ -287,10 +293,11 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
     
     const initSession = async () => {
       if (!topicId) return;
-      // 只有 idle 状态才执行，loading/completed/error 都跳过
-      if (initStatus !== 'idle') return;
+      // 使用ref和state双重检查，防止无限循环
+      if (isInitializingRef.current || initStatus !== 'idle') return;
       
-      // 立即设置为 loading，阻止 StrictMode 第二次调用
+      // 立即标记为正在初始化
+      isInitializingRef.current = true;
       setInitStatus('loading');
       
       try {
@@ -362,6 +369,9 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
           setInitStatus('error');
           onError?.(error as Error);
         }
+      } finally {
+        // 无论成功失败，都重置初始化标记
+        isInitializingRef.current = false;
       }
     };
     
@@ -370,11 +380,10 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
     return () => {
       isMounted = false;
       abortControllerRef.current?.abort();
-      // StrictMode 会先调用 effect 再调用 cleanup 再重新调用 effect
-      // 如果当前是 loading 状态（被 abort 了），需要重置为 idle 让第二次调用能执行
-      setInitStatus(prev => prev === 'loading' ? 'idle' : prev);
+      // 注意：不在cleanup中重置initStatus，避免触发额外的重新渲染
     };
-  }, [topicId, topicName, userId, onError, loadOverview, initialComponentId, components, loadExplanation, initStatus]);
+    // 只依赖topicId，其他依赖通过ref和内部状态管理，防止无限循环
+  }, [topicId]);
 
   // ==================== 同步外部组件索引 ====================
   
@@ -386,9 +395,13 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
   
   useEffect(() => {
     if (currentComponent && session?.id && !sessionLoading) {
-      loadExplanation(currentComponent, session.id);
+      // 检查是否已经加载过该组件，防止重复加载
+      if (currentComponent.componentId !== lastLoadedComponentRef.current) {
+        lastLoadedComponentRef.current = currentComponent.componentId;
+        loadExplanation(currentComponent, session.id);
+      }
     }
-  }, [currentComponent, session?.id, sessionLoading, loadExplanation]);
+  }, [currentComponent?.componentId, session?.id, sessionLoading]);
 
   // ==================== 自动滚动 ====================
   

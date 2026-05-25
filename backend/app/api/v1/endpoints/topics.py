@@ -12,6 +12,7 @@ import uuid
 from typing import List, Optional
 
 from fastapi import APIRouter, Query, Body
+from fastapi.responses import StreamingResponse
 
 from app.api.v1.middleware.response import format_response, ResponseFormatter
 from app.agents.llm_providers.agent_adapter import AgentLLMClient
@@ -487,3 +488,40 @@ async def get_topic_overview(
         })
 
     return format_response(code=404, message="未找到该主题的全景介绍", data=None)
+
+
+@router.get("/{topic_id}/progress")
+async def get_topic_progress_stream(topic_id: str):
+    """
+    SSE 流式推送主题处理完成状态
+    
+    每2秒检查一次缓存状态，最长120秒（60次循环）
+    完成后立即推送数据并关闭连接，超时推送超时标记
+    
+    - **topic_id**: 主题ID
+    """
+    async def event_generator():
+        for _ in range(60):  # 120秒 / 2秒间隔 = 60次
+            structure = cache_get_structure(topic_id)
+            overview = cache_get_overview(topic_id)
+            
+            if structure and overview:
+                # 已完成，推送数据并结束
+                yield f"data: {json.dumps({'completed': True, 'structure': structure, 'overview': overview})}\n\n"
+                return
+            
+            # 未完成，等待2秒后继续
+            await asyncio.sleep(2)
+        
+        # 120秒超时，推送超时消息
+        yield f"data: {json.dumps({'timeout': True, 'message': '处理时间较长，请稍后再来查看'})}\n\n"
+    
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        }
+    )

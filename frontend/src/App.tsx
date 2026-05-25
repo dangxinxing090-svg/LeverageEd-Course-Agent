@@ -116,6 +116,8 @@ const LearnPage: React.FC = () => {
     return !(hasBlocks || hasOverview);
   });
   const [error, setError] = useState<string | null>(null);
+  const [isTimeout, setIsTimeout] = useState(false);  // SSE超时状态
+  const [retryCount, setRetryCount] = useState(0);    // 重试次数
   const [overview, setOverview] = useState(() => {
     const tid = topicId || localStorage.getItem('currentTopicId') || '';
     if (!tid) return '';
@@ -251,17 +253,17 @@ const LearnPage: React.FC = () => {
     }
   }, [allComponents]);
 
-  // 加载知识结构（轮询模式：后端异步处理LLM，前端每2秒查询状态）
+  // 加载知识结构（SSE模式：后端异步处理LLM，服务器推送完成通知）
   useEffect(() => {
     if (!effectiveTopicId) {
       setLoading(false);
       return;
     }
 
-    // 如果已有缓存数据，跳过轮询，直接标记完成
+    // 如果已有缓存数据，跳过SSE连接，直接标记完成
     const cachedBlocks = localStorage.getItem(`knowledgeBlocks_${effectiveTopicId}`);
     const cachedOverview = localStorage.getItem(`learnPage_overview_${effectiveTopicId}`);
-    if (cachedBlocks || cachedOverview) {
+    if (cachedBlocks && cachedOverview) {
       setLoading(false);
       localStorage.setItem('currentTopicId', effectiveTopicId);
       localStorage.setItem('currentTopicName', effectiveTopicName);
@@ -270,57 +272,59 @@ const LearnPage: React.FC = () => {
 
     setLoading(true);
     setError(null);
+    setIsTimeout(false);
 
-    let failCount = 0;
-    const MAX_FAIL_COUNT = 5; // 连续失败5次后降级处理
-    let pollCount = 0;
-    const MAX_POLL_COUNT = 15; // 最多轮询15次（约30秒），之后降级渲染
+    // 建立 SSE 连接
+    const eventSource = new EventSource(
+      `${import.meta.env.VITE_API_URL || ''}/api/v1/topics/${effectiveTopicId}/progress`
+    );
 
-    const pollInterval = setInterval(async () => {
+    let isCompleted = false;
+
+    eventSource.onmessage = (event) => {
       try {
-        pollCount++;
-        const status = await getTopicStatus(effectiveTopicId);
-        failCount = 0; // 成功后重置失败计数
+        const data = JSON.parse(event.data);
 
-        if (status.overview_ready && !overview) {
-          const overviewData = await getTopicOverview(effectiveTopicId);
-          setOverview(overviewData.overview);
-        }
-
-        if (status.structure_ready && knowledgeBlocks.length === 0) {
-          const blocks = await getTopicStructure(effectiveTopicId, 'anonymous');
-          setKnowledgeBlocks(blocks);
-        }
-
-        if (status.status === 'completed') {
-          clearInterval(pollInterval);
+        if (data.completed) {
+          // 处理完成
+          isCompleted = true;
+          if (data.overview) {
+            setOverview(data.overview);
+            localStorage.setItem(`learnPage_overview_${effectiveTopicId}`, data.overview);
+          }
+          if (data.structure) {
+            setKnowledgeBlocks(data.structure.blocks || []);
+            localStorage.setItem(`knowledgeBlocks_${effectiveTopicId}`, JSON.stringify(data.structure.blocks || []));
+          }
           localStorage.setItem('currentTopicId', effectiveTopicId);
           localStorage.setItem('currentTopicName', effectiveTopicName);
           setLoading(false);
-        } else if (pollCount >= MAX_POLL_COUNT) {
-          // 超过最大轮询次数，降级渲染
-          console.warn('轮询超时，停止轮询并渲染页面');
-          clearInterval(pollInterval);
-          localStorage.setItem('currentTopicId', effectiveTopicId);
-          localStorage.setItem('currentTopicName', effectiveTopicName);
+          eventSource.close();
+        } else if (data.timeout) {
+          // 120秒超时
+          setIsTimeout(true);
           setLoading(false);
+          eventSource.close();
         }
       } catch (err) {
-        console.error('轮询状态失败:', err);
-        failCount++;
-        if (failCount >= MAX_FAIL_COUNT) {
-          // 连续失败多次，降级处理：停止轮询，让页面正常渲染
-          console.warn('轮询状态连续失败多次，停止轮询并渲染页面');
-          clearInterval(pollInterval);
-          localStorage.setItem('currentTopicId', effectiveTopicId);
-          localStorage.setItem('currentTopicName', effectiveTopicName);
-          setLoading(false);
-        }
+        console.error('SSE消息解析失败:', err);
       }
-    }, 2000);
+    };
 
-    return () => clearInterval(pollInterval);
-  }, [effectiveTopicId]);
+    eventSource.onerror = (err) => {
+      if (!isCompleted) {
+        console.error('SSE连接错误:', err);
+        setError('连接失败，请重试');
+        setLoading(false);
+      }
+      eventSource.close();
+    };
+
+    return () => {
+      // 用户离开页面，关闭连接但不中断后端处理
+      eventSource.close();
+    };
+  }, [effectiveTopicId, retryCount]);
 
   // 保存学习状态到localStorage（当状态变化时）
   useEffect(() => {
@@ -471,8 +475,74 @@ const LearnPage: React.FC = () => {
       <div className="learn-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
         <div style={{ textAlign: 'center', color: '#EF4444' }}>
           <div style={{ fontSize: '18px', marginBottom: '8px' }}>{error}</div>
-          <div style={{ fontSize: '14px', color: '#94A3B8' }}>
-            <Link to="/" style={{ color: '#5B6CF0' }}>返回首页</Link>
+          <div style={{ fontSize: '14px', color: '#94A3B8', marginBottom: '16px' }}>
+            连接失败，请检查网络后重试
+          </div>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+            <button
+              onClick={() => {
+                if (retryCount < 3) {
+                  setRetryCount(prev => prev + 1);
+                }
+              }}
+              disabled={retryCount >= 3}
+              style={{
+                padding: '10px 24px',
+                background: retryCount >= 3 ? '#CBD5E1' : '#5B6CF0',
+                color: '#fff',
+                borderRadius: '8px',
+                border: 'none',
+                fontSize: '14px',
+                fontWeight: 500,
+                cursor: retryCount >= 3 ? 'not-allowed' : 'pointer',
+              }}
+            >
+              {retryCount >= 3 ? '重试次数已用完' : '重试'}
+            </button>
+            <Link to="/" style={{ display: 'inline-block', padding: '10px 24px', background: '#F1F5F9', color: '#64748B', borderRadius: '8px', textDecoration: 'none', fontSize: '14px', fontWeight: 500 }}>
+              返回首页
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // SSE超时提示
+  if (isTimeout) {
+    return (
+      <div className="learn-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
+        <div style={{ textAlign: 'center', color: '#64748B', maxWidth: '400px' }}>
+          <div style={{ fontSize: '48px', marginBottom: '16px' }}>⏰</div>
+          <div style={{ fontSize: '20px', fontWeight: 600, color: '#1E293B', marginBottom: '12px' }}>处理时间较长</div>
+          <div style={{ fontSize: '14px', lineHeight: '1.8', color: '#64748B', marginBottom: '24px' }}>
+            AI正在努力生成知识结构，但还需要一些时间。您可以稍后再来查看，或者重试。
+          </div>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+            <button
+              onClick={() => {
+                if (retryCount < 3) {
+                  setRetryCount(prev => prev + 1);
+                  setIsTimeout(false);
+                }
+              }}
+              disabled={retryCount >= 3}
+              style={{
+                padding: '10px 24px',
+                background: retryCount >= 3 ? '#CBD5E1' : '#5B6CF0',
+                color: '#fff',
+                borderRadius: '8px',
+                border: 'none',
+                fontSize: '14px',
+                fontWeight: 500,
+                cursor: retryCount >= 3 ? 'not-allowed' : 'pointer',
+              }}
+            >
+              {retryCount >= 3 ? '重试次数已用完' : '重试'}
+            </button>
+            <Link to="/" style={{ display: 'inline-block', padding: '10px 24px', background: '#F1F5F9', color: '#64748B', borderRadius: '8px', textDecoration: 'none', fontSize: '14px', fontWeight: 500 }}>
+              返回首页
+            </Link>
           </div>
         </div>
       </div>

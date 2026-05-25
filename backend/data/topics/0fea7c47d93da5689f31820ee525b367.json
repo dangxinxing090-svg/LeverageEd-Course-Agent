@@ -1,0 +1,732 @@
+{
+  "topic_text": "数据结构",
+  "topic_id": "topic-ecff9e77feec",
+  "overview": "嘿，欢迎踏上数据结构的学习之路。你可能听说过它很难、很抽象，甚至有点可怕——但请先放下这些预设。我在这里不是为了给你灌输一堆术语和代码，而是带你站在这片土地的入口，先看清它长什么样，再决定从哪里走起。\n\n想象一下：你要管理一座图书馆。书怎么放才能让人最快找到？怎么放才能方便新书加入、旧书淘汰？怎么安排座位让读者不会撞到一起？这些问题，就是数据结构要回答的——只是管理的对象变成了计算机里的“数据”。每一种数据结构，都是前人想出来的“整理数据的聪明办法”。\n\n### 先看整体：整个领域就是一场“组织与效率”的博弈\n\n数据结构这门课，本质上只有三个问题：\n1. **数据之间有什么关系？**（线性？树形？网状？）  \n2. **我们能对它做什么？**（增、删、改、查、排序、遍历）  \n3. **哪种关系+哪种操作最省时省力？**（空间和时间成本的权衡）\n\n围绕这三个问题，所有数据结构的变体就都串起来了。你不需要一开始就背下红黑树的旋转细节，而是先明白：**每种结构都是为了在某种场景下“快一点”而被发明的**。\n\n### 先通脉络：用直觉认识核心角色\n\n下面这几位是数据结构舞台上的主角，我用你熟悉的生活场景介绍它们：\n\n- **数组**：就像一排编号的储物柜。你知道第3号柜子在哪，直接走过去就行（随机访问快）。但要在中间新加一个柜子，得把所有后面的柜子挪一遍（插入/删除慢）。\n- **链表**：就像一群人手拉手站成一排。每个人只知道自己后面是谁（单向链表）或前后是谁（双向链表）。要找第10个人，你得从头数过去（访问慢），但要在中间加一个人，只需让前后两人松开手再拉住他（插入/删除快）。\n- **栈**：就是一个堆盘子的架子。你只能从最上面拿盘子，也只能把新盘子放在最上面。这叫“后进先出”（LIFO）——浏览器的后退按钮、撤销操作都靠它。\n- **队列**：就像在奶茶店排队。第一个来的人先买到，新来的人排在末尾。这叫“先进先出”（FIFO）——打印任务、消息队列都靠它。\n- **树**：就像公司组织架构图。一个老板下面有几个经理，经理下面有员工。查找信息可以从根到叶子逐层找，非常快。文件系统、网页的DOM结构都是树。\n- **图**：就像城市地铁网络。站和站之间通过线路连接，可以形成环路。社交网络的好友关系、地图的导航路径都是图。\n- **哈希表**：就像字典。你查一个词（键），直接翻到对应页码就能看到释义（值）。它用“哈希函数”把名字变成书架位置，几乎瞬间定位。\n\n你看，这些结构没有一个是你完全陌生的。它们只是把现实中的组织方式抽象成了计算机里的逻辑。\n\n### 先通动机：为什么要有这么多不同的结构？\n\n答案是：**没有一个结构在所有场景下都最优秀**。\n\n- 如果程序经常需要按索引查数据（比如“第100个用户是谁”），数组完胜。\n- 如果程序经常需要插入/删除数据（比如动态更新的通讯录），链表更合适。\n- 如果程序需要“后进先出”的撤销逻辑，栈是自然选择。\n- 如果程序需要处理排队请求（比如Web服务器），队列是标配。\n- 如果程序需要快速搜索大量数据（如亿级手机号数据库），树（如二叉搜索树）或哈希表登场。\n\n你不是在“学习一堆无聊的定义”，而是在**学习不同场景下如何选择合适的工具**。这就像一个木匠知道什么时候用锤子、什么时候用螺丝刀一样自然。\n\n### 先建信心：你并不需要一步到位\n\n很多初学者被卡住，是因为一开始就想搞懂红黑树、AVL树、B+树的内部旋转细节。请记住：**先学会用，再学会造**。你应该这样走：\n\n1. **先用直觉理解每个结构的“样子”和“主要用途”**——上面我们已经做到了。\n2. **然后动手写最简单的代码**：比如用数组实现一个栈、用链表实现一个队列。即使写出来很丑、效率不高，也没关系。重要的是感受“增删改查”的过程。\n3. **再观察现实问题**：为什么缓存系统常用“最近最少使用”（LRU）算法？因为它本质上是双向链表+哈希表的组合。为什么数据库索引常用B+树？因为它针对磁盘读写做了优化。看到这些，你会恍然大悟：“哦，原来这就是数据结构的应用！”\n4. **最后再深入细节**：当你想知道“为什么树要平衡”，去学旋转；当你想知道“为什么哈希表会冲突”，去学链地址法。这时候你已经有上下文了，学起来就不是死记硬背。\n\n### 你的下一步方向\n\n你可以沿着这个顺序走，每一步都会给你下一步打下基础：\n**数组 → 链表 → 栈 → 队列 → 树（二叉树、二叉搜索树） → 堆 → 图（基本遍历） → 哈希表**\n\n每接触一个新结构，问自己三个问题：\n- 它解决了什么实际问题？（为什么要存在？）\n- 它的增、删、查、改分别快在哪里、慢在哪里？（优缺点）\n- 它和上一个结构有什么异同？（对比学习）\n\n你已经站在了入口。这片土地的纹理你已经看懂了——它不是一座高不可攀的山，而是一片由“组织、效率、权衡”构成的田野。你不需要一次走完，但你已经知道该往哪个方向迈出第一步。\n\n欢迎上路。接下来的每一步，你都会发现“原来如此”。",
+  "structure": {
+    "blocks": [
+      {
+        "block_id": "block-62bfe9cc",
+        "block_name": "线性结构",
+        "points": [
+          {
+            "point_id": "point-f10f0961",
+            "point_name": "顺序表",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-3bc7233e",
+                "component_name": "顺序存储原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-aa5ef6d0",
+                "component_name": "基本操作（初始化、插入、删除、查找、更新）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-56e84ae4",
+                "component_name": "动态扩容",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-283d4649",
+                "component_name": "时间复杂度分析",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-3ce6592f",
+            "point_name": "链表",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-06b6ae30",
+                "component_name": "单链表",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bfbac960",
+                "component_name": "双向链表",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-96063e44",
+                "component_name": "循环链表",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-22fc6173",
+                "component_name": "基本操作（头插、尾插、删除、遍历）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-96c88587",
+                "component_name": "快慢指针应用",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-294c9f44",
+            "point_name": "栈",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-2851ddcf",
+                "component_name": "顺序栈",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6d11ddd8",
+                "component_name": "链式栈",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cb35f12b",
+                "component_name": "基本操作（push, pop, peek, isEmpty）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1c0aa38b",
+                "component_name": "表达式求值（中缀转后缀、后缀计算）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bcffdc80",
+                "component_name": "栈与递归",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-c314de0b",
+            "point_name": "队列",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-e49e5cd0",
+                "component_name": "顺序队列（循环队列）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-213fd7be",
+                "component_name": "链式队列",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a4126cb8",
+                "component_name": "基本操作（enqueue, dequeue, front, isEmpty）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f431ad03",
+                "component_name": "双端队列",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9fb1bee3",
+                "component_name": "优先级队列（堆实现）",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-cae4bdad",
+        "block_name": "树形结构",
+        "points": [
+          {
+            "point_id": "point-8d8dda72",
+            "point_name": "树的基础",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-b4afe0b0",
+                "component_name": "树的定义与术语（节点、度、深度、子树）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9a581f06",
+                "component_name": "树的存储（双亲、孩子、兄弟表示法）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-47f1b10e",
+                "component_name": "树的遍历（先序、后序、层次）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-47d547f9",
+                "component_name": "森林与树的转换",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-179f9a1f",
+            "point_name": "二叉树",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-9bd7589f",
+                "component_name": "二叉树定义与性质（第i层最大节点数，总节点数）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f0853949",
+                "component_name": "满二叉树与完全二叉树",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-45bb311b",
+                "component_name": "二叉树的存储（顺序、链式）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3b9e9c32",
+                "component_name": "遍历（前序、中序、后序递归与迭代）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bdfe9872",
+                "component_name": "线索二叉树",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-de7e09a1",
+                "component_name": "表达式树",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-3158580b",
+            "point_name": "二叉搜索树（BST）",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-6ee5013f",
+                "component_name": "BST定义与性质",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-03f5df39",
+                "component_name": "查找、插入、删除",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-64f3aa20",
+                "component_name": "平衡的概念",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-dce8aab1",
+                "component_name": "AVL树（旋转、平衡因子）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f09c9551",
+                "component_name": "红黑树（性质、插入调整）",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-d9f3f207",
+            "point_name": "堆与优先队列",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-4fa5861f",
+                "component_name": "二叉堆（最大堆、最小堆）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-358d9d0c",
+                "component_name": "堆的构建（下滤、上滤）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7af619e8",
+                "component_name": "堆排序",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8f39ba82",
+                "component_name": "优先队列应用",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-f71c540f",
+            "point_name": "树的其他结构",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-a20405fa",
+                "component_name": "哈夫曼树与哈夫曼编码",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5e7f37e3",
+                "component_name": "并查集（union-find）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b06a3ef1",
+                "component_name": "线段树",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a3c6892f",
+                "component_name": "Trie树（字典树）",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-4de391e9",
+            "point_name": "多路查找树",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-1a62815b",
+                "component_name": "B树",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-efd1cf05",
+                "component_name": "B+树",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-037e5769",
+                "component_name": "2-3树",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-ecdbb4d1",
+        "block_name": "图结构",
+        "points": [
+          {
+            "point_id": "point-a3f008af",
+            "point_name": "图的基本概念",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-0d294b13",
+                "component_name": "有向图、无向图、完全图、顶点的度",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-96b8a6a1",
+                "component_name": "图的存储（邻接矩阵、邻接表、十字链表、邻接多重表）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1bc787ea",
+                "component_name": "连通性、强连通分量",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-5c904a20",
+            "point_name": "图的遍历",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-10e797d0",
+                "component_name": "深度优先搜索（DFS）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6e90e79e",
+                "component_name": "广度优先搜索（BFS）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-962b2732",
+                "component_name": "非连通图的遍历",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4b6f2567",
+                "component_name": "时间戳、拓扑排序",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-a5be292a",
+            "point_name": "最小生成树",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-7be6879c",
+                "component_name": "Prim算法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cedf6cc0",
+                "component_name": "Kruskal算法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5d28898c",
+                "component_name": "割与桥",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-565243c6",
+            "point_name": "最短路径",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-c06100da",
+                "component_name": "Dijkstra算法（单源非负权）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f769ca4d",
+                "component_name": "Bellman-Ford算法（含负权）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ad34a718",
+                "component_name": "Floyd算法（多源）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c6e7a57f",
+                "component_name": "差分约束系统",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-11e579ff",
+            "point_name": "关键路径与AOE网",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-7482f496",
+                "component_name": "关键路径定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2676d987",
+                "component_name": "最早开始时间与最晚开始时间",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-96ce0fb1",
+                "component_name": "关键活动",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-91039ad3",
+            "point_name": "图的高级应用",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-33620c2b",
+                "component_name": "欧拉回路与哈密顿路径",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e1144780",
+                "component_name": "二分图匹配（匈牙利算法）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-81562b2f",
+                "component_name": "最大流（Ford-Fulkerson, Edmonds-Karp）",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-6e0247dc",
+        "block_name": "散列与集合",
+        "points": [
+          {
+            "point_id": "point-ac8af8b9",
+            "point_name": "散列基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-fd94960e",
+                "component_name": "散列函数（除留余数法、乘法、数字分析）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e2240a39",
+                "component_name": "冲突处理（开放定址法、链地址法）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1fbc05e4",
+                "component_name": "装填因子与性能分析",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9229303f",
+                "component_name": "散列表动态调整",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-9b294b69",
+            "point_name": "哈希应用",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-6bca21b6",
+                "component_name": "哈希集合与哈希映射",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bc178f7b",
+                "component_name": "一致性哈希",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e54eba80",
+                "component_name": "布隆过滤器",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-19c5280a",
+                "component_name": "哈希在密码学中的简单应用",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-aae8450a",
+            "point_name": "字符串匹配",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-e6743b47",
+                "component_name": "Brute-Force",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b4c0e97b",
+                "component_name": "KMP算法（next数组）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4e1e24ec",
+                "component_name": "Boyer-Moore",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-86a7768e",
+                "component_name": "Rabin-Karp（滚动哈希）",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-525ad45e",
+        "block_name": "排序与查找算法",
+        "points": [
+          {
+            "point_id": "point-f65b73e2",
+            "point_name": "基本排序",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-b931914c",
+                "component_name": "插入排序",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5a9ccbf3",
+                "component_name": "冒泡排序",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f94ac40b",
+                "component_name": "选择排序",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-901ad7c3",
+                "component_name": "希尔排序",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-87b3b4db",
+                "component_name": "原地排序与稳定性",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-7194389d",
+            "point_name": "高级排序",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-03434598",
+                "component_name": "快速排序（分区、优化）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-11819987",
+                "component_name": "归并排序（分治、合并）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3c6ad863",
+                "component_name": "堆排序（利用最大堆）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-09224451",
+                "component_name": "计数排序",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c67785d2",
+                "component_name": "基数排序",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-26b3220c",
+                "component_name": "外部排序",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-24ec8ecb",
+            "point_name": "查找算法",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-001f06bd",
+                "component_name": "顺序查找",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8b4119aa",
+                "component_name": "二分查找（有序、递归/迭代）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d08ff8be",
+                "component_name": "插值查找",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a01a8418",
+                "component_name": "斐波那契查找",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-497515ac",
+                "component_name": "分块查找",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-8a90ade5",
+            "point_name": "排序与查找综合",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-e81df4ec",
+                "component_name": "排序稳定性分析",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3254b0be",
+                "component_name": "各种排序时间/空间对比",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-849ef190",
+                "component_name": "查找表（静态、动态）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7aa349ec",
+                "component_name": "算法选择策略",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "saved_at": "2026-05-24T20:11:03.403404"
+}
