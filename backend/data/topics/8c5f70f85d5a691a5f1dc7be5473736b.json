@@ -1,0 +1,768 @@
+{
+  "topic_text": "深度学习",
+  "topic_id": "topic-6366306ab076",
+  "overview": "欢迎踏上理解深度学习的旅程。我是你的向导，不会一上来就给你满脑子公式和术语，而是先带你飞上高空，看清楚这片土地的轮廓——等你有了整体直觉，再落地一步步走。\n\n## 先见森林：深度学习到底是什么？\n\n想象你小时候是怎么学会认猫的。没人给你列出“猫的耳朵是三角形、胡须有12根、尾巴长30厘米”这样的规则。你只是看了很多很多猫的图片，听别人说“这是猫”，然后你的大脑自动总结出了规律。哪怕遇到一只从没见过的橘猫，你也能认出它是猫。\n\n深度学习干的，正是这件事。它不是写死规则，而是给计算机海量的例子（比如100万张图片和对应的标签“猫”“狗”“车”），让它自己发现数据中的规律。这个规律不像规则那样死板——它是一套层层递进的抽象特征。从最粗糙的“边缘和色块”，到“圆圆的东西可能是眼睛”，再到“有毛的、四条腿的可能是动物”。每一层都是上一层特征的组合，越往后越接近人类能理解的概念。\n\n这种“层次化”的自动学习，就是深度学习的核心引擎。它之所以叫“深度”，就是因为层数多（几十层甚至上百层）。而“学习”，就是让这些抽象的层次变得越来越好用。\n\n## 先通脉络：直觉才是第一块基石\n\n别急着学反向传播的公式，先感受两个最关键的直觉：\n\n**直觉一：网络就是一连串“滤镜”**  \n想象你在用修图软件处理一张照片。你可以先加一个“边缘检测”滤镜，输出一张轮廓图；再叠加一个“纹理识别”滤镜，圈出所有条纹区域；再加一个“形状匹配”滤镜，把轮廓和形状组合起来……每个滤镜的参数是可以调整的。深度学习的神经网络，就是一组可以自动调整参数的滤镜，一层接一层地工作。输入是一张图片（或一段文字、一个声音），经过第一层滤镜输出“边缘特征”，第二层根据边缘输出“纹理特征”，第三层根据纹理输出“部件特征”……最后一层输出“这玩意儿是猫”。\n\n**直觉二：训练就像在山上找谷底**  \n你觉得什么算“学好”了？答案是：当你给出的答案和正确答案之间的差距（即“损失”）最小。所有参数（滤镜的强度）组成一个高维空间，而损失函数就是这个空间里的地形。你的任务是在这个地形里找到最低点（损失最小的地方）。怎么找？你站在山上，往四周踩一踩，哪边最陡就往哪边迈一步。反复如此，最终就会下到山谷。这个“每次往最陡方向迈一步”的方法，就是**梯度下降**。而**反向传播**，就是高效计算这个“陡峭方向”的算法——它从最后一层往前推，告诉每一层滤镜该怎么调整。\n\n## 为什么现在才火起来？三个秘密武器\n\n深度学习的核心思想（多层神经网络）其实上世纪80年代就有了，但当时只能做一两层，再多就学不动了。直到近十年，三样东西凑齐了：\n- **大数据**：互联网让海量标注数据变得廉价，神经网络不怕吃撑。\n- **大算力**：GPU（图形处理芯片）天生适合做矩阵运算，而神经网络几乎全是矩阵乘法。一块高端显卡能让训练速度提升上百倍。\n- **小技巧**：比如用ReLU激活函数（简单说就是只保留正数）、用Dropout随机让一些神经元“休眠”防止过拟合、用BatchNorm让每层数据归一化……这些看似微小的改进，让几十层甚至上百层的网络也能稳定训练。\n\n## 你现在已经握住了地图的脉络\n\n让我为你画一张极简路线图：\n\n1. **先动手玩**：拿一个现成的深度学习框架（比如PyTorch或Keras），跑通一个识别手写数字的经典案例（MNIST）。哪怕你对代码一知半解，看到网络从随机猜测变成90%准确率的那一刻，你会兴奋地发现“原来真的能学会”。\n2. **再补数学**：等你有了手感，自然会发现需要懂一点线性代数（矩阵乘法）、微积分（求导链式法则）和概率（损失函数）。别怕，你不需要成为数学家，只要会用就好。\n3. **最后深入模块**：卷积层（CNN，适合图像）、循环层（RNN，适合序列）、注意力机制（Transformer，统治了翻译、写作、甚至蛋白质结构）——每个都是你工具箱里的新工具。你完全可以按需学习。\n\n## 最重要的一句定心丸\n\n深度学习没有你想象得那么高不可攀。它背后的思想——自动提取特征、层层抽象、用误差反向调整——本质上和人类的学习方式很像。你现在已经理解了它的骨骼：一个多层滤镜系统 + 一个下山算法。剩下的血肉，都是用细节来填充的。\n\n而且，你不需要一次性掌握所有。就像学开车，你不需要先精通内燃机原理才能上路。你可以先知道“踩油门车会走，踩刹车车会停”，开起来再慢慢理解更深的东西。\n\n现在，你已经看到了这片土地的纹理。下一步，你可以沿着这条直觉的主干，迈出实际的第一步——也许就是打开一个在线教程，跑出你的第一个“猫狗分类”模型。你已经有了方向，剩下的只是步伐。",
+  "structure": {
+    "blocks": [
+      {
+        "block_id": "block-47f4206c",
+        "block_name": "数学基础",
+        "points": [
+          {
+            "point_id": "point-d45d8b8a",
+            "point_name": "线性代数",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-6d2021d7",
+                "component_name": "向量与矩阵运算",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ff3f64d7",
+                "component_name": "特征值与特征向量",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-174027a3",
+                "component_name": "矩阵分解（SVD/PCA）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-21e76bca",
+                "component_name": "张量概念与操作",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-3eb5ca20",
+            "point_name": "概率论与信息论",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-ddfbf6d4",
+                "component_name": "随机变量与分布",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9bafb743",
+                "component_name": "贝叶斯定理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8bdfdad0",
+                "component_name": "期望、方差、协方差",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-86bfb224",
+                "component_name": "熵与交叉熵",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-50e3a78a",
+            "point_name": "微积分",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-5b41b824",
+                "component_name": "导数与偏导数",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a85c5362",
+                "component_name": "链式法则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c6a037c4",
+                "component_name": "泰勒展开",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-69f6de44",
+                "component_name": "梯度与方向导数",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-d4d4a1e5",
+            "point_name": "优化基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-2072be4b",
+                "component_name": "凸函数与凸优化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cd83a110",
+                "component_name": "拉格朗日乘子法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c67b9fbb",
+                "component_name": "梯度下降法原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-43be4dd7",
+                "component_name": "条件与无约束优化",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-dc0dd908",
+        "block_name": "机器学习基础",
+        "points": [
+          {
+            "point_id": "point-8913dd2a",
+            "point_name": "监督学习",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-55ab9e00",
+                "component_name": "线性回归与最小二乘法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-dc824e03",
+                "component_name": "逻辑回归与分类",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-981d000f",
+                "component_name": "支持向量机（SVM）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9a29c50c",
+                "component_name": "决策树与集成方法（随机森林/GBDT）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-50057ac8",
+                "component_name": "k-近邻算法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-73c5047e",
+            "point_name": "无监督学习",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-573a2e0c",
+                "component_name": "k-均值聚类",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-60fda35d",
+                "component_name": "主成分分析（PCA）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5a26ab6f",
+                "component_name": "高斯混合模型",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4ca2e27a",
+                "component_name": "自编码器简介",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-637b94ba",
+            "point_name": "模型评估与正则化",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-a69bd16b",
+                "component_name": "过拟合与欠拟合",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a1d49c06",
+                "component_name": "交叉验证",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-245dc46a",
+                "component_name": "偏差-方差权衡",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c2adc9d3",
+                "component_name": "L1/L2正则化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c2638dcd",
+                "component_name": "评估指标（准确率/召回率/F1/ROC）",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-5d9d89ad",
+        "block_name": "神经网络基础",
+        "points": [
+          {
+            "point_id": "point-5643f9ba",
+            "point_name": "感知机与多层感知机",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-078d22bc",
+                "component_name": "单层感知机原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7f94818e",
+                "component_name": "多层感知机结构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-21fbe2eb",
+                "component_name": "全连接层与权重初始化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cd1591bb",
+                "component_name": "前向传播计算",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-db67e67c",
+            "point_name": "激活函数",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-fc47d3b9",
+                "component_name": "Sigmoid与Tanh",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c3c06a5b",
+                "component_name": "ReLU及变体（Leaky ReLU/ELU）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-25dce046",
+                "component_name": "Softmax函数",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-825e4c2a",
+                "component_name": "激活函数选择策略",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-8becf9ab",
+            "point_name": "反向传播与梯度下降",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-1f082f5c",
+                "component_name": "计算图与链式法则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-95a4bc3e",
+                "component_name": "梯度推导与反向传播算法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-70404d4d",
+                "component_name": "梯度消失与爆炸",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1eaba8f4",
+                "component_name": "随机梯度下降（SGD）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2a417aff",
+                "component_name": "小批量梯度下降",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-e099ed91",
+            "point_name": "损失函数",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-1f5baf4d",
+                "component_name": "均方误差（MSE）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2da75dd6",
+                "component_name": "交叉熵损失",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4a089942",
+                "component_name": "Hinge损失",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-190c682b",
+                "component_name": "自定义损失函数",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-fa3cd39b",
+        "block_name": "深度网络架构",
+        "points": [
+          {
+            "point_id": "point-83546814",
+            "point_name": "卷积神经网络（CNN）",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-589f19dc",
+                "component_name": "卷积操作与卷积核",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f6089262",
+                "component_name": "池化层",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e933a1b4",
+                "component_name": "经典CNN结构（LeNet/AlexNet/VGG）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2ea98b0b",
+                "component_name": "残差网络（ResNet）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e6f4a48d",
+                "component_name": "1x1卷积与Inception",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-1f4650c2",
+            "point_name": "循环神经网络（RNN）",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-1f204333",
+                "component_name": "RNN基本结构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6f932014",
+                "component_name": "长短期记忆网络（LSTM）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4d473de2",
+                "component_name": "门控循环单元（GRU）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cac34097",
+                "component_name": "双向RNN",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-45c6ff0a",
+                "component_name": "序列到序列模型",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-7051800a",
+            "point_name": "注意力机制与Transformer",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-544ce416",
+                "component_name": "注意力机制原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2722ea0d",
+                "component_name": "自注意力（Self-Attention）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-fe087bcb",
+                "component_name": "多头注意力",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b1f90e0d",
+                "component_name": "Transformer编码器-解码器结构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e6506a16",
+                "component_name": "位置编码",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e5136a62",
+                "component_name": "BERT与GPT简介",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-4015bf5a",
+            "point_name": "生成对抗网络（GAN）",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-1019b1d0",
+                "component_name": "生成器与判别器",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e238d0ec",
+                "component_name": "对抗损失与训练技巧",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0a4f810d",
+                "component_name": "DCGAN",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a84fd41b",
+                "component_name": "条件GAN与CycleGAN",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-f35f263d",
+        "block_name": "训练与优化",
+        "points": [
+          {
+            "point_id": "point-c4337307",
+            "point_name": "优化器",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-993a8b37",
+                "component_name": "动量法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1a7f62fb",
+                "component_name": "Adagrad",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-73db9ef3",
+                "component_name": "RMSProp",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f0881fa1",
+                "component_name": "Adam与AdamW",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7c3bbde5",
+                "component_name": "学习率调度策略",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-a6a218e5",
+            "point_name": "正则化与防止过拟合",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-d8e05012",
+                "component_name": "Dropout",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-69a22624",
+                "component_name": "批归一化（Batch Normalization）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f705d4f7",
+                "component_name": "层归一化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bdaf0361",
+                "component_name": "早停法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-fdbe66a6",
+                "component_name": "权重衰减与标签平滑",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-82d0ebca",
+            "point_name": "数据增强与迁移学习",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-85ab9c56",
+                "component_name": "常见数据增强方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1665380f",
+                "component_name": "预训练模型微调",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9eb197ee",
+                "component_name": "特征提取与固定权重",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2f1af285",
+                "component_name": "域自适应简介",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-8aebd2ae",
+            "point_name": "超参数调优",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-fdf603c0",
+                "component_name": "网格搜索与随机搜索",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-313d6b9a",
+                "component_name": "贝叶斯优化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-feeb2fc1",
+                "component_name": "学习率、批量大小影响",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0d16e75b",
+                "component_name": "自动化超参数工具（Optuna/Hyperopt）",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-e1907e7c",
+        "block_name": "高级主题",
+        "points": [
+          {
+            "point_id": "point-9c75b3d7",
+            "point_name": "深度强化学习",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-c03f5e9d",
+                "component_name": "Q-Learning与深度Q网络",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d11786d4",
+                "component_name": "策略梯度方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-69985d8b",
+                "component_name": "Actor-Critic方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-84e90729",
+                "component_name": "PPO与DDPG",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-d91b98b1",
+            "point_name": "自监督与无监督学习",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-6b8638be",
+                "component_name": "对比学习（SimCLR/MoCo）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d5c3106d",
+                "component_name": "掩码自编码器（MAE）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-221385d5",
+                "component_name": "变分自编码器（VAE）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-07d1ff67",
+                "component_name": "自监督预训练策略",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-4fa0cc63",
+            "point_name": "前沿模型与架构",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-d97e7bfe",
+                "component_name": "Transformer在视觉上的应用（ViT）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4346c251",
+                "component_name": "Large Language Models (GPT-3/4, LLaMA)",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2e36c124",
+                "component_name": "扩散模型（DDPM）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-139cb2f2",
+                "component_name": "多模态模型（CLIP/DALL-E）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0d02ed27",
+                "component_name": "轻量化模型（MobileNet/EfficientNet）",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-3cd000f9",
+            "point_name": "深度学习工程实践",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-36afa5c7",
+                "component_name": "框架（PyTorch/TensorFlow）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c4e1f8f0",
+                "component_name": "分布式训练基础",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-799ffdf6",
+                "component_name": "模型部署与推理优化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e0d53075",
+                "component_name": "实验管理（MLflow/Weights & Biases）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-21a76894",
+                "component_name": "硬件加速（GPU/TPU）",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "saved_at": "2026-05-27T23:57:25.481555"
+}

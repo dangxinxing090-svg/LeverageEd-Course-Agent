@@ -61,11 +61,6 @@ export const PanoramaProgress: React.FC<PanoramaProgressProps> = ({
     setSelectedPoint(point);
   }, []);
 
-  // 跳转到学习
-  const handleStartLearning = useCallback(() => {
-    navigate(`/learn?topicId=${topicId}`);
-  }, [navigate, topicId]);
-
   // 跳转到具体组件
   const handleComponentClick = useCallback((component: KnowledgeComponent) => {
     navigate(`/learn?topicId=${topicId}&componentId=${component.component_id}`);
@@ -77,9 +72,6 @@ export const PanoramaProgress: React.FC<PanoramaProgressProps> = ({
       <div className="panorama-progress">
         <div className="panorama-header">
           <h2 className="panorama-title">📊 {topicName} - 知识全景图</h2>
-          <button className="panorama-back-btn" onClick={handleStartLearning}>
-            返回学习
-          </button>
         </div>
         <div className="panorama-empty">
           <div className="panorama-empty-icon">🗺️</div>
@@ -95,9 +87,6 @@ export const PanoramaProgress: React.FC<PanoramaProgressProps> = ({
       {/* 头部 */}
       <div className="panorama-header">
         <h2 className="panorama-title">📊 {topicName} - 知识全景图</h2>
-        <button className="panorama-back-btn" onClick={handleStartLearning}>
-          返回学习
-        </button>
       </div>
 
       {/* 主内容区 - 列表视图 */}

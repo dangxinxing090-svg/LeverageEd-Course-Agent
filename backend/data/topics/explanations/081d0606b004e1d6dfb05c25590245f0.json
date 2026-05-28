@@ -1,0 +1,49 @@
+{
+  "component_id": "comp-8ea4d979",
+  "knowledge_name": "变量声明（var/let/const）",
+  "saved_at": "2026-05-27T23:12:15.134566",
+  "sections": [
+    {
+      "type": "definition",
+      "title": "通俗定义",
+      "icon": "💡",
+      "content": "变量声明就像在程序里“贴标签”——给一块内存空间起个名字，告诉JavaScript：“这个盒子叫x，里面装的是数字10”，而且还能规定这个盒子能不能换成别的东西。var、let、const就是三种不同“贴法”，有的盒子可以换内容，有的永久固定，有的只能在特定房间里使用。"
+    },
+    {
+      "type": "principle",
+      "title": "底层原理",
+      "icon": "🔬",
+      "content": "JavaScript引擎在执行代码前，会先扫描所有声明（提升机制）。var声明的变量会被提升到函数顶部并初始化为undefined，所以能在声明前使用。let和const也会提升，但会进入“暂时性死区”——在声明前访问会报ReferenceError。作用域上，var只认函数边界，let和const认花括号{}（块级作用域）。const保证变量指向的内存地址不变，但如果是对象，对象内部的属性可以改。"
+    },
+    {
+      "type": "example",
+      "title": "入门示例",
+      "icon": "📝",
+      "content": "// var 示例\nvar name = '小明';\nfunction test() {\n  if (true) {\n    var age = 18; // 函数作用域，外部可访问\n  }\n  console.log(age); // 18\n}\n\n// let 示例\nlet city = '北京';\n{\n  let area = '朝阳';\n  console.log(area); // 朝阳\n}\n// console.log(area); // 报错：area未定义\n\n// const 示例\nconst PI = 3.14;\n// PI = 3.1415; // 报错：给常量赋值\nconst obj = { key: 'value' };\nobj.key = 'new'; // 允许，因为对象内容未改变引用"
+    },
+    {
+      "type": "structure",
+      "title": "核心拆解",
+      "icon": "🔧",
+      "content": "每个变量声明由三部分构成：\n1. 声明关键字（var/let/const）——决定作用域和可变规则；\n2. 变量名——标识符，必须遵循字母、数字、$、_组成且不能以数字开头；\n3. 初始化值（可选）——第一次赋予的值，const必须初始化，var和let可以不写（默认undefined）。\n作用域规则：var冲出花括号，let/const困在花括号内。\n可变性：var/let允许重新赋值，const不允许（但对象和数组的内容可变）。"
+    },
+    {
+      "type": "comparison",
+      "title": "易混对比",
+      "icon": "⚖️",
+      "content": "| 特性 | var | let | const |\n|------|-----|-----|-------|\n| 作用域 | 函数级 | 块级 | 块级 |\n| 变量提升 | 声明提升，初始化为undefined | 提升但不初始化（暂时性死区） | 同let |\n| 重新赋值 | 允许 | 允许 | 不允许（引用不可变） |\n| 重复声明 | 允许 | 不允许 | 不允许 |\n| 使用前必须声明 | 否（因提升有undefined） | 是 | 是 |\n\n容易混淆点：let和const是块级作用域，但const声明的对象属性可以修改；var不报重复声明是最大坑。"
+    },
+    {
+      "type": "mistake",
+      "title": "常见错误",
+      "icon": "⚠️",
+      "content": "1. 忘记声明直接赋值（严格模式下报错）如：x = 5; 容易变成全局变量。\n2. 在for循环里用var导致闭包陷阱（只捕捉到最终值），应改用let。\n3. 用const声明一个基本类型后尝试修改（如const count = 0; count++ → 报错）。\n4. 在初始化前使用let/const变量（暂时性死区），以为和var一样有undefined。\n5. 误以为const声明对象后整个对象不可变（其实只是引用不可变）。"
+    },
+    {
+      "type": "scenario",
+      "title": "适用场景",
+      "icon": "🎯",
+      "content": "✅ 用const：声明不变的值，如PI、API地址、固定配置对象。优先使用。\n✅ 用let：需要重新赋值的变量，如循环计数器、条件分支结果、累加器。\n❌ 基本不用var：除非维护遗留代码，或者故意要函数作用域/提升特性（但建议避免）。\n不适用场景：不要用let替代const导致意外修改；不要在块外期望访问块内let变量；不要用var写现代代码（容易引发作用域污染）。"
+    }
+  ]
+}

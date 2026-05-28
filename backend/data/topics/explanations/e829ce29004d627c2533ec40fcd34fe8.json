@@ -1,0 +1,49 @@
+{
+  "component_id": "comp-1936ab6a",
+  "knowledge_name": "数字类型（int/float/bool）操作",
+  "saved_at": "2026-05-28T11:33:58.999769",
+  "sections": [
+    {
+      "type": "definition",
+      "title": "通俗定义",
+      "icon": "💡",
+      "content": "数字类型（int、float、bool）是Python里用来处理数值的三把“钥匙”：int管整数（比如3、-10），float管带小数点的数（比如3.14、-0.5），bool管逻辑真假（True/False，本质也是数字）。它们让你能进行加减乘除等计算，就像算盘上的珠子，不过更聪明。"
+    },
+    {
+      "type": "principle",
+      "title": "底层原理",
+      "icon": "🔬",
+      "content": "计算机底层只懂0和1，数字类型就是把这些二进制位按一定规则翻译成我们能理解的数。int是固定长度（Python 3中int无限大，但实际内存分配会动态扩展）的二进制补码表示；float遵循IEEE 754标准，用64位存储（1位符号+11位指数+52位尾数），所以有精度限制，比如0.1+0.2不等于0.3；bool其实是int的子类，True=1，False=0，只是披着逻辑外衣的整数。"
+    },
+    {
+      "type": "example",
+      "title": "入门示例",
+      "icon": "📝",
+      "content": "```python\n# 整数\nage = 25\nprice = -10\n\n# 浮点数\nheight = 1.75\npi = 3.14159\n\n# 布尔值\nis_student = True\nhas_passed = False\n\n# 基本操作\nprint(age + 5)      # 30\nprint(height * 2)   # 3.5\nprint(is_student and True)  # True\nprint(int(3.9))     # 3（截断小数，不是四舍五入）\nprint(float(7))     # 7.0\n```"
+    },
+    {
+      "type": "structure",
+      "title": "核心拆解",
+      "icon": "🔧",
+      "content": "1. **int（整数）**：不带小数点的数字，如42、-7。可执行+、-、*、//（整除）、%（取余）、**（幂）。\n2. **float（浮点数）**：带小数点的数字，如3.14、1.0e-5（科学计数法）。运算有精度陷阱，比较时常用误差容忍。\n3. **bool（布尔值）**：只有True和False，支持and、or、not逻辑运算。在算术中True当成1，False当成0，所以True + True = 2。\n4. **类型转换**：int(x)、float(x)、bool(x)。把其他类型转成数字时，注意非数字字符串会报错。"
+    },
+    {
+      "type": "comparison",
+      "title": "易混对比",
+      "icon": "⚖️",
+      "content": "**int vs float**：int精确，适合计数；float近似，适合科学计算。比较时int == int没问题，float == float可能因精度出问题。\n**bool vs int**：bool是int的子类，True和False可以直接参与算术，但逻辑上不推荐混合使用，否则代码难懂。\n**0 vs False / 1 vs True**：在条件判断中，0、False、空序列等同为“假”，非0、True、非空序列等同为“真”，但数值上False是0，True是1。"
+    },
+    {
+      "type": "mistake",
+      "title": "常见错误",
+      "icon": "⚠️",
+      "content": "1. **浮点数比较**：if 0.1 + 0.2 == 0.3 会得到False，正确做法是检查差值是否小于一个极小值（如abs(a-b) < 1e-9）。\n2. **整除与浮点除法混淆**：3 / 2 得 1.5（float），3 // 2 得 1（int），新手常混用。\n3. **类型转换陷阱**：int(\"3.14\") 会报错，因为字符串里是float格式；应该先float再int。\n4. **布尔值算术滥用**：True + True 虽然合法，但代码可读性差，应改用sum([1,1])。\n5. **负数取余**：-7 % 3 在Python中得2，因为结果与除数同号，与其他语言不同。"
+    },
+    {
+      "type": "scenario",
+      "title": "适用场景",
+      "icon": "🎯",
+      "content": "**用int**：年龄、计数、索引、循环次数、任何不需要小数部分的场景。\n**用float**：测量值、科学计算、价格（但金额建议用decimal模块）、温度、任何有小数且可接受近似精度的场景。\n**用bool**：条件判断、开关标志、函数返回值表示成功/失败。\n**不该用**：高精度财务计算别用float（用Decimal）；恰好是逻辑值但非要转成整数运算时，别用bool，用int反而不自然。"
+    }
+  ]
+}

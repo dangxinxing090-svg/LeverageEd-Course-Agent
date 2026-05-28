@@ -1,0 +1,716 @@
+{
+  "topic_text": "强化学习",
+  "topic_id": "topic-b3d451256fdc",
+  "overview": "# 强化学习：从零开始的山海经\n\n你好，探索者。我知道你为什么站在这里——你听过“强化学习”这个名字，知道它是人工智能皇冠上的明珠之一，是AlphaGo、ChatGPT背后的秘密武器，但你不知道它究竟是一条怎样的河流，从哪里来，要到哪里去。\n\n别担心。我不是来给你塞满公式和算法的。我是来带你登上第一座山丘，让你看清这片土地的轮廓。之后你会发现，通往深处的路，就在你自己脚下。\n\n## 第一眼：强化学习不是什么\n\n让我们先放下包袱。强化学习**不是**：\n- 一堆复杂的数学证明\n- 只有天才才能理解的黑魔法\n- 需要博士学历才能触碰的禁区\n\n它其实更像**你每天都在做的事情**——学习走路、打游戏、考驾照、甚至追求心仪的人。所有这些，都隐含着一个朴素的结构：\n\n> 你在一个世界里，不断做选择，每个选择后世界给你反馈（好或坏），你调整策略，让未来总收益最大化。\n\n这就是强化学习的心脏。\n\n## 全景图：四个角色一台戏\n\n想象一场永不停息的戏剧，只有四个角色：\n\n1. **智能体** —— 就是“你”，那个做决定的主角\n2. **环境** —— 你所在的整个世界，会回应你的每个动作\n3. **状态** —— 你此刻看到的一切（棋盘、车速、对话语境）\n4. **奖励** —— 环境给你的一颗糖或一鞭子\n\n它们之间有一个简单的循环：\n\n> **状态 → 动作 → 新状态 → 奖励 → 再动作 → ……**\n\n这个循环每转一圈，智能体就多一次经验。它的目标不是让这一瞬间的奖励最大，而是**让整个未来累积的奖励总和最大**。\n\n没错，强化学习本质上是一个关于“**长期主义**”的数学框架。\n\n## 三个核心迷思，一次化解\n\n### 迷思一：“奖励”就是目标？\n不。奖励是**信号**，不是目标。像漂流时的水流——你需要读懂它，而不是抱住它。真正的目标是**累积回报**，也就是长期的总和。这就像下棋：丢一个车是巨大惩罚，但如果为了将死对方，丢车就是高明的一步。\n\n### 迷思二：智能体需要“知道”最优路径？\n它不需要知道，它只需要**探索**。这是强化学习最迷人的地方：一开始它完全随机，像盲人在迷宫乱撞。但每一次撞墙、每一次吃到糖果，它都在悄悄调整内心的“概率地图”。这就是**试错学习**——不需要老师，只需要经验。\n\n### 迷思三：强化学习就是深度学习？\n深度学习是强化学习的一匹好马，但不是唯一的马。你可以用手动设计表格、用线性函数、甚至用一堆if-else来做强化学习。深度学习只是让它更强大——就像在火箭上装了更强的引擎，但火箭还是火箭。\n\n## 两张必须认识的名片\n\n当你开始深入任何一个强化学习问题，会反复遇到两个概念，它们是这个领域的锚点：\n\n### 策略 —— 你的行为准则\n它回答“在某个状态下，我应该做什么”。可以是确定的（“看到红灯就停”），也可以是随机的（“70%概率左转，30%概率直行”）。策略是智能体的**大脑**，所有学习最终都是为了优化它。\n\n### 价值函数 —— 你的水晶球\n它回答“如果我站在这个状态，未来预计能得多少奖励”。这就像棋手的直觉：“这个位置好，那个位置险。”价值函数是智能体的**预见能力**，它不用亲自走到地狱就知道那里不能去。\n\n这两者之间的关系，就像“**想做什么**”和“**觉得什么好**”。强化学习的核心算法，要么直接改进策略（策略梯度），要么先学会评估价值再用它来指导策略（值函数方法）。\n\n## 学习的节奏：从直觉到细节\n\n我为你设计了一条最顺的登山路径，每一步都有风景可看：\n\n### 第一阶段：建立直觉（1-2天）\n- 玩一个简单的网格世界游戏（或者“爬坡小人”小游戏）\n- 手动调整策略，感受“奖励-反馈-调整”循环\n- 理解“探索vs利用”这个永恒的权衡：什么时候该冒险，什么时候该保守\n\n### 第二阶段：核心算法速览（3-5天）\n- **Q学习**：最经典的算法，像给每个状态-动作对打分\n- **策略梯度**：直接优化策略本身，像轮滑教练不断调整你的姿势\n- **深度Q网络**：用神经网络给Q函数做近似，这是AlphaGo的基础\n\n不要试图一次全部搞懂。每个算法只要抓住一个核心直觉：**它用什么方式让“未来总收益”更大？**\n\n### 第三阶段：动手搭积木（1周）\n- 用现成的库（比如Gymnasium+Stable-Baselines3）训练一个智能体玩CartPole\n- 修改奖励函数，观察智能体行为的改变\n- 调试一个“贪婪”的智能体和一个“探索”的智能体，感受哪种更有效\n\n### 第四阶段：深入与拓宽（按需）\n- 数学基础：马尔可夫决策过程、贝尔曼方程、动态规划\n- 高级话题：多智能体、逆强化学习、模仿学习\n- 前沿应用：机器人控制、推荐系统、蛋白质设计\n\n## 最后的礼物：一份信心\n\n你问我强化学习难吗？它不难理解，但它确实有**深度**。就像围棋：规则五分钟就能讲完，但精通需要一生。好消息是：**你不需要精通才能享受它**。\n\n你可以在一个下午写出一段代码，让一个小方块学会平衡一根杆子。当你看到那个小方块从左右摇摆变得稳稳站立时，你会感受到一种原始的兴奋——**你创造了一个会学习的东西**。\n\n**每一条路都是从第一步开始的，而你已经迈出了最重要的一步：站在门口，抬头看清了这片森林的轮廓。**\n\n现在，放下所有“我能不能学会”的怀疑。拿起你喜欢的编程语言，打开一个简单的环境模拟器，让第一个智能体迈出它踉跄的第一步。你会摔很多次，但每一次摔倒，都是那水晶球里更亮的一束光。\n\n需要时，我会在下一个路口等你。",
+  "structure": {
+    "blocks": [
+      {
+        "block_id": "block-ee2bb479",
+        "block_name": "强化学习基础概念",
+        "points": [
+          {
+            "point_id": "point-6c058795",
+            "point_name": "强化学习定义与特征",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-6c8b5308",
+                "component_name": "强化学习与监督/无监督学习的区别",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3f66e979",
+                "component_name": "智能体、环境、状态、动作、奖励的基本定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6a9a5c19",
+                "component_name": "马尔可夫性质与马尔可夫链的概念",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-b3aa3b25",
+            "point_name": "强化学习核心要素",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-6ee5a2ce",
+                "component_name": "策略（Policy）的定义与分类",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a0e527eb",
+                "component_name": "值函数（Value Function）与最优值函数",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a0f8f8c5",
+                "component_name": "模型（Model）与无模型（Model-free）的区别",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f5420290",
+                "component_name": "探索与利用（Exploration vs Exploitation）的权衡",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-169986fb",
+            "point_name": "强化学习问题类型",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-417ee0f5",
+                "component_name": "情节性任务（Episodic）与连续性任务（Continuing）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-75decf96",
+                "component_name": "确定性环境与随机性环境",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-729b4568",
+                "component_name": "完全可观测与部分可观测（POMDP）",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-4277fb42",
+        "block_name": "马尔可夫决策过程 (MDP)",
+        "points": [
+          {
+            "point_id": "point-51b3266f",
+            "point_name": "MDP数学框架",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-5d367eb3",
+                "component_name": "MDP的五元组定义 (S, A, P, R, γ)",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-142ac8ff",
+                "component_name": "状态转移概率与奖励函数",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a7ebd026",
+                "component_name": "折扣因子γ的作用与选择",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5da2c366",
+                "component_name": "回报（Return）与折扣累积奖励",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-a3a70532",
+            "point_name": "贝尔曼方程",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-a740e3d9",
+                "component_name": "状态值函数贝尔曼方程",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-16b4b5c1",
+                "component_name": "动作值函数贝尔曼方程",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d1cb1d01",
+                "component_name": "贝尔曼最优方程与最优策略",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-d03f3eda",
+            "point_name": "MDP求解方法概述",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-2f2ec206",
+                "component_name": "动态规划思路",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-508be576",
+                "component_name": "蒙特卡洛方法思路",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-565156b2",
+                "component_name": "时序差分方法思路",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-e5e0e5ee",
+        "block_name": "动态规划",
+        "points": [
+          {
+            "point_id": "point-de248629",
+            "point_name": "策略评估（Policy Evaluation）",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-7efd4f42",
+                "component_name": "迭代法求解状态值函数",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9a690363",
+                "component_name": "同步备份与异步备份",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3184da70",
+                "component_name": "收敛条件与停止准则",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-db684b70",
+            "point_name": "策略改进（Policy Improvement）",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-84c03eae",
+                "component_name": "贪婪策略改进定理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-eb353ed5",
+                "component_name": "策略迭代算法（Policy Iteration）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-77c7d9cb",
+                "component_name": "值迭代算法（Value Iteration）",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-2e1bcc26",
+            "point_name": "广义策略迭代 (GPI)",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-cec478e8",
+                "component_name": "GPI思想与泛化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5cc4d949",
+                "component_name": "异步动态规划",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0277923d",
+                "component_name": "动态规划的局限性与适用场景",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-920d3b1a",
+        "block_name": "蒙特卡洛方法",
+        "points": [
+          {
+            "point_id": "point-97072e83",
+            "point_name": "蒙特卡洛预测",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-378884bf",
+                "component_name": "首次访问（First-visit）与每次访问（Every-visit）MC",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-083c783a",
+                "component_name": "增量式更新均值",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5640a025",
+                "component_name": "蒙特卡洛估计值函数的无偏性",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-4d686c6a",
+            "point_name": "蒙特卡洛控制",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-adcf78ca",
+                "component_name": "蒙特卡洛ES（Exploring Starts）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-be31c779",
+                "component_name": "基于ε-贪婪策略的蒙特卡洛控制",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a2da92a0",
+                "component_name": "同策略（On-policy）与异策略（Off-policy）MC",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-f85d9cd9",
+            "point_name": "重要性采样",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-87cc079f",
+                "component_name": "重要性采样基本概念",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ab15961b",
+                "component_name": "普通重要性采样与加权重要性采样",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-863693cf",
+                "component_name": "异策略蒙特卡洛预测与控制",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-029c6850",
+        "block_name": "时序差分学习",
+        "points": [
+          {
+            "point_id": "point-af259901",
+            "point_name": "TD预测",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-86275608",
+                "component_name": "TD(0)算法与更新公式",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d541e89d",
+                "component_name": "TD误差（TD Error）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a50e86e1",
+                "component_name": "TD与MC、DP的比较",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-86d7eb02",
+            "point_name": "Sarsa算法",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-20a151a7",
+                "component_name": "Sarsa（同策略）算法流程",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-fcd9f188",
+                "component_name": "期望Sarsa",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-adf08676",
+                "component_name": "Sarsa在Windy Gridworld等环境中的应用",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-9a3f5fd2",
+            "point_name": "Q学习 (Q-Learning)",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-41fb4d84",
+                "component_name": "Q学习算法（异策略）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8577246b",
+                "component_name": "Q学习收敛性证明（简要）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f2952e4f",
+                "component_name": "Q学习与Sarsa的对比",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-848afc55",
+            "point_name": "资格迹 (Eligibility Traces)",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-7b1fff07",
+                "component_name": "λ-return与TD(λ)",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f7835527",
+                "component_name": "前向视角与后向视角",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-65a64450",
+                "component_name": "资格迹与Sarsa(λ)、Q(λ)",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-97f31f78",
+        "block_name": "策略梯度方法",
+        "points": [
+          {
+            "point_id": "point-7b2a634e",
+            "point_name": "策略梯度定理",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-498b2bee",
+                "component_name": "策略参数化与目标函数",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a64549d9",
+                "component_name": "REINFORCE算法（蒙特卡洛策略梯度）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-288d04dc",
+                "component_name": "策略梯度定理推导",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-7bde44c6",
+            "point_name": "Actor-Critic方法",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-c93cb2df",
+                "component_name": "Actor-Critic架构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b6ae6f89",
+                "component_name": "优势函数（Advantage Function）与GAE",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0939531e",
+                "component_name": "自然策略梯度与TRPO",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-4787f0dd",
+            "point_name": "近端策略优化 (PPO)",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-b774cc3c",
+                "component_name": "PPO-clip与PPO-penalty",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f3caca01",
+                "component_name": "PPO算法流程与实现细节",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f979ebf9",
+                "component_name": "PPO与其他策略梯度方法的比较",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-b4ff2cf7",
+        "block_name": "深度强化学习",
+        "points": [
+          {
+            "point_id": "point-d6a6bcfe",
+            "point_name": "深度Q网络 (DQN)",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-fa21d4b2",
+                "component_name": "经验回放（Experience Replay）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-dce3e2c3",
+                "component_name": "目标网络（Target Network）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-20cee0fd",
+                "component_name": "DQN训练技巧（如奖励裁剪、帧堆叠）",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-fc6e22cf",
+            "point_name": "DQN改进算法",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-cbaf1b1a",
+                "component_name": "Double DQN",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-462921fa",
+                "component_name": "Dueling DQN",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-21eb3a9c",
+                "component_name": "Rainbow DQN集成",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-f5506d2d",
+            "point_name": "策略梯度与Actor-Critic的深度扩展",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-8e70f001",
+                "component_name": "A3C与A2C算法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-64195106",
+                "component_name": "SAC（Soft Actor-Critic）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cc405fd0",
+                "component_name": "DDPG与TD3",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-e88dacc2",
+            "point_name": "深度强化学习实践",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-8d2e35a0",
+                "component_name": "环境搭建（Gym、MuJoCo等）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d1bd3a51",
+                "component_name": "超参数调优与训练稳定性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4e6b7370",
+                "component_name": "常见调试方法与技巧",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-4698bb44",
+        "block_name": "高级强化学习主题",
+        "points": [
+          {
+            "point_id": "point-a16809da",
+            "point_name": "基于模型的强化学习",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-7ad7ed4a",
+                "component_name": "世界模型（World Models）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9d426c63",
+                "component_name": "MCTS（蒙特卡洛树搜索）与AlphaGo",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2e2c49ba",
+                "component_name": "Dyna-Q架构",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-145fed61",
+            "point_name": "多智能体强化学习",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-0f96745b",
+                "component_name": "MARL问题定义与分类",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ffd06dc8",
+                "component_name": "独立Q学习与联合动作学习",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5c0c35e3",
+                "component_name": "多智能体Actor-Critic（MADDPG）",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-fa7fbfe2",
+            "point_name": "逆向强化学习 (IRL)",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-24051716",
+                "component_name": "IRL问题定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-698eb7a4",
+                "component_name": "最大熵IRL",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7d2b0b6d",
+                "component_name": "生成对抗模仿学习（GAIL）",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-143beff1",
+            "point_name": "离线强化学习",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-d3bb3d6d",
+                "component_name": "离线强化学习挑战",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e6577f94",
+                "component_name": "策略约束方法（BCQ、CQL）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cf1a82cd",
+                "component_name": "不确定性量化方法",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "saved_at": "2026-05-27T23:49:24.907094"
+}

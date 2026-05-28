@@ -98,6 +98,9 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
   // 使用ref记录上次加载的组件，防止重复加载
   const lastLoadedComponentRef = useRef<string>('');
 
+  // 标记是否应该自动加载讲解（区分初始化恢复 vs 用户主动切换）
+  const shouldAutoLoadRef = useRef(false);
+
   // 获取当前组件
   const currentComponent = components[currentIndex];
   const hasNextComponent = currentIndex < components.length - 1;
@@ -270,45 +273,62 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
 
   // ==================== Session初始化 ====================
   
-  // 当 topicId 变化时，重置所有状态
-  useEffect(() => {
-    setSession(null);
-    setMessages([]);
-    setInitStatus('idle');
-    loadedOverviewRef.current = false;
-    loadedComponentsRef.current.clear();
-    processedInitialComponentRef.current = '';
-    abortControllerRef.current?.abort();
-    abortControllerRef.current = null;
-  }, [topicId]);
-  
   // 根据 initStatus 同步 sessionLoading
   useEffect(() => {
     setSessionLoading(initStatus === 'loading' || initStatus === 'idle');
   }, [initStatus]);
   
-  // 执行初始化
+  // 当 topicId 或 initialComponentId 变化时，重置状态并执行初始化（合并为一个useEffect，避免StrictMode竞态）
   useEffect(() => {
+    console.log('[ChatTeachingPanel] topicId or initialComponentId changed, resetting states and initializing');
+    
+    // 1. 先重置所有状态
+    setSession(null);
+    setMessages([]);
+    setInitStatus('idle');
+    isInitializingRef.current = false;
+    loadedOverviewRef.current = false;
+    loadedComponentsRef.current.clear();
+    processedInitialComponentRef.current = '';
+    lastLoadedComponentRef.current = '';
+    abortControllerRef.current?.abort();
+    abortControllerRef.current = null;
+    
+    // 2. 立即开始初始化（同步执行，无竞态窗口）
     let isMounted = true;
     
     const initSession = async () => {
-      if (!topicId) return;
-      // 使用ref和state双重检查，防止无限循环
-      if (isInitializingRef.current || initStatus !== 'idle') return;
+      console.log('[ChatTeachingPanel] initSession called, topicId:', topicId);
+      if (!topicId) {
+        console.log('[ChatTeachingPanel] No topicId, returning');
+        return;
+      }
+      if (isInitializingRef.current) {
+        console.log('[ChatTeachingPanel] Skipping init - already initializing');
+        return;
+      }
       
       // 立即标记为正在初始化
+      console.log('[ChatTeachingPanel] Starting initialization...');
       isInitializingRef.current = true;
       setInitStatus('loading');
       
       try {
+        console.log('[ChatTeachingPanel] Calling getOrCreateSession...');
         const newSession = await getOrCreateSession(userId, topicId, topicName);
+        console.log('[ChatTeachingPanel] getOrCreateSession success:', newSession);
         
-        if (!isMounted) return;
+        if (!isMounted) {
+          console.log('[ChatTeachingPanel] Component unmounted, returning');
+          return;
+        }
         setSession(newSession);
         
         // 加载历史消息
         if (newSession.id) {
+          console.log('[ChatTeachingPanel] Loading history messages...');
           const historyMessages = await getSessionMessages(newSession.id, 50);
+          console.log('[ChatTeachingPanel] History messages loaded:', historyMessages.length);
           
           if (!isMounted) return;
           
@@ -324,7 +344,10 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
             metadata: msg.metadata,
             timestamp: new Date(msg.created_at).getTime(),
           }));
+          
+          // ========== 先显示历史消息 ==========
           setMessages(formattedMessages);
+          console.log('[ChatTeachingPanel] History messages displayed:', formattedMessages.length);
           
           // 标记已加载的内容
           formattedMessages.forEach(msg => {
@@ -336,41 +359,38 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
             }
           });
           
-          // ========== 处理 initialComponentId（来自全景页）==========
-          if (initialComponentId && 
-              initialComponentId !== processedInitialComponentRef.current &&
-              !loadedComponentsRef.current.has(initialComponentId)) {
-            
-            processedInitialComponentRef.current = initialComponentId;
-            const targetComponent = components.find(c => c.componentId === initialComponentId);
-            
-            if (targetComponent) {
-              const hasExplanation = formattedMessages.some(
-                m => m.componentId === initialComponentId && m.messageType === 'explanation'
-              );
-              
-              if (!hasExplanation) {
-                await loadExplanation(targetComponent, newSession.id);
-              }
-            }
-          } else if (historyMessages.length === 0 && !initialComponentId) {
-            // 场景 A：从首页进入，全新 session，发送全景介绍
+          // ========== 根据场景处理自动发送内容 ==========
+          console.log('[ChatTeachingPanel] Checking scene - initialComponentId:', initialComponentId, 'historyMessages.length:', historyMessages.length);
+          
+          if (historyMessages.length === 0 && !initialComponentId) {
+            // ========== 场景A：从首页进入，全新session，发送全景介绍 ==========
+            console.log('[ChatTeachingPanel] Scene A: New session from home, loading overview...');
             loadedOverviewRef.current = true;
             await loadOverview(newSession.id, topicName);
+            console.log('[ChatTeachingPanel] Overview loaded');
+          } else if (historyMessages.length > 0 && !initialComponentId) {
+            // ========== 场景B：从导航点击学习进入，已有历史会话，只显示历史 ==========
+            console.log('[ChatTeachingPanel] Scene B: Existing session from nav, showing history only');
+            shouldAutoLoadRef.current = false;  // 不自动加载当前组件讲解
+          } else {
+            // ========== 场景C：从全景页点击知识点跳转，initialComponentId 有值 ==========
+            console.log('[ChatTeachingPanel] Scene C: From panorama with componentId, will auto-load');
+            shouldAutoLoadRef.current = true;  // 允许自动加载指定组件讲解
           }
         }
         
         if (isMounted) {
+          console.log('[ChatTeachingPanel] Setting initStatus to completed');
           setInitStatus('completed');
         }
       } catch (error) {
-        console.error('初始化Session失败:', error);
+        console.error('[ChatTeachingPanel] 初始化Session失败:', error);
         if (isMounted) {
           setInitStatus('error');
           onError?.(error as Error);
         }
       } finally {
-        // 无论成功失败，都重置初始化标记
+        console.log('[ChatTeachingPanel] Resetting isInitializingRef');
         isInitializingRef.current = false;
       }
     };
@@ -380,10 +400,8 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
     return () => {
       isMounted = false;
       abortControllerRef.current?.abort();
-      // 注意：不在cleanup中重置initStatus，避免触发额外的重新渲染
     };
-    // 只依赖topicId，其他依赖通过ref和内部状态管理，防止无限循环
-  }, [topicId]);
+  }, [topicId, initialComponentId]);
 
   // ==================== 同步外部组件索引 ====================
   
@@ -398,7 +416,10 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
       // 检查是否已经加载过该组件，防止重复加载
       if (currentComponent.componentId !== lastLoadedComponentRef.current) {
         lastLoadedComponentRef.current = currentComponent.componentId;
-        loadExplanation(currentComponent, session.id);
+        // 只有标记为需要自动加载时才调用（区分初始化恢复 vs 用户主动切换）
+        if (shouldAutoLoadRef.current) {
+          loadExplanation(currentComponent, session.id);
+        }
       }
     }
   }, [currentComponent?.componentId, session?.id, sessionLoading]);
@@ -540,6 +561,7 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
   const handleNext = useCallback(() => {
     if (!hasNextComponent || isStreaming) return;
     
+    shouldAutoLoadRef.current = true;  // 标记需要自动加载下一个组件讲解
     const nextIndex = currentIndex + 1;
     setCurrentIndex(nextIndex);
     onComponentChange?.(nextIndex);
@@ -624,11 +646,10 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
     if (msg.messageType === 'explanation' && msg.structuredContent) {
       return (
         <div className="teaching-sections">
-          <h4 className="explanation-title">📚 {msg.componentName}</h4>
+          <h4 className="explanation-title">{msg.componentName}</h4>
           {msg.structuredContent.map((section, index) => (
             <div key={index} className="teaching-section-card">
               <div className="teaching-section-header">
-                <span className="teaching-section-icon">{section.icon}</span>
                 <span className="teaching-section-title">{section.title}</span>
               </div>
               <div className="teaching-section-content">
@@ -645,7 +666,6 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
     if (msg.messageType === 'exercise_question') {
       return (
         <div className="exercise-question-message">
-          <div className="exercise-badge">📚 练习题</div>
           <div className="exercise-content">{msg.content}</div>
         </div>
       );
@@ -685,12 +705,9 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
     <div className={`teaching-panel ${className}`}>
       {/* 头部 */}
       <div className="teaching-panel-header">
-        <div className="header-info">
-          <h3 className="teaching-panel-title">💬 学习对话</h3>
-          {currentComponent && (
-            <span className="current-component">📖 {currentComponent.componentName}</span>
-          )}
-        </div>
+        {currentComponent && (
+          <span className="current-component">{currentComponent.componentName}</span>
+        )}
       </div>
 
       {/* 消息列表 */}
@@ -708,9 +725,6 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
             key={msg.id} 
             className={`message message--${msg.role} message--${msg.messageType}`}
           >
-            <div className="message-avatar">
-              {msg.role === 'user' ? '👤' : '🤖'}
-            </div>
             <div className="message-content">
               {renderMessageContent(msg)}
               {msg.isStreaming && (
@@ -732,14 +746,14 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
           onClick={handleNext}
           disabled={!hasNextComponent || isStreaming}
         >
-          下一个 ➡️
+          下一个
         </button>
         <button
           className="action-btn exercise-btn"
           onClick={handleExercise}
           disabled={isStreaming || !currentComponent}
         >
-          📝 练习题
+          练习题
         </button>
       </div>
 

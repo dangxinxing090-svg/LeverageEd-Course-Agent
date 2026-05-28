@@ -1,0 +1,49 @@
+{
+  "component_id": "comp-e6834c66",
+  "knowledge_name": "字符串类型基础操作",
+  "saved_at": "2026-05-28T10:59:36.265907",
+  "sections": [
+    {
+      "type": "definition",
+      "title": "通俗定义",
+      "icon": "💡",
+      "content": "字符串就是一串文字，用引号包起来，让你可以存储和处理文本，比如名字、句子或者整本书的内容。"
+    },
+    {
+      "type": "principle",
+      "title": "底层原理",
+      "icon": "🔬",
+      "content": "在Python底层，字符串被实现为不可变的有序字符序列（Unicode码点序列）。每个字符在内存中占用固定长度，Python使用内部的'flexible string representation'（如紧凑型或宽型）优化存储。不可变意味着每次修改都会创建新字符串对象，而不是改变原对象，这保证了哈希和引用安全。"
+    },
+    {
+      "type": "example",
+      "title": "入门示例",
+      "icon": "📝",
+      "content": "```python\n# 创建字符串\ngreeting = \"Hello, World!\"\nname = 'Python'\n\n# 基础操作\nprint(len(greeting))      # 输出: 13 (长度)\nprint(greeting[0])        # 输出: H (索引)\nprint(greeting[7:12])     # 输出: World (切片)\nprint(name.upper())       # 输出: PYTHON (大写)\nprint(\"Hello\" + \" \" + name) # 输出: Hello Python (拼接)\n```"
+    },
+    {
+      "type": "structure",
+      "title": "核心拆解",
+      "icon": "🔧",
+      "content": "1. **创建**：用单引号'或双引号\"括起来的字符序列。三引号'''\"\"\"可跨行。\n2. **索引**：从0开始，正向访问，也支持负索引（-1表示最后一个）。\n3. **切片**：`[start:stop:step]`提取子串，start默认0，stop默认末尾，step默认1。\n4. **方法**：字符串对象有很多内置方法，如`.upper()`、`.lower()`、`.strip()`、`.split()`、`.join()`等，它们通常返回新字符串。\n5. **运算符**：`+`拼接，`*`重复，`in`和`not in`检查子串是否存在。\n6. **格式化**：`f\"...{var}...\"`、`.format()`或`%`操作符插值。"
+    },
+    {
+      "type": "comparison",
+      "title": "易混对比",
+      "icon": "⚖️",
+      "content": "**字符串 vs 列表**：相同点：都支持索引、切片、长度len()、in操作、for循环。不同点：字符串只能存字符，列表可存任意类型；字符串不可变（不能修改单个元素），列表可变（可赋值修改元素）；字符串有大量专门方法（如大小写转换），列表有append/pop。\n\n**字符串 vs 字节串**：字符串是Unicode文本（人类可读），字节串`b'...'`是原始字节（二进制数据）。open文件时若不指定编码默认是文本模式，读取的是字符串；二进制模式读取的是字节串。"
+    },
+    {
+      "type": "mistake",
+      "title": "常见错误",
+      "icon": "⚠️",
+      "content": "1. **忘记转义**：字符串内包含引号时未用反斜杠转义，如`'It\\'s'`错误写成`'It's'`。\n2. **索引越界**：`'abc'[3]`会报IndexError，因为索引3超出范围（最大索引2）。\n3. **混淆可变与不可变**：试图直接修改字符串字符如`'abc'[0] = 'd'`导致TypeError，应使用切片或replace方法。\n4. **忘记字符串方法不改变原字符串**：`name = 'Python'; name.upper()`不会改变name，需要重新赋值`name = name.upper()`。\n5. **使用+拼接大量字符串时性能差**：多次+会在循环中创建多个临时对象，应使用列表+join()。"
+    },
+    {
+      "type": "scenario",
+      "title": "适用场景",
+      "icon": "🎯",
+      "content": "**适用**：处理任何文本数据，如用户输入、文件内容读写、网页爬取、日志分析、正则匹配、格式化输出。字符串的方法和切片非常适合快速提取信息。\n\n**不适用**：需要频繁修改字符串内容时（多次拼接/替换），字符串不可变导致低效，此时应考虑用列表收集片段最后join；处理二进制协议或大型二进制文件时，用字节串或bytearray更合适。"
+    }
+  ]
+}

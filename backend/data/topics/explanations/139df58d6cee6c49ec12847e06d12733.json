@@ -1,0 +1,49 @@
+{
+  "component_id": "comp-ee8a207d",
+  "knowledge_name": "typeof与类型检测",
+  "saved_at": "2026-05-27T23:29:09.290398",
+  "sections": [
+    {
+      "type": "definition",
+      "title": "通俗定义",
+      "icon": "💡",
+      "content": "typeof 就像是一个“类型侦探”，你给它一个值，它就会告诉你这个值属于哪种基本类别（比如数字、字符串、布尔值等），返回一个代表类型的字符串。它的核心作用就是帮你在代码运行时搞清楚“这到底是个什么东西”。"
+    },
+    {
+      "type": "principle",
+      "title": "底层原理",
+      "icon": "🔬",
+      "content": "typeof 的操作基于 JavaScript 引擎内部存储值的“类型标签”。每个值在内存中都有一个隐藏的元数据，标记了它的原始类型（如 number、string、boolean、undefined、symbol、bigint）或对象类型。typeof 直接读取这个标签并映射成对应的字符串。对于对象，大部分都返回 'object'，但函数（可调用对象）会返回 'function'。值得一提的是，null 的类型标签是 0（与对象相同），所以明明不是对象却返回了 'object'，这是早期的语言设计 Bug，但为了兼容性一直保留。"
+    },
+    {
+      "type": "example",
+      "title": "入门示例",
+      "icon": "📝",
+      "content": "```javascript\nconsole.log(typeof 42);            // 'number'\nconsole.log(typeof 'hello');       // 'string'\nconsole.log(typeof true);          // 'boolean'\nconsole.log(typeof undefined);     // 'undefined'\nconsole.log(typeof null);          // 'object'  （陷阱！）\nconsole.log(typeof [1,2,3]);       // 'object'\nconsole.log(typeof {a:1});          // 'object'\nconsole.log(typeof function(){});   // 'function'\nconsole.log(typeof Symbol('id'));   // 'symbol'\nconsole.log(typeof 10n);            // 'bigint'\n```\n直接运行这些代码，就能看到 typeof 在你面前的“工作汇报”。注意 null 和数组的返回结果，后面会讲为什么容易栽坑。"
+    },
+    {
+      "type": "structure",
+      "title": "核心拆解",
+      "icon": "🔧",
+      "content": "1. **操作符语法**：`typeof operand`，其中 operand 可以是任意表达式或变量。\n2. **返回字符串**：结果永远是以下七种之一：'undefined'、'boolean'、'number'、'string'、'bigint'、'symbol'、'object'、'function'。注意没有 'null' 和 'array'。\n3. **特殊值映射**：\n   - `undefined` → 'undefined'\n   - `null` → 'object'（历史遗留）\n   - `NaN` → 'number'（因为NaN属于数字类型）\n   - `Infinity` → 'number'\n   - 函数（包括箭头函数、普通函数、类）→ 'function'\n   - 其他所有对象（数组、Date、RegExp、Map等）→ 'object'\n4. **未声明变量的处理**：对未声明的变量使用 typeof 不会报错，返回 'undefined'（安全检测技巧）。"
+    },
+    {
+      "type": "comparison",
+      "title": "易混对比",
+      "icon": "⚖️",
+      "content": "**typeof vs instanceof**：\n- typeof 用于检测基本类型和对象/函数的类别区分，返回字符串。\n- instanceof 用于检测一个对象是否属于某个构造函数的实例（检查原型链），无法用于基本类型。\n\n**typeof vs Object.prototype.toString.call()**：\n- typeof 区分度粗，不能区分具体对象类型（如数组、日期）。\n- `Object.prototype.toString.call(value)` 可以返回 '[object Array]'、'[object Date]' 等更精确的内部类型。\n\n**typeof vs Array.isArray()**：\n- typeof [] 返回 'object'，无法判断数组。\n- Array.isArray() 专门检测是否为数组，可靠。\n\n**typeof vs === undefined**：\n- 用 `typeof x === 'undefined'` 可以安全检测变量是否未声明（不会报错）。\n- 用 `x === undefined` 如果 x 未声明则抛出 ReferenceError。"
+    },
+    {
+      "type": "mistake",
+      "title": "常见错误",
+      "icon": "⚠️",
+      "content": "1. **误以为 typeof null 返回 'null'**：实际返回 'object'，这是 JavaScript 的知名 Bug。检测 null 应使用 `value === null`。\n2. **用 typeof 判断数组**：typeof 返回 'object'，无法区分数组和普通对象。应该用 `Array.isArray(arr)` 或 `Object.prototype.toString.call(arr) === '[object Array]'`。\n3. **用 typeof 判断 NaN**：typeof NaN 返回 'number'，不能用来检测 NaN。应该用 `Number.isNaN(value)` 或 `isNaN(value)`。\n4. **认为 typeof 可以区分所有对象类型**：比如 typeof new Date() 返回 'object'，无法知道是日期。需要更精确的方法。\n5. **忽略 typeof 对未声明变量的安全特性**：有时误以为使用未声明变量会报错，但其实 typeof 不会。"
+    },
+    {
+      "type": "scenario",
+      "title": "适用场景",
+      "icon": "🎯",
+      "content": "**✅ 该用 typeof 的场景：**\n- 快速判断一个值是否为数字、字符串、布尔值、undefined、symbol、bigint 这类基本类型。\n- 检查变量是否已定义（`typeof x !== 'undefined'`），用于检测全局变量是否存在或判断函数参数是否传入。\n- 在简单类型守卫中，比如函数希望接收字符串，可以用 typeof 做类型检查。\n- 与条件分支配合，区分基本类型与对象/函数。\n\n**❌ 不该用 typeof 的场景：**\n- 需要区分 null 时（应使用 `===`）。\n- 需要判断具体对象子类型（数组、Date、RegExp 等）时（应使用 `instanceof` 或 `Object.prototype.toString.call`）。\n- 需要检测 NaN 时（应使用 `Number.isNaN`）。\n- 需要精确类型断言或复杂类型验证时（建议使用 TypeScript 或专门的类型检查库）。"
+    }
+  ]
+}

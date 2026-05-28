@@ -1,0 +1,49 @@
+{
+  "component_id": "comp-4a5f54fd",
+  "knowledge_name": "第一个Hello World程序编写与运行",
+  "saved_at": "2026-05-28T11:28:10.724531",
+  "sections": [
+    {
+      "type": "definition",
+      "title": "通俗定义",
+      "icon": "💡",
+      "content": "Hello World程序就像是你对Python说的第一句“你好”，它让你亲手验证自己的编程环境是否畅通，并感受到“写代码→运行→看到结果”这个神奇过程。"
+    },
+    {
+      "type": "principle",
+      "title": "底层原理",
+      "icon": "🔬",
+      "content": "Python解释器会逐行读取你的代码。当遇到`print(\"Hello World\")`时，它先解析`print`这个内置函数，然后计算括号里的字符串`\"Hello World\"`，最后调用系统的标准输出功能，把字符串显示在屏幕上。整个过程在内存中创建字符串对象，再通过IO接口输出。"
+    },
+    {
+      "type": "example",
+      "title": "入门示例",
+      "icon": "📝",
+      "content": "打开任意文本编辑器（或IDLE、VS Code等IDE），输入：\n```python\nprint(\"Hello World\")\n```\n保存为`hello.py`文件。然后在终端或命令行中运行：\n```bash\npython hello.py\n```\n你会在屏幕上看到：\n```\nHello World\n```"
+    },
+    {
+      "type": "structure",
+      "title": "核心拆解",
+      "icon": "🔧",
+      "content": "这条代码由三部分组成：\n1. `print`：Python内置的函数，负责输出内容到控制台。\n2. `()`：圆括号表示调用函数，参数放在里面。\n3. `\"Hello World\"`：字符串字面量，用双引号（或单引号）包裹，告诉Python要输出什么内容。整个结构就像一个传声筒：你把想说的话放进括号里，print就会帮你喊出来。"
+    },
+    {
+      "type": "comparison",
+      "title": "易混对比",
+      "icon": "⚖️",
+      "content": "很多人会把`print`和`input`混淆。`print`是输出（从程序到屏幕），而`input`是输入（从用户到程序）。例如：\n- `print(\"请输入你的名字\")` 是在屏幕上显示一句话。\n- `name = input()` 是等待用户打字，并把结果存到变量`name`里。\n另一个常混淆的是`print`和`return`：`print`只在屏幕上显示，不产生值；`return`在函数里返回结果给调用者，但默认不显示。"
+    },
+    {
+      "type": "mistake",
+      "title": "常见错误",
+      "icon": "⚠️",
+      "content": "1. 括号或引号不匹配：比如漏掉右括号`print(\"Hello World\"`或左右引号不一致`print('Hello World\")`，会报语法错误。\n2. 忘记引号：写了`print(Hello World)`，Python会把`Hello`和`World`当作变量名，导致名称错误。\n3. 在文件开头缺少`# -*- coding: utf-8 -*-`（某些老环境）导致中文乱码，但新版Python已默认UTF-8。\n4. 直接双击运行`.py`文件却看不到结果（一闪而过），因为程序执行完窗口就关闭了。解决方法是在末尾加一句`input()`或`time.sleep(5)`。"
+    },
+    {
+      "type": "scenario",
+      "title": "适用场景",
+      "icon": "🎯",
+      "content": "✅ 当你首次搭建好Python环境时，用它验证一切工作正常。\n✅ 在学习新IDE或编辑器时，用小测试确认配置正确。\n✅ 在给同学或同事演示“编程其实很简单”时，用这个最直观。\n❌ 不适用于实际项目开发——它太简单，没有业务逻辑。\n❌ 不要用来测试复杂功能（如网络请求、图形界面），那需要更专门的例子。"
+    }
+  ]
+}

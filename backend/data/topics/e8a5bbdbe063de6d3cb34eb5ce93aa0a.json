@@ -1,0 +1,495 @@
+{
+  "topic_text": "JavaScript基础",
+  "topic_id": "topic-3bf5a197eb8e",
+  "overview": "你好，欢迎来到JavaScript的世界。我是你的向导，今天不急着带你背语法或写代码，我们先爬上山腰，看一眼这片森林的全貌。\n\n你可能已经在网页上见过它的影子：点击按钮弹出一个窗口、下拉菜单缓缓展开、表单输入时即时校验……这些“活”的部分，几乎都是JavaScript在背后指挥。如果把网页比作一间房间，HTML是墙壁和家具的格局，CSS是墙纸和窗帘的颜色，而JavaScript就是能移动椅子、开灯关灯、回应你敲门的那个小精灵。没有它，房间再漂亮也只是静止的展示厅。\n\n很多初学者会被JavaScript“奇怪”的地方吓到：为什么 `==` 和 `===` 不一样？为什么 `0 == false` 是真的？为什么变量可以一会儿是数字，一会儿是字符串？这些困惑其实很正常——JavaScript的设计初衷是让网页“动起来”，而不是成为完美的数学语言。所以它优先照顾了灵活性，代价是少部分反直觉的规则。但反过来，这份灵活正是它创造力的来源。\n\n要想轻松走进去，只需抓住三条主脉：\n\n1. **数据和容器**（变量、值、类型）——你要操控的东西，比如点击次数、用户姓名、温度数值。\n2. **动作指令**（函数、流程控制）——你如何操控它们，比如“点击后加一”、“如果温度高于30就变色”。\n3. **触发时机**（事件、回调）——什么时候执行动作，比如“当用户点击按钮时”、“当页面加载完成时”。\n\n这三条脉络交织在一起，就构成了几乎所有你能见到的网页互动。学JavaScript的第一步，不是背语法表，而是建立这种“数据 → 行为 → 触发”的直觉。你可以把它想象成做菜：食材（变量）、菜谱（函数）、何时下锅（事件）。先理解这三样东西如何配合，再去研究刀功和火候，思路会清晰得多。\n\n为什么我强调先看整体？因为太多人一开始就扎进细节，被闭包、原型链、异步这些深坑绊倒，然后怀疑自己是不是不适合编程。其实，你完全可以用半小时写出第一个能交互的页面——打开浏览器控制台，输入 `alert('你好，世界！')`，回车，一个弹窗就出现了。这种即时的反馈，才是你真正的第一盏灯。\n\n你不需要一次弄懂所有。先让代码“动起来”，感受操控网页的成就感，然后带着好奇去问“为什么它能动”，那时再翻开书或看文档，你会发现那些概念突然变亲切了。记住：JavaScript不是数学定理，而是一个你每天在浏览器里使用的工具。你完全有能力学会它，而且很快就能用它创造属于自己的小玩意。\n\n森林的轮廓已经在你眼前了。接下来，我们可以慢慢走近那些树。",
+  "structure": {
+    "blocks": [
+      {
+        "block_id": "block-781bcfda",
+        "block_name": "JavaScript语言基础",
+        "points": [
+          {
+            "point_id": "point-478254ab",
+            "point_name": "变量与数据类型",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-8ea4d979",
+                "component_name": "变量声明（var/let/const）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b3758881",
+                "component_name": "基本数据类型（number, string, boolean, null, undefined, symbol）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ee8a207d",
+                "component_name": "typeof与类型检测",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-cfc6e882",
+            "point_name": "运算符与表达式",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-d4280c48",
+                "component_name": "算术运算符",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bb2472bd",
+                "component_name": "比较运算符与隐式类型转换",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1409df49",
+                "component_name": "逻辑运算符与短路求值",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2915edbb",
+                "component_name": "赋值运算符与自增自减",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6ca54c92",
+                "component_name": "三元运算符",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-2f7b2475",
+            "point_name": "字符串操作",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-14e0c8aa",
+                "component_name": "字符串字面量与转义字符",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a37fc521",
+                "component_name": "字符串模板字面量",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-89502a2b",
+                "component_name": "常用字符串方法（length, indexOf, slice, replace, split等）",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-6959bbc3",
+        "block_name": "控制结构与函数",
+        "points": [
+          {
+            "point_id": "point-85ae582b",
+            "point_name": "流程控制",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-56678704",
+                "component_name": "if-else条件语句",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9d185a54",
+                "component_name": "switch-case语句",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cfae0274",
+                "component_name": "while与do-while循环",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cb10558a",
+                "component_name": "for循环与for-in/for-of",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b3a1dd2c",
+                "component_name": "break与continue",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-9dc3d41c",
+            "point_name": "函数基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-78f2fdad",
+                "component_name": "函数声明与表达式",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-40939455",
+                "component_name": "参数与arguments对象",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b873f371",
+                "component_name": "返回值",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a9349467",
+                "component_name": "作用域与闭包（基础概念）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-fbcf129a",
+                "component_name": "箭头函数",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-a0812758",
+            "point_name": "进阶函数概念",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-38518056",
+                "component_name": "立即执行函数表达式（IIFE）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1f58d9d6",
+                "component_name": "回调函数",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1b675e8a",
+                "component_name": "高阶函数（map, filter, reduce简介）",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-dd2a2a61",
+        "block_name": "对象与数组",
+        "points": [
+          {
+            "point_id": "point-53ab5363",
+            "point_name": "对象基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-3c865989",
+                "component_name": "对象字面量与属性访问",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f78942e9",
+                "component_name": "属性添加/删除/遍历",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d55ddd34",
+                "component_name": "方法与this关键字",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-762fa5c4",
+                "component_name": "构造函数与new操作符",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-355a0c9b",
+            "point_name": "数组基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-36a028aa",
+                "component_name": "数组创建与索引",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7f65d60e",
+                "component_name": "数组长度与多维数组",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-03cf6fbe",
+                "component_name": "增减元素（push, pop, shift, unshift）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1a55dcd2",
+                "component_name": "遍历方法（forEach, for循环）",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-a813969d",
+            "point_name": "数组高阶操作",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-cd91a2fc",
+                "component_name": "map与filter方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-32753ea0",
+                "component_name": "reduce方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d35a9639",
+                "component_name": "sort与reverse",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d25b8707",
+                "component_name": "find/findIndex与includes",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-c822cc69",
+        "block_name": "DOM与BOM基础",
+        "points": [
+          {
+            "point_id": "point-d009857d",
+            "point_name": "DOM选择与操作",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-c24e8b99",
+                "component_name": "getElementById/querySelector",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f83a98ae",
+                "component_name": "节点属性与内容（innerHTML, textContent）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a981c4fa",
+                "component_name": "样式操作（style, classList）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8194b155",
+                "component_name": "创建、插入、删除节点",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-cb3f182b",
+            "point_name": "BOM基础",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-2981c083",
+                "component_name": "window对象与常用属性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-290b3503",
+                "component_name": "navigator与userAgent",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0543e8c9",
+                "component_name": "location与URL操作",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d2f38dc7",
+                "component_name": "定时器（setTimeout/setInterval）",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-0e59b237",
+        "block_name": "事件处理",
+        "points": [
+          {
+            "point_id": "point-28d059ec",
+            "point_name": "事件模型",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-b12a6587",
+                "component_name": "事件绑定（onclick与addEventListener）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0a2a0c60",
+                "component_name": "事件对象（event）常用属性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c89524e1",
+                "component_name": "事件流（冒泡与捕获）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-00383b1b",
+                "component_name": "阻止默认行为与停止传播",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-75f9c01f",
+            "point_name": "常见事件类型",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-395d35a4",
+                "component_name": "鼠标事件（click, mousemove等）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-052fe02e",
+                "component_name": "键盘事件（keydown, keyup）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-aa134038",
+                "component_name": "表单事件（submit, change, input）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-45bb5a61",
+                "component_name": "窗口与文档事件（load, resize, scroll）",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-539d0110",
+        "block_name": "ES6+核心特性",
+        "points": [
+          {
+            "point_id": "point-b6277f61",
+            "point_name": "变量与作用域增强",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-61e7f126",
+                "component_name": "let/const与块级作用域",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-76c2e2bb",
+                "component_name": "解构赋值（数组与对象）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-07d0e0e8",
+                "component_name": "模板字符串与标签模板",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-363bd007",
+            "point_name": "异步编程基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-6c49afb5",
+                "component_name": "回调地狱与Promise概念",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3bb242d6",
+                "component_name": "Promise链式调用与静态方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-45294ce6",
+                "component_name": "async/await语法糖",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-6c0bd282",
+            "point_name": "模块化基础",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-218886b7",
+                "component_name": "export与import语法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5bc0c80e",
+                "component_name": "默认导出与命名导出",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-eadbb5f1",
+                "component_name": "模块加载简单原理",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "saved_at": "2026-05-27T23:09:52.033958"
+}
