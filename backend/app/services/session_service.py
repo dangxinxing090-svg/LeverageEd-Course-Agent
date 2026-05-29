@@ -28,29 +28,112 @@ class SessionService:
     
     # ==================== Session管理 ====================
     
+    def delete_old_sessions_by_topic_name(
+        self,
+        user_id: str,
+        topic_name: str,
+        keep_session_id: Optional[str] = None
+    ) -> int:
+        """
+        删除用户相同 topic_name 的旧会话记录（物理删除）
+        只保留最新的一条（last_message_at 最大）
+
+        Args:
+            user_id: 用户ID
+            topic_name: 主题名称
+            keep_session_id: 需要保留的session_id（可选）
+
+        Returns:
+            删除的记录数
+        """
+        # 查询该用户相同topic_name的所有active会话，按last_message_at倒序
+        sessions = self.db.query(TeachingSession).filter(
+            TeachingSession.user_id == user_id,
+            TeachingSession.topic_name == topic_name,
+            TeachingSession.status == SessionStatus.ACTIVE.value
+        ).order_by(desc(TeachingSession.last_message_at)).all()
+
+        if len(sessions) <= 1:
+            return 0
+
+        # 保留最新的一条，删除其余的
+        latest_session = sessions[0]
+        sessions_to_delete = sessions[1:] if not keep_session_id else [
+            s for s in sessions if s.id != keep_session_id
+        ]
+
+        deleted_count = 0
+        for session in sessions_to_delete:
+            # 级联删除关联的消息（由SQLAlchemy relationship的cascade处理）
+            self.db.delete(session)
+            deleted_count += 1
+            logger.info(f"删除旧会话: session_id={session.id}, topic_name={topic_name}, user_id={user_id}")
+
+        self.db.commit()
+        logger.info(f"共删除 {deleted_count} 条旧会话记录，保留最新: session_id={latest_session.id}")
+        return deleted_count
+
+    def get_session_by_topic_name(
+        self,
+        user_id: str,
+        topic_name: str
+    ) -> Optional[TeachingSession]:
+        """
+        根据 topic_name 获取用户最新的 active 会话
+
+        Args:
+            user_id: 用户ID
+            topic_name: 主题名称
+
+        Returns:
+            TeachingSession 对象或 None
+        """
+        return self.db.query(TeachingSession).filter(
+            TeachingSession.user_id == user_id,
+            TeachingSession.topic_name == topic_name,
+            TeachingSession.status == SessionStatus.ACTIVE.value
+        ).order_by(desc(TeachingSession.last_message_at)).first()
+
     def get_or_create_session(
-        self, 
-        user_id: str, 
-        topic_id: str, 
+        self,
+        user_id: str,
+        topic_id: str,
         topic_name: str
     ) -> TeachingSession:
         """
         获取或创建Session
         如果该用户在该主题下已有active状态的Session，则返回已有Session
-        否则创建新的Session
+        否则创建新的Session，并删除相同topic_name的旧记录
         """
-        # 查找现有的active Session
+        # 1. 先查找现有的active Session（按topic_id精确匹配）
         existing_session = self.db.query(TeachingSession).filter(
             TeachingSession.user_id == user_id,
             TeachingSession.topic_id == topic_id,
             TeachingSession.status == SessionStatus.ACTIVE.value
         ).first()
-        
+
         if existing_session:
             logger.info(f"找到现有Session: {existing_session.id}, topic={topic_name}")
             return existing_session
-        
-        # 创建新Session
+
+        # 2. 检查是否存在相同topic_name的其他Session
+        same_name_session = self.get_session_by_topic_name(user_id, topic_name)
+        if same_name_session:
+            # 存在相同名称的Session，删除其他旧的，保留这个用于复用
+            logger.info(f"找到相同主题名称的Session: {same_name_session.id}, topic_name={topic_name}")
+            # 删除其他相同名称的旧记录（保留找到的这个）
+            self.delete_old_sessions_by_topic_name(user_id, topic_name, keep_session_id=same_name_session.id)
+            # 更新topic_id为新的（因为topic_id是新生成的）
+            same_name_session.topic_id = topic_id
+            same_name_session.updated_at = datetime.utcnow()
+            self.db.commit()
+            self.db.refresh(same_name_session)
+            return same_name_session
+
+        # 3. 删除相同topic_name的所有旧记录（清理历史）
+        self.delete_old_sessions_by_topic_name(user_id, topic_name)
+
+        # 4. 创建新Session
         new_session = TeachingSession(
             user_id=user_id,
             topic_id=topic_id,
@@ -61,7 +144,7 @@ class SessionService:
         self.db.add(new_session)
         self.db.commit()
         self.db.refresh(new_session)
-        
+
         logger.info(f"创建新Session: {new_session.id}, topic={topic_name}")
         return new_session
     

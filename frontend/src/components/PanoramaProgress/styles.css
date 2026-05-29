@@ -13,7 +13,7 @@
    ============================== */
 
 .panorama-progress {
-  padding: 24px;
+  padding: 12px;
   background: #ffffff;
   min-height: 100vh;
 }
@@ -26,8 +26,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
-  padding-bottom: 20px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
   border-bottom: 1px solid #e2e8f0;
 }
 
@@ -114,7 +114,7 @@
 .panorama-list-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
 }
 
 .panorama-block {
@@ -128,8 +128,8 @@
 .panorama-block-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px 20px;
+  gap: 6px;
+  padding: 8px 10px;
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   border-bottom: 1px solid #e2e8f0;
 }
@@ -166,14 +166,14 @@
 }
 
 .panorama-points {
-  padding: 16px 20px;
+  padding: 8px 10px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
 }
 
 .panorama-point {
-  padding: 16px;
+  padding: 8px;
   background: #f8fafc;
   border-radius: 10px;
   border: 1px solid transparent;
@@ -193,8 +193,8 @@
 .panorama-point-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
+  gap: 5px;
+  margin-bottom: 6px;
 }
 
 .panorama-point-number {
@@ -203,7 +203,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #5b6cf0;
+  background: #3b82f6;
   color: white;
   font-size: 12px;
   font-weight: 600;
@@ -251,15 +251,15 @@
 .panorama-components {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  padding-left: 34px;
+  gap: 4px;
+  padding-left: 17px;
 }
 
 .panorama-component-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
+  gap: 3px;
+  padding: 4px 7px;
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 20px;

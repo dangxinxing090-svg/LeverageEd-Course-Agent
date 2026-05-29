@@ -20,11 +20,19 @@ import { LearningPathPanel } from './components/LearningPathPanel';
 import { LearningHistory } from './components/LearningHistory';
 import { SkipTest } from './components/SkipTest';
 
-import { getTopicStructure, getTopicOverview, getTopicStatus } from './services/api';
+import { getTopicStructure, getTopicOverview, getTopicStatus, getTopicHistory, getSessionDetail, getOrCreateSession, checkTopicExists } from './services/api';
 import { recordLearnStart, recordLearnEnd, recordPracticeComplete } from './api/behavior';
 import { markLearning, getComponentProgress } from './utils/progressStorage';
 import { ComponentSkipSuggestion } from './types';
 import { KnowledgeBlock } from './types';
+
+// 学习主题历史项类型
+interface TopicHistoryItem {
+  topic_id: string;
+  topic_name: string;
+  session_id: string;
+  last_message_at: string;
+}
 
 import './App.css';
 
@@ -47,8 +55,7 @@ const Navigation: React.FC = () => {
     <nav className="app-nav">
       <div className="app-nav-inner">
         <Link to="/" className="app-nav-brand">
-          <span className="brand-icon">AI</span>
-          <span className="brand-text">智能教育课程平台</span>
+          <span className="brand-text">寻知</span>
         </Link>
         <ul className="app-nav-list">
           {navItems.map(item => (
@@ -70,15 +77,51 @@ const Navigation: React.FC = () => {
 // 首页组件
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  
-  const handleSubmit = (result: { topic_id: string; topic_name: string; status: string }) => {
-    // 提交成功后跳转到学习页
-    navigate(`/learn?topicId=${result.topic_id}&topicName=${encodeURIComponent(result.topic_name)}`);
+  const [isChecking, setIsChecking] = useState(false);
+
+  const handleSubmit = async (result: { topic_id: string; topic_name: string; status: string }) => {
+    const topicName = result.topic_name;
+
+    // 先检查是否存在相同主题名称的历史记录
+    setIsChecking(true);
+    try {
+      const checkResult = await checkTopicExists('anonymous', topicName);
+
+      if (checkResult.exists && checkResult.topic_id) {
+        // 存在历史记录，直接加载（复用旧的session）
+        console.log(`[Home] 找到历史主题: ${topicName}, topic_id=${checkResult.topic_id}`);
+
+        // 保存到localStorage
+        localStorage.setItem('currentTopicId', checkResult.topic_id);
+        localStorage.setItem('currentTopicName', topicName);
+
+        // 跳转到学习页（使用旧的topic_id）
+        navigate(`/learn?topicId=${checkResult.topic_id}&topicName=${encodeURIComponent(topicName)}`);
+      } else {
+        // 不存在历史记录，使用新创建的topic
+        console.log(`[Home] 创建新主题: ${topicName}, topic_id=${result.topic_id}`);
+
+        // 保存到localStorage
+        localStorage.setItem('currentTopicId', result.topic_id);
+        localStorage.setItem('currentTopicName', topicName);
+
+        // 跳转到学习页（使用新的topic_id）
+        navigate(`/learn?topicId=${result.topic_id}&topicName=${encodeURIComponent(topicName)}`);
+      }
+    } catch (error) {
+      console.error('[Home] 检查主题历史失败:', error);
+      // 出错时降级为使用新创建的topic
+      localStorage.setItem('currentTopicId', result.topic_id);
+      localStorage.setItem('currentTopicName', topicName);
+      navigate(`/learn?topicId=${result.topic_id}&topicName=${encodeURIComponent(topicName)}`);
+    } finally {
+      setIsChecking(false);
+    }
   };
 
   return (
     <div className="home-page">
-      <TopicInput onTopicSubmit={handleSubmit} />
+      <TopicInput onTopicSubmit={handleSubmit} disabled={isChecking} />
     </div>
   );
 };
@@ -138,6 +181,22 @@ const LearnPage: React.FC = () => {
   });
   // 用于触发学习路径面板刷新
   const [learningPathRefreshKey, setLearningPathRefreshKey] = useState(0);
+
+  // 学习主题历史列表
+  const [topicHistory, setTopicHistory] = useState<TopicHistoryItem[]>([]);
+
+  // 获取学习主题历史列表
+  useEffect(() => {
+    const fetchTopicHistory = async () => {
+      try {
+        const history = await getTopicHistory('anonymous', 10);
+        setTopicHistory(history);
+      } catch (err) {
+        console.error('获取学习主题历史失败:', err);
+      }
+    };
+    fetchTopicHistory();
+  }, []);
 
   // 从localStorage恢复组件索引，无保存值时默认从第一个开始
   const [currentComponentIndex, setCurrentComponentIndex] = useState(() => {
@@ -366,6 +425,16 @@ const LearnPage: React.FC = () => {
     }
   }, [allComponents]);
 
+  // Handle clicking a topic from history
+  const handleHistoryTopicClick = useCallback(async (topic: TopicHistoryItem) => {
+    // 1. 设置当前主题
+    localStorage.setItem('currentTopicId', topic.topic_id);
+    localStorage.setItem('currentTopicName', topic.topic_name);
+    
+    // 2. 重新加载页面以切换到新主题
+    window.location.href = `/learn?topicId=${topic.topic_id}&topicName=${encodeURIComponent(topic.topic_name)}`;
+  }, []);
+
   // Handle exercise completed - refresh knowledge blocks and learning path
   const handleExerciseCompleted = useCallback(async (completedPointId: string, score: number) => {
     // 记录练习完成行为
@@ -570,28 +639,50 @@ const LearnPage: React.FC = () => {
   return (
     <div className="learn-page">
       <div className="learn-grid">
-        {/* 左侧：Tab 按钮栏 */}
+        {/* 左侧：Tab 按钮栏 + 学习主题历史 */}
         <div className="learn-tab-bar">
-          <button
-            className={`learn-tab-btn ${activeTab === 'teaching' ? 'active' : ''}`}
-            onClick={() => setActiveTab('teaching')}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-            </svg>
-            教学
-          </button>
-          <button
-            className={`learn-tab-btn ${activeTab === 'exercise' ? 'active' : ''}`}
-            onClick={() => setActiveTab('exercise')}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-            </svg>
-            综合练习
-          </button>
+          {/* 上区：原有按钮 */}
+          <div className="tab-bar-upper">
+            <button
+              className={`learn-tab-btn ${activeTab === 'teaching' ? 'active' : ''}`}
+              onClick={() => setActiveTab('teaching')}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+              教学
+            </button>
+            <button
+              className={`learn-tab-btn ${activeTab === 'exercise' ? 'active' : ''}`}
+              onClick={() => setActiveTab('exercise')}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              综合练习
+            </button>
+          </div>
+
+          {/* 下区：学习主题历史 */}
+          {topicHistory.length > 0 && (
+            <div className="topic-history-section">
+              <div className="topic-history-title">学习主题历史</div>
+              <div className="topic-history-list">
+                {topicHistory.map((topic) => (
+                  <div
+                    key={topic.topic_id}
+                    className={`topic-history-item ${topic.topic_id === effectiveTopicId ? 'active' : ''}`}
+                    onClick={() => handleHistoryTopicClick(topic)}
+                    title={topic.topic_name}
+                  >
+                    {topic.topic_name}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* 右侧：内容区域 */}

@@ -18,27 +18,27 @@ import './KnowledgeGraphV2.css';
 const DESIGN = {
   // 画布尺寸
   canvas: {
-    width: 1200,
-    height: 650,
-    paddingX: 100,
+    width: 800,
+    height: 400,
+    paddingX: 40,
   },
   // 层级Y坐标
   levels: {
-    l1: 100,
-    l2: 300,
-    l3: 520,
+    l1: 60,
+    l2: 170,
+    l3: 300,
   },
   // 节点尺寸
   nodeSize: {
-    l1: 90,      // 直径
-    l2: { w: 120, h: 60 },
-    l3: 24,      // 直径
+    l1: 70,      // 直径
+    l2: { w: 90, h: 44 },
+    l3: 18,      // 直径
   },
   // 间距
   spacing: {
-    l1: 200,
-    l2: 140,
-    l3: 100,
+    l1: 130,
+    l2: 90,
+    l3: 65,
   },
   // 颜色系统
   colors: {
@@ -61,9 +61,9 @@ const DESIGN = {
   },
   // 字体
   font: {
-    l1: { size: 16, weight: 700 },
-    l2: { size: 13, weight: 600 },
-    l3: { size: 11, weight: 400 },
+    l1: { size: 14, weight: 700 },
+    l2: { size: 12, weight: 600 },
+    l3: { size: 10, weight: 400 },
   },
 };
 

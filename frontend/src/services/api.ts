@@ -1008,6 +1008,86 @@ export interface ChatMessage {
  * 获取或创建Session
  * 每个主题对应一个Session
  */
+/**
+ * 获取用户学习主题历史列表
+ * @param userId 用户ID
+ * @param limit 最大返回数量（默认10条）
+ * @returns 主题历史列表
+ */
+export async function getTopicHistory(
+  userId: string,
+  limit: number = 10
+): Promise<{ topic_id: string; topic_name: string; session_id: string; last_message_at: string }[]> {
+  const url = `${API_BASE_URL}/api/v1/sessions?user_id=${encodeURIComponent(userId)}&status=active&limit=${limit}`;
+
+  const response = await fetchWithTimeout(url, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+    },
+  });
+
+  const result = await parseResponse<{ sessions: any[] }>(response);
+  const sessions = result.data?.sessions || [];
+
+  // 按 topic_id 去重，保留最新的（已按 last_message_at 倒序）
+  const seenTopics = new Set<string>();
+  const distinctSessions = sessions.filter((s: any) => {
+    if (seenTopics.has(s.topic_id)) {
+      return false;
+    }
+    seenTopics.add(s.topic_id);
+    return true;
+  });
+
+  return distinctSessions.map((s: any) => ({
+    topic_id: s.topic_id,
+    topic_name: s.topic_name,
+    session_id: s.id,
+    last_message_at: s.last_message_at,
+  }));
+}
+
+/**
+ * 检查用户是否已有相同主题名称的历史会话
+ * @param userId 用户ID
+ * @param topicName 主题名称
+ * @returns 是否存在及session信息
+ */
+export async function checkTopicExists(
+  userId: string,
+  topicName: string
+): Promise<{
+  exists: boolean;
+  session_id?: string;
+  topic_id?: string;
+  topic_name?: string;
+  last_message_at?: string;
+}> {
+  const url = `${API_BASE_URL}/api/v1/sessions/check?user_id=${encodeURIComponent(userId)}&topic_name=${encodeURIComponent(topicName)}`;
+  const response = await fetchWithTimeout(url, {
+    method: 'GET',
+    headers: { 'Accept': 'application/json' },
+  });
+  const result = await parseResponse<{
+    exists: boolean;
+    session_id?: string;
+    topic_id?: string;
+    topic_name?: string;
+    last_message_at?: string;
+  }>(response);
+  return result.data || { exists: false };
+}
+
+/**
+ * 获取Session详情（包含消息）
+ */
+export async function getSessionDetail(
+  sessionId: string
+): Promise<Session & { messages?: ChatMessage[] }> {
+  return getSession(sessionId, true);
+}
+
 export async function getOrCreateSession(
   userId: string,
   topicId: string,

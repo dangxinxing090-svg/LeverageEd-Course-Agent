@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, forwardRef, useImperativeHandle } from 'react';
 import { 
   getOrCreateSession, 
   getSessionMessages, 
@@ -48,11 +48,16 @@ interface ChatTeachingPanelProps {
   initialComponentId?: string;  // 新增：来自全景页的组件ID
 }
 
+// 暴露给父组件的方法
+export interface ChatTeachingPanelRef {
+  scrollToTop: () => void;
+}
+
 function generateId(): string {
   return `msg-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
 }
 
-export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
+export const ChatTeachingPanel = forwardRef<ChatTeachingPanelRef, ChatTeachingPanelProps>(({
   topicId,
   topicName,
   userId = 'default_user',
@@ -62,27 +67,35 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
   onError,
   className = '',
   initialComponentId,
-}) => {
+}, ref) => {
   // Session状态
   const [session, setSession] = useState<Session | null>(null);
   const [sessionLoading, setSessionLoading] = useState(true);
-  
+
   // 消息状态
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
-  
+
   // 当前练习题状态
   const [currentQuestion, setCurrentQuestion] = useState<any>(null);
   const [waitingForAnswer, setWaitingForAnswer] = useState(false);
-  
+
   // 当前组件状态
   const [currentIndex, setCurrentIndex] = useState(currentComponentIndex);
-  
+
   // Refs
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+
+  // 暴露方法给父组件
+  useImperativeHandle(ref, () => ({
+    scrollToTop: () => {
+      messagesContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }));
   
   // 追踪已加载的内容，避免重复加载
   const loadedOverviewRef = useRef(false);
@@ -106,14 +119,39 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
   const hasNextComponent = currentIndex < components.length - 1;
 
   // ==================== 加载全景介绍 ====================
-  
-  const loadOverview = useCallback(async (sessionId: string, tName: string) => {
+
+  const loadOverview = useCallback(async (sessionId: string, tName: string, tId: string) => {
     if (!sessionId) return;
-    
+
+    // 1. 先检查localStorage缓存
+    const cachedOverview = localStorage.getItem(`learnPage_overview_${tId}`);
+    if (cachedOverview) {
+      console.log('[ChatTeachingPanel] 使用localStorage缓存的全景介绍');
+      // 添加用户消息
+      const userMsg: Message = {
+        id: generateId(),
+        role: 'user',
+        messageType: 'chat',
+        content: `请介绍 ${tName} 的全景知识`,
+        timestamp: Date.now(),
+      };
+      // 添加AI回复（使用缓存）
+      const assistantMsg: Message = {
+        id: generateId(),
+        role: 'assistant',
+        messageType: 'chat',
+        content: `## 📚 ${tName} - 全景介绍\n\n${cachedOverview}`,
+        timestamp: Date.now(),
+        isStreaming: false,
+      };
+      setMessages(prev => [...prev, userMsg, assistantMsg]);
+      return;
+    }
+
     try {
       setIsStreaming(true);
       abortControllerRef.current = new AbortController();
-      
+
       // 添加用户消息
       const userMsg: Message = {
         id: generateId(),
@@ -123,7 +161,7 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
         timestamp: Date.now(),
       };
       setMessages(prev => [...prev, userMsg]);
-      
+
       // 添加AI加载消息
       const loadingMsg: Message = {
         id: generateId(),
@@ -134,7 +172,7 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
         isStreaming: true,
       };
       setMessages(prev => [...prev, loadingMsg]);
-      
+
       await generateOverview(
         sessionId,
         (data) => {
@@ -142,9 +180,9 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
             setMessages(prev => {
               const lastMsg = prev[prev.length - 1];
               if (lastMsg?.isStreaming) {
-                return [...prev.slice(0, -1), { 
-                  ...lastMsg, 
-                  content: `## 📚 ${tName} - 全景介绍\n\n${data.content}` 
+                return [...prev.slice(0, -1), {
+                  ...lastMsg,
+                  content: `## 📚 ${tName} - 全景介绍\n\n${data.content}`
                 }];
               }
               return prev;
@@ -153,7 +191,7 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
         },
         abortControllerRef.current.signal
       );
-      
+
       // 标记完成
       setMessages(prev => {
         const lastMsg = prev[prev.length - 1];
@@ -162,7 +200,7 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
         }
         return prev;
       });
-      
+
     } catch (error) {
       console.error('加载全景介绍失败:', error);
       setMessages(prev => {
@@ -366,7 +404,7 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
             // ========== 场景A：从首页进入，全新session，发送全景介绍 ==========
             console.log('[ChatTeachingPanel] Scene A: New session from home, loading overview...');
             loadedOverviewRef.current = true;
-            await loadOverview(newSession.id, topicName);
+            await loadOverview(newSession.id, topicName, topicId);
             console.log('[ChatTeachingPanel] Overview loaded');
           } else if (historyMessages.length > 0 && !initialComponentId) {
             // ========== 场景B：从导航点击学习进入，已有历史会话，只显示历史 ==========
@@ -557,7 +595,7 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
   }, [inputValue, session?.id, isStreaming, waitingForAnswer, currentQuestion, currentComponent]);
 
   // ==================== 下一个按钮 ====================
-  
+
   const handleNext = useCallback(() => {
     if (!hasNextComponent || isStreaming) return;
     
@@ -711,10 +749,9 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
       </div>
 
       {/* 消息列表 */}
-      <div className="teaching-panel-messages">
+      <div className="teaching-panel-messages" ref={messagesContainerRef}>
         {messages.length === 0 && (
           <div className="welcome-message">
-            <div className="welcome-icon">👋</div>
             <h4>欢迎使用对话式学习！</h4>
             <p>点击"下一个"开始学习，或直接提问。</p>
           </div>
@@ -755,6 +792,14 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
         >
           练习题
         </button>
+        <button
+          className="action-btn scroll-top-btn"
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        >
+          返回顶部
+        </button>
       </div>
 
       {/* 输入区域 */}
@@ -780,18 +825,15 @@ export const ChatTeachingPanel: React.FC<ChatTeachingPanelProps> = ({
             onClick={handleSendMessage}
             disabled={!inputValue.trim() || isStreaming}
           >
-            {isStreaming ? '⏳' : '➤'}
+            {isStreaming ? '➤' : '➤'}
           </button>
         </div>
         <div className="input-tips">
           <span>按 Enter 发送，Shift+Enter 换行</span>
-          <span className="session-info">
-            {currentIndex + 1} / {components.length} | Session: {session?.id?.slice(0, 8)}...
-          </span>
         </div>
       </div>
     </div>
   );
-};
+});
 
 export default ChatTeachingPanel;

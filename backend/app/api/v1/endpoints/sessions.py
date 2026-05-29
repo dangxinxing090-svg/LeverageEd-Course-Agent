@@ -63,6 +63,37 @@ def create_or_get_session(
     })
 
 
+@router.get("/check", response_model=dict)
+def check_topic_exists(
+    user_id: str = Query(..., description="用户ID"),
+    topic_name: str = Query(..., description="主题名称"),
+    db: DBSession = Depends(get_db)
+):
+    """
+    检查用户是否已有相同主题名称的历史会话
+
+    返回:
+    - exists: true/false 是否存在
+    - session_id: 存在的session_id（如果exists为true）
+    - topic_id: 存在的topic_id（如果exists为true）
+    """
+    service = SessionService(db)
+    session = service.get_session_by_topic_name(user_id, topic_name)
+
+    if session:
+        return format_response(data={
+            "exists": True,
+            "session_id": session.id,
+            "topic_id": session.topic_id,
+            "topic_name": session.topic_name,
+            "last_message_at": session.last_message_at.isoformat() if session.last_message_at else None,
+        })
+    else:
+        return format_response(data={
+            "exists": False
+        })
+
+
 @router.get("", response_model=dict)
 def list_sessions(
     user_id: str = Query(..., description="用户ID"),
@@ -74,7 +105,7 @@ def list_sessions(
     """获取用户的Session列表"""
     service = SessionService(db)
     sessions = service.get_user_sessions(user_id, status, skip, limit)
-    
+
     return format_response(data={
         "total": len(sessions),
         "sessions": [{

@@ -1,0 +1,688 @@
+{
+  "topic_text": "软件架构工程",
+  "topic_id": "topic-f9e89b34fe1e",
+  "overview": "# 欢迎来到软件架构的世界：先看懂这片土地的纹理\n\n想象一下，你要建造一座城市。你不会直接开始砌砖，而是先绘制一张蓝图——哪里是住宅区，哪里是交通枢纽，哪里是商业中心，管道如何铺设，电力如何输送。这张蓝图，就是**软件架构**。\n\n你现在要学习的，正是如何绘制这样的蓝图。\n\n## 为什么先放下代码，看看天空？\n\n很多初学者会问：“架构是不是就是画几个方框和箭头？” 其实，架构更像是在回答三个灵魂拷问：\n\n1. **“这个系统到底要做什么？”**（功能需求）  \n2. **“它必须在多糟糕的环境下还能活着？”**（质量属性：高并发、高可用、可维护、可扩展……）  \n3. **“人（开发者、运维者、用户）如何与它共处？”**（可理解性、可测试性、成本……）\n\n你看，代码只是最后落地的砖石，而架构是让砖石不塌成废墟的“看不见的骨架”。\n\n## 先见森林：软件架构的“三大基本盘”\n\n在深入任何细节之前，你需要知道整个领域其实在解决三类问题。这三类问题就像森林里的三条主干道：\n\n### 1. 组件（Components）—— 系统的“器官”\n每个模块、每个服务、每个类库，都是承担特定功能的器官。你需要决定：哪些功能应该放在一个器官里？边界在哪里？——这就是**职责划分**（关注点分离）。\n\n### 2. 连接件（Connectors）—— 器官之间的“神经系统”\n模块如何通信？函数调用？消息队列？HTTP请求？还是共享内存？连接的选择决定了系统是灵活还是僵硬，是高效还是脆弱。\n\n### 3. 约束（Constraints）—— 不可动摇的“物理法则”\n比如“数据库不能直接暴露给前端”“所有日志必须经过审核通道”“任何修改都必须经过一个接口”。这些规则让系统不乱成一团。\n\n当你理解了这三个基本盘，再看任何架构图——Ok，那些方框是组件，箭头是连接件，周围的文字说明就是约束。\n\n## 先通脉络：四种让你能“认出”架构的典型\n\n就像看建筑风格能认出是哥特式还是巴洛克式，软件架构也有几种最常用的“风格”。别急着背定义，先用直觉感受：\n\n- **单体架构**：像一个大学宿舍，所有功能都在一个房间里，简单但拥挤，一旦有人打游戏就影响全楼。\n- **分层架构**：像一栋写字楼，底层是停车场，中间是办公，顶层是食堂。每层只和上下层打交道。最常见、最稳当。\n- **微服务架构**：像一个创业园区，每栋小楼独立运行，只通过“道路”（API）互相联系。灵活但需要管理很多栋楼。\n- **事件驱动架构**：像社交媒体——你发一条消息，所有关注你的人自动收到（不一定同时）。适合需要异步松耦合的场景。\n\n你不需要现在就知道它们的优缺点。只需要记住：**架构风格本质上是组织复杂度的手段，没有好坏，只有是否匹配场景。**\n\n## 先建直觉：为什么“响应变化”比“功能完美”更重要？\n\n一个残酷的事实：软件系统会不断被要求改变。今天加个新报表，明天改个推荐算法，后天对接第三方平台。**架构的第一使命是让改变成为常态，而不是灾难。**\n\n所以，当你听到“高内聚、低耦合”时，它不是在讲漂亮的原则，而是在说：**当你要换一个数据库时，最好只改一个组件，而不是翻遍整个系统。** 当你听到“可扩展性”时，它意味着：用户量涨10倍，你不需要把系统推倒重来，而是能加几台服务器就搞定。\n\n## 先解决“为什么”，再回答“是什么”\n\n现在你可能会想：“我连代码都写不好，谈什么架构？” 其实，架构思维从你写第一行代码就开始了——当你决定用一个函数而不是复制粘贴时，你已经在做架构决策了。区别只在于，你可能在用直觉做决策，而架构工程把这些决策变成可推演、可沟通、可验证的**科学**。\n\n## 你的第一张路线图：从这里开始\n\n作为向导，我不建议你现在去读《架构模式》或者研究CAP定理。你只需要做三件事：\n\n1. **写一个稍大一点的项目**（比如一个博客系统），然后尝试把它拆成两个模块：前后端分离，或者加上缓存层。体会“拆”带来的好处和麻烦。\n2. **读一份真实的架构文档**（比如Redis的设计理念），不要管细节，只问：它用了什么组件？组件之间怎么通信？它为什么这么设计？\n3. **找一个你正在用的系统**（比如手机上的淘宝、微信），猜想它背后的架构——登录是单独的服务吗？推荐是实时计算还是离线批次？这不要求正确，而是培养“架构视角”。\n\n## 最后的话\n\n你即将进入一个迷人而广阔的领域。这里没有绝对的正确答案，只有权衡（trade-off）的艺术。一开始你可能会觉得“这不就是规定怎么组织代码吗”，但很快你就会发现：**架构不是画出来的，是被需求、成本、团队、时间打磨出来的。**\n\n至于那些看起来很吓人的术语——分层、服务发现、一致哈希、分布式事务……请放心，它们只是森林里一棵棵具体的树。当你先走通了主干道，看懂了整片森林的纹理，每棵树的细节理解起来就水到渠成。\n\n你现在已经有了一幅地图。接下来，让我们一步一步走进去。每一步，都会让你看到更多风景。",
+  "structure": {
+    "blocks": [
+      {
+        "block_id": "block-7b817c4f",
+        "block_name": "1. 架构基础与概念",
+        "points": [
+          {
+            "point_id": "point-e9e224d3",
+            "point_name": "1.1 软件架构定义与重要性",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-b9dcba83",
+                "component_name": "架构定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8ad09737",
+                "component_name": "架构与设计的区别",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-992775af",
+                "component_name": "架构的重要性",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-5be008e2",
+            "point_name": "1.2 架构视图与视角",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-04d9d6a6",
+                "component_name": "4+1视图模型",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0ba57d22",
+                "component_name": "架构视角",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-688eb8ce",
+                "component_name": "视图一致性",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-a6ab099b",
+            "point_name": "1.3 架构角色与职责",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-cd22cf81",
+                "component_name": "架构师角色",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9067e4a3",
+                "component_name": "架构决策者",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-85f0716b",
+                "component_name": "架构师与团队协作",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-80143a06",
+        "block_name": "2. 架构设计原则与质量属性",
+        "points": [
+          {
+            "point_id": "point-f5b112f4",
+            "point_name": "2.1 质量属性",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-470dc5b6",
+                "component_name": "性能",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2313c093",
+                "component_name": "可用性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-55367a9f",
+                "component_name": "可修改性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7e1ddee7",
+                "component_name": "安全性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3af63344",
+                "component_name": "可测试性",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-cd6ff9d3",
+            "point_name": "2.2 SOLID原则",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-c8256070",
+                "component_name": "单一职责",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-38a7f06b",
+                "component_name": "开闭原则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e525a3e6",
+                "component_name": "里氏替换",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-500a9fcf",
+                "component_name": "接口隔离",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2f6d28ad",
+                "component_name": "依赖反转",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-c681ec20",
+            "point_name": "2.3 其他设计原则",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-a53e7d72",
+                "component_name": "DRY",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7e39e8ef",
+                "component_name": "KISS",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-257345a2",
+                "component_name": "YAGNI",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1d0dadea",
+                "component_name": "关注点分离",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-237f0705",
+        "block_name": "3. 架构风格与模式",
+        "points": [
+          {
+            "point_id": "point-65c694ea",
+            "point_name": "3.1 分层架构",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-c96ecbe6",
+                "component_name": "分层架构概念",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-17daffe6",
+                "component_name": "分层职责",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8e768835",
+                "component_name": "分层变体",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-5e489bdc",
+            "point_name": "3.2 微服务架构",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-40399942",
+                "component_name": "微服务定义与特征",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d5bfc445",
+                "component_name": "服务拆分",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-800b018b",
+                "component_name": "服务通信",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5a6492a1",
+                "component_name": "微服务治理",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-25c9e1d8",
+            "point_name": "3.3 事件驱动架构",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-20b38f21",
+                "component_name": "事件驱动模式",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-858df289",
+                "component_name": "事件溯源",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0a2da7e1",
+                "component_name": "CQRS",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-9dffb5f1",
+            "point_name": "3.4 其他架构风格",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-5abf33f2",
+                "component_name": "管道-过滤器",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-239f8ec1",
+                "component_name": "客户端-服务器",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-62cc935e",
+                "component_name": "点对点",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-b932532b",
+        "block_name": "4. 架构设计与决策",
+        "points": [
+          {
+            "point_id": "point-ea3d079f",
+            "point_name": "4.1 架构设计方法",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-035795b9",
+                "component_name": "架构驱动的设计",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-edcdb6c1",
+                "component_name": "敏捷架构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0f74bf4a",
+                "component_name": "迭代设计",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-34657488",
+            "point_name": "4.2 架构决策记录",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-17f4f85b",
+                "component_name": "ADR概念",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9518e600",
+                "component_name": "ADR结构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-74f2d65f",
+                "component_name": "决策捕获",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-a8b992f0",
+            "point_name": "4.3 权衡分析",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-0078d08f",
+                "component_name": "质量属性权衡",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ebffc23a",
+                "component_name": "成本效益分析",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3114e51c",
+                "component_name": "风险分析",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-7e3cb850",
+        "block_name": "5. 架构评估与验证",
+        "points": [
+          {
+            "point_id": "point-a160e37f",
+            "point_name": "5.1 ATAM",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-43943429",
+                "component_name": "ATAM概念",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-37488706",
+                "component_name": "效用树",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d775e41e",
+                "component_name": "场景生成",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-550b4554",
+                "component_name": "风险与风险识别",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-229763bc",
+            "point_name": "5.2 SAAM与CBAM",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-aa963c2d",
+                "component_name": "SAAM",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6ea2d1de",
+                "component_name": "CBAM",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-2b515afe",
+            "point_name": "5.3 原型验证",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-81068b5f",
+                "component_name": "概念验证",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a0a01f86",
+                "component_name": "技术原型",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f45ad8a8",
+                "component_name": "性能测试",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-67a7d913",
+        "block_name": "6. 架构文档与沟通",
+        "points": [
+          {
+            "point_id": "point-1271d80b",
+            "point_name": "6.1 架构视图文档",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-d2d1c639",
+                "component_name": "视图模板",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-caf82a71",
+                "component_name": "关键视图文档化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-59c8d458",
+                "component_name": "文档一致性",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-29e2584e",
+            "point_name": "6.2 架构描述语言",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-860e77e9",
+                "component_name": "UML架构图",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c7cb1c1e",
+                "component_name": "架构决策文档",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d86d93a3",
+                "component_name": "架构描述框架",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-aa202380",
+            "point_name": "6.3 沟通技巧",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-f57d8922",
+                "component_name": "非技术利益相关者沟通",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-efeb3495",
+                "component_name": "技术演示",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-dbf2fc9a",
+                "component_name": "架构评审会",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-59bad726",
+        "block_name": "7. 架构演进与重构",
+        "points": [
+          {
+            "point_id": "point-281b39cb",
+            "point_name": "7.1 技术债务",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-968e4548",
+                "component_name": "技术债务概念",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-15d7e9da",
+                "component_name": "债务测量",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f5a9586f",
+                "component_name": "债务管理",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-5535d3ea",
+            "point_name": "7.2 重构与架构重构",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-2a73046e",
+                "component_name": "重构原则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-53678f84",
+                "component_name": "架构重构策略",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d1730bf3",
+                "component_name": "大规模重构",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-da9c1b23",
+            "point_name": "7.3 架构演进模式",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-cfa352d4",
+                "component_name": "增量演进",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-56726890",
+                "component_name": "架构现代化",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8a953a05",
+                "component_name": "遗留系统迁移",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-72cc7a41",
+        "block_name": "8. 架构治理与团队",
+        "points": [
+          {
+            "point_id": "point-98ff85ec",
+            "point_name": "8.1 架构治理",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-b37d82fa",
+                "component_name": "治理定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1a7ac271",
+                "component_name": "架构原则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6206239d",
+                "component_name": "合规审查",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-6cba3a14",
+            "point_name": "8.2 架构团队与角色",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-2f7b4c55",
+                "component_name": "架构小组",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a12ae7b7",
+                "component_name": "社区实践",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-41ae57e4",
+                "component_name": "决策权与责任",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-da732594",
+            "point_name": "8.3 架构与DevOps",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-4a132a0e",
+                "component_name": "持续架构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b6b2b962",
+                "component_name": "架构与CI/CD",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ae5a1799",
+                "component_name": "基础设施即代码",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "saved_at": "2026-05-29T10:14:47.027494"
+}

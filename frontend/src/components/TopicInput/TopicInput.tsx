@@ -206,7 +206,7 @@ export const TopicInput: React.FC<TopicInputComponentProps> = ({
       {/* 标题区域 */}
       <div className="topic-input-header">
         <h2 className="topic-input-title">你想学什么？</h2>
-        <p className="topic-input-subtitle">输入任何你想学习的主题，AI将为你构建完整的学习路径</p>
+        <p className="topic-input-subtitle">输入任何你想学习的主题</p>
       </div>
 
       {/* 输入区域 */}

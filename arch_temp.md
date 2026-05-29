@@ -1113,3 +1113,178 @@ generate\_exercise方法（根据知识点列表生成综合练习题）和async
 grade\_answers方法（批改用户答案），使用AgentLLMClient调用LLM。新增两个API端点：POST
 /api/v1/custom-exercise/generate（生成练习题）和POST
 /api/v1/custom-exercise/grade（批改答案）。在JWT认证中间件白名单中添加/api/v1/custom-exercise路径（backend/app/api/v1/middleware/auth.py）。修复unified\_teaching\_agent.py中explain\_knowledge\_json方法的Prompt参数名不匹配问题（knowledge改为component\_name）。前端新增类型定义：CustomQuestion、CustomExerciseSet、CustomGradeResult、CustomGradeReport。前端新增API调用函数：generateCustomExercise、gradeCustomExercise。重写LearningPathPanel.tsx：初始状态显示\"开始综合练习\"按钮，点击弹出知识点选择对话框（展示三层知识结构），用户选择知识点后生成练习题，展示题目并支持答题和提交，显示批改结果。更新styles.css：新增对话框样式、题目样式、批改结果样式。修改App.tsx：LearningPathPanel传入blocks参数。涉及文件：backend/app/agents/learning/custom\_exercise.py（新建）、backend/app/api/v1/endpoints/learning.py、backend/app/api/v1/middleware/auth.py、backend/app/agents/learning/unified\_teaching\_agent.py、frontend/src/types/index.ts、frontend/src/services/api.ts、frontend/src/components/LearningPathPanel/LearningPathPanel.tsx、frontend/src/components/LearningPathPanel/styles.css、frontend/src/App.tsx。
+
+5 修改记录
+
+**5.1 2026-05-27 修复：教学会话初始化竞态条件（Bug修复）**
+
+**问题描述：**
+
+React
+StrictMode开发环境下，ChatTeachingPanel组件中存在两个独立的useEffect（重置useEffect和初始化useEffect）都依赖\[topicId,
+initialComponentId\]，导致StrictMode双重调用时产生竞态条件。具体表现为：
+
+1\. 两个useEffect交叉执行，第一次初始化的API请求被abort
+
+2\. 第二次初始化获取到空session，历史消息加载为0
+
+3\. 最终页面始终显示"欢迎使用对话式学习"欢迎页，无法正确显示历史会话
+
+**修改文件：**
+
+frontend/src/components/TeachingPanel/ChatTeachingPanel.tsx
+
+**修改内容：**
+
+1\. 将两个独立的useEffect（状态重置useEffect +
+初始化执行useEffect）合并为一个useEffect，确保状态重置和初始化逻辑在同一useEffect中顺序执行，消除StrictMode下的竞态条件
+
+2\. 恢复cleanup函数中的立即abort逻辑（不再需要延迟abort的临时方案）
+
+3\. 简化初始化检查条件（去掉initStatus !==
+'idle'的冗余检查，因为合并后initStatus一定是idle）
+
+**影响范围：**
+
+仅影响ChatTeachingPanel组件的初始化流程
+
+不影响任何其他组件或后端逻辑
+
+不改变业务逻辑，仅修复React StrictMode下的竞态bug
+
+**附加操作：**
+
+清理数据库中因StrictMode双重调用产生的重复active
+session（每个user+topic只保留消息最多的那个）
+
+**5.2 2026-05-28 修复：全景页点击知识点后出现两个"请讲解"（V1.4
+Bug修复）**
+
+**问题描述：**
+
+从全景知识页点击知识点跳转回学习页时，对话框中出现了两条"请讲解"消息，即
+loadExplanation 被调用了两次。根因：ChatTeachingPanel 中存在两个独立的
+loadExplanation 触发器------一个是初始化 useEffect 中的场景C处理逻辑（当
+initialComponentId 有值时直接调用 loadExplanation），另一个是组件切换
+useEffect（当 currentComponent.componentId 变化时调用
+loadExplanation）。当从全景页跳转时，两者都会触发，导致重复调用。
+
+**修改文件：**
+
+frontend/src/components/TeachingPanel/ChatTeachingPanel.tsx
+
+**修改内容：**
+
+删除初始化 useEffect 中的场景C处理逻辑（if (initialComponentId && ...)
+分支），该触发器为冗余代码。因为当从全景页点击知识点跳转时，App.tsx 的
+useEffect 会将 currentComponentIndex 设为被点击组件索引，使
+currentComponent 在渲染时就已指向目标组件。初始化完成后 sessionLoading
+从 true 变为 false，组件切换 useEffect 检测到
+currentComponent.componentId 变化，会自动调用
+loadExplanation，无需场景C触发器。删除后，三个场景的职责更清晰：场景A（首页进入新主题）由初始化
+useEffect 的 historyMessages.length === 0 && !initialComponentId
+条件处理；场景B（导航进入已有会话）由初始化 useEffect 的
+historyMessages.length \> 0 && !initialComponentId
+条件处理；场景C（全景页点击知识点）由组件切换 useEffect 统一处理。
+
+**影响范围：**
+
+仅影响 ChatTeachingPanel
+组件的初始化逻辑。不影响任何其他组件或后端逻辑。不改变三个场景的业务行为，仅消除冗余代码。
+
+**5.3 2026-05-28 删除全景知识页"返回学习"按钮（V1.4 UI调整）**
+
+**修改文件：**
+
+frontend/src/components/PanoramaProgress/PanoramaProgress.tsx
+
+**修改内容：**
+
+删除全景知识图谱页面顶部的"返回学习"按钮。该按钮在PanoramaProgress.tsx中出现两处（空状态和正常状态），均使用panorama-back-btn样式类和handleStartLearning回调函数。删除按钮及其对应的handleStartLearning回调函数定义。用户仍可通过顶部导航栏的"学习"链接返回学习页，功能不受影响。保留styles.css中的panorama-back-btn样式不删除，避免不必要的变更。
+
+**影响范围：**
+
+仅影响PanoramaProgress组件的UI展示。不影响导航功能（顶部导航栏仍可返回学习页）。不影响任何其他组件或后端逻辑。
+
+**5.4 2026-05-28 修复：导航恢复会话时不自动触发知识点讲解（V1.4
+Bug修复）**
+
+**问题描述：**
+
+从首页或全景知识页点击导航栏的"学习"进入学习页时，除了加载历史会话外，还会自动触发当前知识组件的讲解调用，在对话框中显示"请讲解..."用户消息和AI的讲解内容。期望行为是：只显示历史会话，不自动触发当前组件的讲解。
+
+**根因分析：**
+
+ChatTeachingPanel 的组件切换 useEffect（监听
+currentComponent?.componentId、session?.id、sessionLoading
+变化）会在初始化时触发，因为从 localStorage 恢复 currentComponentIndex
+时 currentComponent 已经有值，导致自动调用 loadExplanation。该 useEffect
+无法区分"初始化恢复"和"用户主动点击下一个"两种情况。
+
+**修改文件：**
+
+frontend/src/components/TeachingPanel/ChatTeachingPanel.tsx
+
+**修改内容：**
+
+新增 shouldAutoLoadRef
+ref（useRef）标记是否应该自动加载讲解。在场景B（historyMessages.length
+\> 0 && !initialComponentId）中设置为 false，在 handleNext 中设置为
+true，在组件切换 useEffect 中增加 shouldAutoLoadRef.current 检查，只有为
+true 时才调用 loadExplanation。
+
+**影响范围：**
+
+仅影响 ChatTeachingPanel
+组件的初始化和切换逻辑。三个场景的行为调整为：场景A（首页新主题）自动加载全景介绍不变；场景B（导航恢复）只显示历史会话，不再自动加载当前组件讲解；场景C（全景跳转）自动加载指定组件讲解不变；点击
+
+**5.4 2026-05-28 修复：导航恢复会话时不自动触发知识点讲解（V1.4
+Bug修复）**
+
+**问题描述：**
+
+从首页或全景知识页点击导航栏的"学习"进入学习页时，除了加载历史会话外，还会自动触发当前知识组件的讲解调用。期望行为是：只显示历史会话，不自动触发当前组件的讲解。
+
+**根因分析：**
+
+ChatTeachingPanel 的组件切换 useEffect 在初始化时触发，因为从
+localStorage 恢复 currentComponentIndex 时 currentComponent
+已经有值，导致自动调用 loadExplanation。该 useEffect
+无法区分"初始化恢复"和"用户主动点击下一个"两种情况。
+
+**修改文件：**
+
+frontend/src/components/TeachingPanel/ChatTeachingPanel.tsx
+
+**修改内容：**
+
+新增 shouldAutoLoadRef ref 标记是否应该自动加载讲解。在场景B中设置为
+false，在 handleNext 中设置为 true，在组件切换 useEffect
+中增加检查，只有为 true 时才调用 loadExplanation。
+
+**影响范围：**
+
+仅影响 ChatTeachingPanel
+组件的初始化和切换逻辑。场景B只显示历史会话，不再自动加载当前组件讲解；点击"下一个"按钮时正常触发讲解。
+
+**5.5 2026-05-28 修复：场景C自动加载指定知识组件讲解（V1.4 Bug修复）**
+
+**问题描述：**
+
+场景C（从全景页点击知识点跳转）应该自动加载指定知识组件的讲解，但实际不会触发。原因是
+shouldAutoLoadRef 初始化为 false，场景C的 else
+分支没有设置该值，导致组件切换 useEffect 中检查不通过，loadExplanation
+未被调用。
+
+**修改文件：**
+
+frontend/src/components/TeachingPanel/ChatTeachingPanel.tsx
+
+**修改内容：**
+
+在初始化 useEffect 的 else 分支（场景C）中，添加
+shouldAutoLoadRef.current = true，允许自动加载指定组件讲解。
+
+**影响范围：**
+
+仅影响场景C的自动加载行为。场景A、场景B、点击"下一个"按钮的行为均不受影响。

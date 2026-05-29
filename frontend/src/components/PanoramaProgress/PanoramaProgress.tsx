@@ -71,7 +71,7 @@ export const PanoramaProgress: React.FC<PanoramaProgressProps> = ({
     return (
       <div className="panorama-progress">
         <div className="panorama-header">
-          <h2 className="panorama-title">📊 {topicName} - 知识全景图</h2>
+          <h2 className="panorama-title">{topicName} - 知识全景图</h2>
         </div>
         <div className="panorama-empty">
           <div className="panorama-empty-icon">🗺️</div>
@@ -86,7 +86,7 @@ export const PanoramaProgress: React.FC<PanoramaProgressProps> = ({
     <div className="panorama-progress">
       {/* 头部 */}
       <div className="panorama-header">
-        <h2 className="panorama-title">📊 {topicName} - 知识全景图</h2>
+        <h2 className="panorama-title">{topicName} - 知识全景图</h2>
       </div>
 
       {/* 主内容区 - 列表视图 */}
