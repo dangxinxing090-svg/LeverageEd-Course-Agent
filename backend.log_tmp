@@ -1,0 +1,8 @@
+未安装zhipuai库，ZhipuProvider将使用模拟模式
+未安装dashscope库，QwenProvider将使用模拟模式
+INFO:     Started server process [86769]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+启动 AI智能教育课程平台 v1.0.0
+INFO:     127.0.0.1:54989 - "GET /health HTTP/1.1" 200 OK

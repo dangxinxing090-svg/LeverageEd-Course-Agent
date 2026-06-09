@@ -126,7 +126,7 @@ async def get_learning_path(user_id: str, topic_id: str = Query(...)):
 请按JSON格式输出（只输出JSON）：
 {{"suggestion": "跳级建议描述", "from_point": "起始知识点名称", "to_point": "目标知识点名称", "confidence": 0.8}}"""
 
-        llm_client = AgentLLMClient(provider=ProviderType.DOUBAO)
+        llm_client = AgentLLMClient(provider=ProviderType.DEEPSEEK)
         result = await llm_client.generate(skip_prompt, system_prompt="你是教育路径规划专家。", max_tokens=500)
 
         # Simple JSON extraction

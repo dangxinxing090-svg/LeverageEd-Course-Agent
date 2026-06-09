@@ -1,0 +1,512 @@
+{
+  "topic_text": "马尔可夫链",
+  "topic_id": "topic-2e637004d81f",
+  "overview": "---\n你好，我是带你看懂马尔可夫链的向导，我们不用先背定义，我们从生活开始：\n\n### 第一步：先get最核心的直觉（1分钟就能懂）\n马尔可夫链本质是对生活中一种非常常见规律的总结，这个规律用大白话讲就是：\n> **下一刻会发生什么，只和你现在的状态有关，和你过去是怎么走到这个状态的，完全没关系。**\n\n这个性质也叫「无后效性」，就是马尔可夫链的灵魂。\n\n我们举个你马上能感知的例子：\n你周末逛公园，公园只有3个地方：入口A、草坪B、湖边C。\n只要你现在站在湖边C，你接下来：去草坪的概率是30%，留在湖边的概率是60%，回入口的概率是10%——这个概率是固定的，不会因为你「刚才从入口走到湖边」还是「刚才从草坪走到湖边」就变化。\n\n你整个逛公园的过程，就是一个最简单的马尔可夫链。\n\n### 第二步：马尔可夫链到底能干嘛？为什么所有人都要学它？\n只要是**一连串连续发生、满足「未来只看现在」**的事，都可以用马尔可夫链建模，小到生活应用，大到顶级公司的核心技术都在用它：\n- 输入法的下一个字联想，早期文本生成，用的就是马尔可夫链：最后一个字是「吃」，下一个字是「饭」的概率就是远高于「货」，和之前打了什么无关；\n- 谷歌最早用来给网页排序的PageRank算法，核心就是马尔可夫链的性质：把每个网页当成一个状态，超链接就是跳转，长期来看用户随机跳转停在某个网页的概率，就是这个网页的重要性；\n- 天气预报、堵车概率预测、语音识别、强化学习的基础框架，都离不开马尔可夫链的思路。\n\n### 第三步：1张图看懂马尔可夫链的全部结构\n马尔可夫链非常简单，整个模型只有两个核心部分：\n1. **状态集合**：所有你可能处在的情况，就是刚才例子里的「入口A/草坪B/湖边C」，都能列出来；\n2. **转移概率矩阵**：把「从一个状态跳到另一个状态的概率」整理成表，每一行加起来都是1（你总得去某个地方）：\n\n| 现在\\下一个状态 | 入口A | 草坪B | 湖边C |\n|------------------|-------|-------|-------|\n| 入口A            | 0.2   | 0.6   | 0.2   |\n| 草坪B            | 0.1   | 0.3   | 0.6   |\n| 湖边C            | 0.1   | 0.3   | 0.6   |\n\n就这么多，这就是一个完整马尔可夫链的全部内容了。\n\n### 第四步：马尔可夫链最有用的性质——稳态\n马尔可夫链有一个非常神奇也非常有用的特点：\n不管你最开始从哪个状态出发，只要一直按照转移概率跳，时间足够长之后，你出现在每个状态的概率会稳定下来，再也不会变了——这个稳定的分布就叫「稳态」。\n\n还是逛公园的例子：算出来之后，长期来看你会有15%的时间在入口，30%的时间在草坪，55%的时间在湖边——哪怕你第一天全程泡在草坪，逛一个月之后，你出现在三个地方的概率也会落到这个比例上。\n\n刚才说的谷歌PageRank，算的就是这个稳态概率。\n\n---\n### 你现在已经掌握整片森林的格局了\n我帮你梳理一遍，你现在已经对马尔可夫链有完整的方向感了：\n| 核心 | 结论 |\n|------|------|\n| 解决什么问题 | 描述满足「未来只和现在有关，和过去无关」的连续随机事件 |\n| 核心组成 | 状态集合 + 转移概率矩阵 |\n| 最有用的性质 | 满足条件的马尔可夫链长期会收敛到稳态，可以用来做很多预测/排序 |\n\n### 如果想继续深入，下一步该往哪走？\n1. **入门练手**：亲手算2次多步转移概率，就能把转移矩阵的运算逻辑摸透，很快就能上手；\n2. **核心深入**：接下来学「什么条件下马尔可夫链才有稳态？（不可约+非周期）」「怎么计算稳态分布」，搞定这两个就掌握了马尔可夫链的核心数学逻辑；\n3. **应用扩展**：下一步学**隐马尔可夫模型（HMM）**——这是马尔可夫链最常用的扩展，解决「状态看不到，只能通过观测猜状态」的问题（比如语音识别、天气预测都是它的场景）；\n4. **高阶延伸**：再往上就是马尔可夫决策过程，是整个强化学习领域的基础框架。\n\n最后：你看，马尔可夫链从来不是什么抽象的天书，它就是把生活里大家习以为常的规律总结成了可计算的模型——你已经抓住了它最核心的灵魂，完全可以一步步往下学。",
+  "structure": {
+    "blocks": [
+      {
+        "block_id": "block-280ee6c7",
+        "block_name": "马尔可夫链基础预备知识",
+        "points": [
+          {
+            "point_id": "point-b7a765c6",
+            "point_name": "随机过程基础回顾",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-e2ba532b",
+                "component_name": "随机过程的定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-318ec0c0",
+                "component_name": "状态空间与索引集分类",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-de768ae2",
+                "component_name": "随机过程有限维分布族",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-f9d1ecf1",
+            "point_name": "马尔可夫性的定义",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-eee5d093",
+                "component_name": "马尔可夫性的直观含义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e028af50",
+                "component_name": "马尔可夫性的条件概率数学定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-12139d5c",
+                "component_name": "马尔可夫性的等价表述",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-556c0cb3",
+            "point_name": "马尔可夫链的基本分类",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-1afab8d0",
+                "component_name": "按时间参数分类（离散/连续）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6c8dccd0",
+                "component_name": "按状态空间分类（有限/无限）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-be687651",
+                "component_name": "齐次与非齐次马尔可夫链划分",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-704759d0",
+        "block_name": "离散时间齐次马尔可夫链（DTMC）",
+        "points": [
+          {
+            "point_id": "point-ce355913",
+            "point_name": "转移概率与转移矩阵",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-97cc07c7",
+                "component_name": "一步转移概率定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-89fcc8b3",
+                "component_name": "一步转移矩阵的性质",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-665f4b23",
+                "component_name": "C-K方程（切普曼-科尔莫戈罗夫方程）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ad4774cc",
+                "component_name": "n步转移概率的计算",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-c3cffa8d",
+            "point_name": "马尔可夫链状态分类",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-9efa248a",
+                "component_name": "可达性与互通性定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-618be430",
+                "component_name": "状态周期的定义与计算",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e1781b4c",
+                "component_name": "常返与非常返状态定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a73df5d5",
+                "component_name": "常返性判别准则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ca3e2df1",
+                "component_name": "吸收态的定义与性质",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-0fbcbe7e",
+            "point_name": "状态空间分解",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-c76d4579",
+                "component_name": "闭集的定义与性质",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-14a657b5",
+                "component_name": "不可约马尔可夫链定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3151999a",
+                "component_name": "状态空间分解定理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5a22370f",
+                "component_name": "吸收概率的计算",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-a0735e29",
+            "point_name": "平稳分布与遍历极限",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-8078f94c",
+                "component_name": "平稳分布的定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-058af38d",
+                "component_name": "平稳分布存在性定理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1572aeca",
+                "component_name": "细致平衡条件",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a8e9f930",
+                "component_name": "遍历马尔可夫链定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d1284a73",
+                "component_name": "遍历极限定理内容",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-170cae71",
+            "point_name": "DTMC常用数值计算",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-99bd1e85",
+                "component_name": "平均吸收时间计算",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4b2a23aa",
+                "component_name": "有限状态DTMC平稳分布求解",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-98470544",
+        "block_name": "连续时间马尔可夫链（CTMC）",
+        "points": [
+          {
+            "point_id": "point-adf3a448",
+            "point_name": "CTMC基本定义与性质",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-27a4cea9",
+                "component_name": "CTMC马尔可夫性定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1b282864",
+                "component_name": "逗留时间的指数分布性质",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-66f3011f",
+                "component_name": "Q矩阵（转移速率矩阵）定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c911981b",
+                "component_name": "Q矩阵的基本性质",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-9481e862",
+            "point_name": "科尔莫戈罗夫微分方程",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-528737c7",
+                "component_name": "向前微分方程推导与形式",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-763d6fae",
+                "component_name": "向后微分方程推导与形式",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-764bc40f",
+                "component_name": "微分方程的适用条件",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-c28225ee",
+            "point_name": "CTMC稳态分析",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-c05b6aca",
+                "component_name": "CTMC平稳分布定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2c2f089c",
+                "component_name": "平稳分布与Q矩阵的关系",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8917b08d",
+                "component_name": "CTMC遍历性条件",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ee9da53c",
+                "component_name": "生灭过程平稳分布计算",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-c45a4030",
+            "point_name": "生灭过程",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-cb843d91",
+                "component_name": "生灭过程定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-37d2305c",
+                "component_name": "生灭过程Q矩阵构造",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-29e0c4e3",
+                "component_name": "纯生/纯灭过程实例分析",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-c4b304eb",
+        "block_name": "马尔可夫链典型应用",
+        "points": [
+          {
+            "point_id": "point-9ff04c51",
+            "point_name": "马尔可夫预测方法",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-cbfb6959",
+                "component_name": "马尔可夫预测基本原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d36159a5",
+                "component_name": "一步/多步预测流程",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-857f3906",
+                "component_name": "离散状态预测实例",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-67dbef07",
+            "point_name": "马尔可夫链蒙特卡洛（MCMC）基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-f45b0a71",
+                "component_name": "MCMC核心思想",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-af336638",
+                "component_name": "Metropolis算法原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6da89214",
+                "component_name": "Metropolis-Hastings算法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2a8a10ea",
+                "component_name": "吉布斯采样原理",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-7d322574",
+            "point_name": "隐马尔可夫模型（HMM）基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-d6f0788c",
+                "component_name": "HMM的基本定义与三要素",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a6886865",
+                "component_name": "HMM三大基本问题",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0b800b9d",
+                "component_name": "前向-后向算法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-994d32ca",
+                "component_name": "维特比解码算法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-db60a805",
+                "component_name": "Baum-Welch参数估计算法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-6c06080a",
+            "point_name": "马尔可夫决策过程（MDP）基础",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-8820ed3f",
+                "component_name": "MDP的定义与要素",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a04a7533",
+                "component_name": "贝尔曼期望方程",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6ab301cb",
+                "component_name": "价值迭代基础",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-8be73307",
+        "block_name": "马尔可夫链扩展类型",
+        "points": [
+          {
+            "point_id": "point-325c1aaf",
+            "point_name": "高阶马尔可夫链",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-8b506e05",
+                "component_name": "高阶马尔可夫性定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3e868b67",
+                "component_name": "高阶马尔可夫转移结构",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-8fbc053a",
+            "point_name": "非齐次马尔可夫链",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-23d5ee7a",
+                "component_name": "非齐次马尔可夫链定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-da8a2ac8",
+                "component_name": "非齐次马尔可夫收敛性",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "saved_at": "2026-06-08T09:12:35.207321"
+}

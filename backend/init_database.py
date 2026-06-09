@@ -4,7 +4,8 @@
 创建所有表结构
 """
 import sys
-sys.path.insert(0, '/sessions/6a1177758b0ed9aae363c1e4/workspace/backend')
+import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from app.db.database import engine, Base
 from app.models.teaching_session import TeachingSession, ChatMessage

@@ -116,17 +116,18 @@ class LLMConfigManager:
         self._configs: Dict[ProviderType, ProviderConfig] = {}
         self._global_config = LLMGlobalConfig()
 
-        # 优先从 JSON 配置文件加载
-        import os
+        self._load_config_sources()
+
+        LLMConfigManager._initialized = True
+
+    def _load_config_sources(self) -> None:
+        """按统一优先级加载配置：JSON配置文件优先，其次环境变量。"""
         config_dir = os.path.dirname(os.path.abspath(__file__))
         json_config_path = os.path.join(config_dir, 'llm_config.json')
         if os.path.exists(json_config_path):
             self.load_from_json_file(json_config_path)
         else:
-            # 备选：从环境变量加载
             self._load_all_configs()
-
-        LLMConfigManager._initialized = True
 
     def _load_all_configs(self) -> None:
         """加载所有Provider配置"""
@@ -139,7 +140,8 @@ class LLMConfigManager:
     def reload_configs(self) -> None:
         """重新加载所有Provider配置"""
         self._configs.clear()
-        self._load_all_configs()
+        self._global_config = LLMGlobalConfig()
+        self._load_config_sources()
         logger.info("已重新加载所有Provider配置")
 
     def _load_provider_config(self, provider_type: ProviderType) -> Optional[ProviderConfig]:

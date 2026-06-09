@@ -1,0 +1,445 @@
+{
+  "topic_text": "量子力学",
+  "topic_id": "topic-9d2f2e042e53",
+  "overview": "你好，欢迎踏入量子世界——我先帮你破除第一个恐惧：量子力学一点都不玄，也不是只有天才才能懂，它就是物理学家为了解释**微观小世界的运动规律**，发展出来的一套非常实用、非常靠谱的物理框架。我们先不碰公式，先把整片森林的样子看清楚。\n\n---\n\n### 第一步：先回答「量子力学会为什么会诞生？」（先解决为什么，再讲是什么）\n一百多年前，物理学家一度认为物理世界已经被研究透了：宏观运动用牛顿力学，电磁现象用麦克斯韦方程，热现象用热力学，所有问题好像都能解决，唯一剩下两个没搞懂的小问题，被叫做“两朵乌云”。\n其中一朵乌云，就是「黑体辐射」的计算结果和实验对不上：按经典物理的逻辑，频率越高的光，辐射的能量会趋近无穷大，这显然不符合实际——实验测出来，到高频（紫外波段）之后能量反而会下降。\n1900年普朗克为了凑出符合实验的公式，迫不得已提出一个反常识的假设：**能量不是连续的，是「一份一份」传递的**，这一份最小的能量单位，就叫做「量子」。量子力学就这样诞生了，它从出生开始就是为了解决实际问题，不是物理学家凭空编出来的玄学。\n\n---\n\n### 第二步：抓住核心脉络，整个量子力学都根源于两个特性\n量子力学所有反常识的结论，都来自微观粒子的两个本质属性，你只要记住这两个，就抓住了整个领域的根：\n#### 1. 波粒二象性\n我们日常宏观世界的东西，要么是“粒子”（比如乒乓球，一个一个，有确定位置），要么是“波”（比如水波，散开传播，没有固定位置）。但微观世界的粒子（电子、光子、质子...），**同时具备这两种性质**：你测它的粒子性，它就表现得像粒子；你测它的波动性，它就表现得像波。\n这不是粒子“会变魔术”，是它本身就同时拥有两种属性，只不过宏观物体的波动性弱到完全测不到，所以我们日常不需要用量子力学，只有纳米尺度以下的微观世界才会显现出量子效应。\n\n#### 2. 不确定性原理\n很多人误以为这是“我们仪器不够准，测不准粒子的位置和速度”，错了——它是说：**微观粒子本身就不可能同时拥有确定的位置和动量（速度乘以质量）**，你把位置测的越准，速度就必然越不准，反过来也一样，这是微观世界的本质属性，和测量技术无关。\n\n就是这两个核心，衍生出了整个量子力学：因为粒子本身没有确定的位置和速度，所以我们永远只能说「这个粒子出现在某个地方的概率是多少」——量子力学是一套描述概率的理论，它不是“不准确”，是微观世界本身就是概率性的。\n\n---\n\n### 第三步：破除最常见的谣言，给你清晰的格局\n网上大部分关于量子的内容都是蹭热度编出来的，三个谣言一定要先戳破：\n❌ 谣言1：量子力学就是量子纠缠，和意识、心灵有关，还能做量子养生、量子阅读——错！量子纠缠只是量子力学里一个普通现象：两个纠缠过的粒子，隔很远测状态也会关联，但它不能超光速传递信息，和意识、生命、神学没有任何关系，沾这些的全是骗子。\n❌ 谣言2：「没人真的懂量子力学」——这句话费曼本来的意思是：没人能让量子力学符合我们宏观的日常直觉，不是说你学不懂它。量子力学的数学框架非常清晰，一百多年来所有实验都验证了它的结果，它是人类目前最精准的理论之一，普通人按步骤就能学会。\n❌ 谣言3：量子力学是唯心的——错！量子力学是标准的实证科学，所有结论都要经过实验检验，和唯心、神学没有任何关系。\n\n另外你要知道：量子力学早就融入你的生活了——你现在用的手机芯片、LED屏幕、医院的核磁共振、太阳能板，全是靠量子力学造出来的，没有量子力学就没有现代信息文明，它不是躲在实验室里的玄学，是天天给你用的实用技术。\n\n---\n\n### 第四步：给你方向和信心，接下来该怎么走\n如果你想接着深入，按这个路径走，最轻松、最不容易迷路：\n1. **入门第一步（建直觉）**：不用碰公式，先搞懂3个核心实验：双缝干涉实验（理解波粒二象性）、光电效应实验（理解光子的量子性）、斯特恩-盖拉赫实验（理解量子叠加和测量），这三个实验懂了，你的直觉就对了，比背十个定义有用。\n2. **入门第二步（学框架）**：补必要的数学，量子力学用的核心数学是线性代数（就是矩阵、矢量那部分基础内容），不用学太高深的数学，把线性代数基础搞懂，再去学薛定谔方程，算几个简单的例子（比如氢原子、无限深势阱），你就掌握量子力学的基础了。\n3. **进阶**：再根据你的兴趣，去学量子纠缠、量子信息、量子场论这些更深的方向。\n\n---\n\n最后送给你一句话：量子力学难，难就难在它违背了我们从小到大在宏观世界养成的常识，只要你放下「必须符合我日常直觉」的执念，顺着核心脉络走，你完全能学会。现在你已经知道这片森林的轮廓了，接下来进去慢慢逛就好。",
+  "structure": {
+    "blocks": [
+      {
+        "block_id": "block-1ff6c3a8",
+        "block_name": "量子力学基础",
+        "points": [
+          {
+            "point_id": "point-53f6abd7",
+            "point_name": "经典物理学危机与早期量子论",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-63cfbd9f",
+                "component_name": "黑体辐射与紫外灾难",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1510e6d1",
+                "component_name": "普朗克能量量子化假设",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4ce5b592",
+                "component_name": "光电效应与爱因斯坦光量子假说",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-19aa8d25",
+                "component_name": "康普顿散射实验",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-fe30be58",
+                "component_name": "玻尔氢原子结构理论",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d8a95d33",
+                "component_name": "德布罗意物质波假设",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-3ca3d1bb",
+            "point_name": "波函数与薛定谔方程",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-018ee496",
+                "component_name": "波函数的概率统计诠释",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9e8fad32",
+                "component_name": "波函数的标准化条件",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ef967579",
+                "component_name": "概率流密度与连续性方程",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b9f4552e",
+                "component_name": "含时薛定谔方程的建立",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3cec8b4c",
+                "component_name": "定态薛定谔方程",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-6a6c43e8",
+            "point_name": "一维定态问题求解",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-907a2085",
+                "component_name": "一维无限深方势阱定态",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7b65765a",
+                "component_name": "一维有限深方势阱定态",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5a65f3f9",
+                "component_name": "一维方势垒与隧道效应",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1d5fcc5d",
+                "component_name": "一维线性谐振子定态求解",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-3e40c40e",
+        "block_name": "量子力学核心原理",
+        "points": [
+          {
+            "point_id": "point-7b9ccace",
+            "point_name": "量子力学基本公设",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-41774aad",
+                "component_name": "状态公设（希尔伯特空间描述）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-aa65410d",
+                "component_name": "力学量公设（厄米算符假设）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7016e110",
+                "component_name": "测量公设（本征值概率与波函数坍缩）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-fa274e35",
+                "component_name": "演化公设（薛定谔演化）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-50be4eef",
+                "component_name": "全同性粒子公设",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-efb8e799",
+            "point_name": "力学量与算符理论",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-324175b0",
+                "component_name": "厄米算符的性质与本征问题",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6e63062f",
+                "component_name": "算符对易关系",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2f07df24",
+                "component_name": "海森堡不确定关系",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-453e7221",
+                "component_name": "共同本征态与完备性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-67f7e710",
+                "component_name": "轨道角动量算符",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-32ab37fd",
+                "component_name": "轨道角动量本征问题",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-6248ae06",
+            "point_name": "量子表象与狄拉克符号",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-0f3ff087",
+                "component_name": "坐标表象与动量表象",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-10d1865b",
+                "component_name": "狄拉克符号体系",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c0393419",
+                "component_name": "表象变换矩阵",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1d5e2f22",
+                "component_name": "升降算符法求解谐振子",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-6295c919",
+            "point_name": "态叠加原理与量子纠缠",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-0d9fe68f",
+                "component_name": "态叠加原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1d519d48",
+                "component_name": "可分离态与纠缠态",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-232a67eb",
+                "component_name": "贝尔不等式与定域性检验",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-6f5273cb",
+        "block_name": "量子力学近似方法与典型应用",
+        "points": [
+          {
+            "point_id": "point-6f551ca1",
+            "point_name": "定态近似方法",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-afefb49f",
+                "component_name": "非简并定态微扰论",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f1bf220a",
+                "component_name": "简并定态微扰论",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8ad1e3c5",
+                "component_name": "变分近似法",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-272cca8a",
+            "point_name": "含时微扰论与量子跃迁",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-e444b690",
+                "component_name": "一阶含时微扰跃迁概率公式",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d593db5c",
+                "component_name": "费米黄金规则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-53a39399",
+                "component_name": "自发辐射与受激辐射",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-ed2a2d7c",
+            "point_name": "氢原子问题求解",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-733a37d3",
+                "component_name": "氢原子定态分离变量求解",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f82bcacf",
+                "component_name": "氢原子能级与原子光谱",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-34d00e30",
+                "component_name": "氢原子波函数空间分布",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-a28abc0e",
+            "point_name": "自旋与全同粒子",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-1716c452",
+                "component_name": "斯特恩-盖拉赫实验与自旋假设",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cb1132f1",
+                "component_name": "泡利矩阵与自旋算符",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b727e4d1",
+                "component_name": "两电子自旋态耦合",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-dc74bc3d",
+                "component_name": "全同粒子交换对称性",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-38e7a51d",
+                "component_name": "玻色子与费米子性质",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-69fba1e9",
+                "component_name": "泡利不相容原理",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-8e077dd7",
+        "block_name": "量子力学进阶专题",
+        "points": [
+          {
+            "point_id": "point-bc14eb19",
+            "point_name": "量子散射问题",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-6175790a",
+                "component_name": "散射截面的定义",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d1f7ff0c",
+                "component_name": "分波法求解低能散射",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7e20174d",
+                "component_name": "玻恩近似求解高能散射",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-ff3d26e6",
+            "point_name": "半经典近似方法",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-ccb50f18",
+                "component_name": "对应原理",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ef176410",
+                "component_name": "WKB近似方法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8cf23dd1",
+                "component_name": "WKB近似的应用",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-8f4d4812",
+            "point_name": "量子力学诠释基础",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-4345ce71",
+                "component_name": "哥本哈根诠释",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c916c728",
+                "component_name": "退相干基本概念",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a385e5a8",
+                "component_name": "主要量子力学诠释流派",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "saved_at": "2026-06-04T22:36:33.559259"
+}

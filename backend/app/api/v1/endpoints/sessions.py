@@ -267,7 +267,7 @@ async def chat(
     context_messages = service.get_messages_for_context(session_id)
     
     # 调用LLM生成回复
-    llm_client = AgentLLMClient(provider=ProviderType.DOUBAO)
+    llm_client = AgentLLMClient(provider=ProviderType.DEEPSEEK)
     
     async def generate_response():
         full_content = ""
@@ -337,7 +337,7 @@ async def generate_overview(
         content=f"请介绍 {topic_name} 的全景知识"
     )
     
-    agent = UnifiedTeachingAgent(provider=ProviderType.DOUBAO)
+    agent = UnifiedTeachingAgent(provider=ProviderType.DEEPSEEK)
     
     async def generate():
         try:
@@ -405,7 +405,7 @@ async def explain_component(
     # 每次都调用LLM生成
     logger.info(f"生成知识讲解: component_id={request.component_id}, component_name={request.component_name}")
     
-    agent = UnifiedTeachingAgent(provider=ProviderType.DOUBAO)
+    agent = UnifiedTeachingAgent(provider=ProviderType.DEEPSEEK)
     
     async def generate_explanation():
         try:
@@ -499,7 +499,7 @@ async def generate_exercise(
         component_name=component_name
     )
     
-    agent = UnifiedTeachingAgent(provider=ProviderType.DOUBAO)
+    agent = UnifiedTeachingAgent(provider=ProviderType.DEEPSEEK)
     
     async def generate():
         try:
@@ -580,7 +580,7 @@ async def submit_exercise_answer(
     )
     
     # 调用批改
-    agent = UnifiedTeachingAgent(provider=ProviderType.DOUBAO)
+    agent = UnifiedTeachingAgent(provider=ProviderType.DEEPSEEK)
     
     try:
         parsed = await agent.grade_answers(

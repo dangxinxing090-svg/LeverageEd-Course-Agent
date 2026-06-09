@@ -160,7 +160,7 @@ def _build_structure_dict(parsed: dict) -> dict:
 async def _process_topic_background(topic_id: str, topic_name: str):
     """后台任务：并行生成全景介绍和知识拆分结构"""
     try:
-        llm_client = AgentLLMClient(provider=ProviderType.DOUBAO)
+        llm_client = AgentLLMClient(provider=ProviderType.DEEPSEEK)
 
         overview_prompt = OVERVIEW_PROMPT_TEMPLATE.format(topic_text=topic_name)
         split_prompt = SPLIT_PROMPT_TEMPLATE.format(topic_text=topic_name)
@@ -258,7 +258,7 @@ async def get_recommend_topics(
   ]
 }"""
 
-        llm_client = AgentLLMClient(provider=ProviderType.DOUBAO)
+        llm_client = AgentLLMClient(provider=ProviderType.DEEPSEEK)
         result_text = await llm_client.generate(
             recommend_prompt,
             system_prompt="你是一位教育内容策划专家。",

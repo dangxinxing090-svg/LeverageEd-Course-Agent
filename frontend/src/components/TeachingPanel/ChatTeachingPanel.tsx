@@ -111,8 +111,8 @@ export const ChatTeachingPanel = forwardRef<ChatTeachingPanelRef, ChatTeachingPa
   // 使用ref记录上次加载的组件，防止重复加载
   const lastLoadedComponentRef = useRef<string>('');
 
-  // 标记是否应该自动加载讲解（区分初始化恢复 vs 用户主动切换）
-  const shouldAutoLoadRef = useRef(false);
+  // 标记是否应该自动加载讲解（区分初始化恢复 vs 用户主动切换），使用 state 让 React 追踪变化
+  const [shouldAutoLoad, setShouldAutoLoad] = useState(false);
 
   // 获取当前组件
   const currentComponent = components[currentIndex];
@@ -409,11 +409,11 @@ export const ChatTeachingPanel = forwardRef<ChatTeachingPanelRef, ChatTeachingPa
           } else if (historyMessages.length > 0 && !initialComponentId) {
             // ========== 场景B：从导航点击学习进入，已有历史会话，只显示历史 ==========
             console.log('[ChatTeachingPanel] Scene B: Existing session from nav, showing history only');
-            shouldAutoLoadRef.current = false;  // 不自动加载当前组件讲解
+            setShouldAutoLoad(false);  // 不自动加载当前组件讲解
           } else {
             // ========== 场景C：从全景页点击知识点跳转，initialComponentId 有值 ==========
             console.log('[ChatTeachingPanel] Scene C: From panorama with componentId, will auto-load');
-            shouldAutoLoadRef.current = true;  // 允许自动加载指定组件讲解
+            setShouldAutoLoad(true);  // 允许自动加载指定组件讲解
           }
         }
         
@@ -455,12 +455,12 @@ export const ChatTeachingPanel = forwardRef<ChatTeachingPanelRef, ChatTeachingPa
       if (currentComponent.componentId !== lastLoadedComponentRef.current) {
         lastLoadedComponentRef.current = currentComponent.componentId;
         // 只有标记为需要自动加载时才调用（区分初始化恢复 vs 用户主动切换）
-        if (shouldAutoLoadRef.current) {
+        if (shouldAutoLoad) {
           loadExplanation(currentComponent, session.id);
         }
       }
     }
-  }, [currentComponent?.componentId, session?.id, sessionLoading]);
+  }, [currentComponent?.componentId, session?.id, sessionLoading, shouldAutoLoad, loadExplanation]);
 
   // ==================== 自动滚动 ====================
   
@@ -599,7 +599,7 @@ export const ChatTeachingPanel = forwardRef<ChatTeachingPanelRef, ChatTeachingPa
   const handleNext = useCallback(() => {
     if (!hasNextComponent || isStreaming) return;
     
-    shouldAutoLoadRef.current = true;  // 标记需要自动加载下一个组件讲解
+    setShouldAutoLoad(true);  // 标记需要自动加载下一个组件讲解
     const nextIndex = currentIndex + 1;
     setCurrentIndex(nextIndex);
     onComponentChange?.(nextIndex);

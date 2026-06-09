@@ -57,7 +57,7 @@ def get_teaching_agent() -> UnifiedTeachingAgent:
     """获取统一教学Agent实例"""
     global _teaching_agent
     if _teaching_agent is None:
-        _teaching_agent = UnifiedTeachingAgent(provider=ProviderType.DOUBAO)
+        _teaching_agent = UnifiedTeachingAgent(provider=ProviderType.DEEPSEEK)
     return _teaching_agent
 
 
@@ -368,7 +368,7 @@ async def submit_skip_test(
 }}"""
 
     try:
-        llm_client = AgentLLMClient(provider=ProviderType.DOUBAO)
+        llm_client = AgentLLMClient(provider=ProviderType.DEEPSEEK)
         result_text = await llm_client.generate(
             eval_prompt,
             system_prompt="你是一位专业的教育评估专家。",
