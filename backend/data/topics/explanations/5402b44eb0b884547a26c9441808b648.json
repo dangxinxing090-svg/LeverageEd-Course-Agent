@@ -1,0 +1,27 @@
+{
+  "component_id": "comp-39c056fa",
+  "knowledge_name": "平滑技术",
+  "saved_at": "2026-06-10T11:49:52.549624",
+  "sections": [
+    {
+      "icon": "💡",
+      "title": "直觉理解",
+      "content": "想象你在背一首长诗的下一句。如果你曾经见过这句话，你就能轻松接上；但如果从未见过，你可能不会直接说\"概率为零\"，而是根据类似句子猜一个可能性。平滑技术就像给你的知识库装上一个\"安全阀\"：当遇到从未见过的东西时，不是粗暴地认为它不可能发生，而是从已知的常见情况中借一点点概率给它。比如，你朋友的口头禅中偶尔蹦出一个新词，你不会觉得他疯了，只会觉得这词虽然稀有但合理。"
+    },
+    {
+      "icon": "📐",
+      "title": "逻辑规则",
+      "content": "平滑技术的核心规则是：让语言模型为每个可能的词或词序列都分配一个非零概率，即使它从未在训练数据中出现过。最基础的规则是\"加一平滑\"（拉普拉斯平滑）：假设每个词序列在训练中额外多出现1次。公式上，对于n-gram模型中某个历史h下的词w，其概率p(w|h) = (count(h, w) + 1) / (count(h) + V)，其中V是词汇表大小。这样，零频词就有了概率1/(count(h)+V)。更高级的平滑规则（如Kneser-Ney平滑）会动态调整借出的概率量，优先从更可靠的上下文借用。无论哪种规则，目标都是平衡真实观测和泛化能力。"
+    },
+    {
+      "icon": "🔧",
+      "title": "底层原理",
+      "content": "平滑技术的数学本质是概率分布的\"收缩估计\"（shrinkage）。真实世界中，词序列的分布服从长尾定律——大量组合极少出现甚至不出现。最大似然估计（MLE）会把未出现事件的概率设为0，导致模型泛化失败。平滑通过引入先验（比如Dirichlet先验对应加一平滑）或折扣策略（如Good-Turing估计），将观测到的计数向下调整，腾出概率质量给未观测事件。在现代大语言模型中，平滑思想扩展到神经网络：标签平滑（Label Smoothing）在训练时将one-hot目标分布替换为软分布（如[0.9, 0.05, 0.05]），防止模型对训练标签过度自信；Dropout则通过对神经元随机丢弃实现隐式正则化，避免过拟合少量模式。"
+    },
+    {
+      "icon": "📝",
+      "title": "实例演示",
+      "content": "下面用Python演示加一平滑在bigram语言模型中的效果。假设训练语料只有一句话：\"我 爱 学习\"。词汇表为['我','爱','学习','编程']（注意'编程'未在训练中出现）。\n\n```python\nfrom collections import defaultdict\n\n# 训练数据：单词列表\ntokens = ['我','爱','学习']\nvocab = ['我','爱','学习','编程']\nV = len(vocab)\n\n# 统计bigram计数\nbigram_counts = defaultdict(int)\nunigram_counts = defaultdict(int)\nfor i in range(len(tokens)-1):\n    bigram_counts[(tokens[i], tokens[i+1])] += 1\n    unigram_counts[tokens[i]] += 1\nunigram_counts[tokens[-1]] += 1  # 加最后一个单词\n\n# 加一平滑计算概率\ndef smoothed_prob(w1, w2):\n    count_bigram = bigram_counts.get((w1, w2), 0)\n    count_unigram = unigram_counts.get(w1, 0)\n    return (count_bigram + 1) / (count_unigram + V)\n\n# 测试\nprint(\"P(爱|我)=\", smoothed_prob('我','爱'))  # (1+1)/(1+4)=0.4\nprint(\"P(编程|爱)=\", smoothed_prob('爱','编程')) # (0+1)/(1+4)=0.2\nprint(\"P(学习|爱)=\", smoothed_prob('爱','学习')) # (1+1)/(1+4)=0.4\n```\n\n输出显示：即使'编程'从未在'爱'之后出现，平滑后仍有20%的概率，模型不再犯\"零概率\"错误，更稳健。"
+    }
+  ]
+}

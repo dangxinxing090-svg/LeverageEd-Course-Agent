@@ -1,0 +1,27 @@
+{
+  "component_id": "comp-1752ed4b",
+  "knowledge_name": "HTTP协议基础",
+  "saved_at": "2026-06-10T14:27:13.458746",
+  "sections": [
+    {
+      "icon": "💡",
+      "title": "直觉理解",
+      "content": "HTTP协议就像你在餐厅点餐的过程。你（客户端，比如浏览器）告诉服务员（HTTP协议）你想点的菜（URL和请求），服务员把订单传给厨房（服务器），厨房做好菜后（处理请求），服务员再把菜端到你桌上（响应）。整个过程是临时性的：每次点餐都是独立的，服务员不记得你上次点了什么（无状态）。你点的菜可以是小炒（GET请求，只读取数据）或要求厨房现做（POST请求，提交数据）。厨师会告诉你菜做好了（200 OK），或者菜没了（404 Not Found），或者厨房故障了（500 Internal Server Error）。"
+    },
+    {
+      "icon": "📐",
+      "title": "逻辑规则",
+      "content": "HTTP（超文本传输协议）的核心规则：1）客户端发起请求，服务器返回响应，一对一。2）请求由请求行（方法、URL、版本）、头部（键值对，如Host、User-Agent）、可选消息体组成。3）响应由状态行（版本、状态码、原因短语）、头部、消息体组成。4）常见方法：GET（获取资源）、POST（提交数据）、PUT（更新资源）、DELETE（删除资源）。5）状态码分类：1xx信息性、2xx成功（200 OK）、3xx重定向（301永久移动）、4xx客户端错误（404未找到）、5xx服务器错误（500内部错误）。6）无状态：服务器默认不记忆之前的请求，但可通过Cookie、Session实现状态。7）持久连接（HTTP/1.1默认）允许同一连接发送多个请求，减少开销。"
+    },
+    {
+      "icon": "🔧",
+      "title": "底层原理",
+      "content": "HTTP底层基于TCP/IP协议。客户端和服务器通过三次握手建立TCP连接，默认端口80（HTTP）或443（HTTPS）。HTTP请求和响应的报文格式是纯文本：请求报文首行如'GET /index.html HTTP/1.1'，接着头部如'Host: www.example.com'，空行后是可选正文（如POST数据）。服务器解析后，返回响应报文，首行如'HTTP/1.1 200 OK'，头部如'Content-Type: text/html'，空行后是HTML内容。HTTP/1.1引入持久连接（Connection: keep-alive），减少连接建立开销；HTTP/2进一步多路复用和二进制分帧，但原理仍基于请求-响应。注意：HTTP是无状态的，每个请求独立；但通过Cookie头部，服务器可以识别用户（如Session ID）。"
+    },
+    {
+      "icon": "📝",
+      "title": "实例演示",
+      "content": "在Python中，可以使用内置urllib或第三方requests库进行HTTP操作。示例：\n\n```python\nimport requests\n\n# 发送GET请求\nresponse = requests.get('https://api.github.com')\nprint(response.status_code)  # 200\nprint(response.headers['Content-Type'])  # 'application/json; charset=utf-8'\nprint(response.json())  # 解析JSON响应体\n\n# 发送POST请求\npayload = {'key': 'value'}\nresponse = requests.post('https://httpbin.org/post', data=payload)\nprint(response.status_code)  # 200\nprint(response.text)  # 返回表单数据\n\n# 自定义头部\nheaders = {'User-Agent': 'my-app/0.1'}\nresponse = requests.get('https://httpbin.org/headers', headers=headers)\nprint(response.text)\n```\n\n还可以用http.server模块搭建简易HTTP服务器：\n\n```python\nfrom http.server import HTTPServer, BaseHTTPRequestHandler\n\nclass MyHandler(BaseHTTPRequestHandler):\n    def do_GET(self):\n        self.send_response(200)\n        self.send_header('Content-type', 'text/plain')\n        self.end_headers()\n        self.wfile.write(b'Hello, HTTP!')\n\nserver = HTTPServer(('localhost', 8000), MyHandler)\nserver.serve_forever()\n```\n运行后访问 http://localhost:8000 即可看到响应。"
+    }
+  ]
+}

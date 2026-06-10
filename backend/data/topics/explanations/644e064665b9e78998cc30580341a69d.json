@@ -1,0 +1,27 @@
+{
+  "component_id": "comp-7844af9e",
+  "knowledge_name": "分支结构（if/elif/else）",
+  "saved_at": "2026-06-10T14:29:12.859641",
+  "sections": [
+    {
+      "icon": "💡",
+      "title": "直觉理解",
+      "content": "分支结构就像生活中的决策点。想象你在逛街，看到一家奶茶店：如果口渴（条件1），就买一杯奶茶；如果不渴但想吃甜点，就买个冰淇淋；否则什么都不买。Python的if/elif/else就是让程序根据条件做出不同的选择。"
+    },
+    {
+      "icon": "📐",
+      "title": "逻辑规则",
+      "content": "if语句基本结构：\nif 条件:\n    执行块1\nelif 另一个条件:\n    执行块2\nelse:\n    执行块3\n条件必须是布尔表达式（真或假）。if从上往下判断，遇到第一个为真的条件就执行对应的块，执行完后跳过整个结构。如果所有条件都不成立，执行else块（如果有）。elif可以有多个，else可选。注意冒号和缩进。"
+    },
+    {
+      "icon": "🔧",
+      "title": "底层原理",
+      "content": "Python解释器遇到if语句时，会先计算条件表达式。每个条件会转换为布尔值：数字0、空序列、None等为False，其他为True。然后依次比较。实际上，Python会把整个if-elif-else结构编译成字节码中的条件跳转指令。执行时，CPU根据条件判断结果跳转到对应代码块。这种分支结构是计算机实现决策的基础，体现了冯·诺依曼体系中的条件转移。"
+    },
+    {
+      "icon": "📝",
+      "title": "实例演示",
+      "content": "示例：判断成绩等级\nscore = 85\nif score >= 90:\n    grade = 'A'\nelif score >= 80:\n    grade = 'B'\nelif score >= 70:\n    grade = 'C'\nelse:\n    grade = 'D'\nprint('你的等级是:', grade)\n输出：你的等级是: B\n注意：条件是依次判断的，如果score=95，只会进入第一个if。"
+    }
+  ]
+}

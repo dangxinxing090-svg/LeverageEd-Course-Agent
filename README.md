@@ -257,6 +257,16 @@ ai-education-platform/
 - **WAL 模式支持**：SQLite 启用 WAL 模式，避免 disk I/O 错误
 - **数据持久化**：Session、聊天记录等数据持久化到本地数据库
 
+### 知识讲解生成修复（2025-06-10）
+- **Prompt 格式修复**：修复 `EXPLAIN_JSON_PROMPT` 与代码期望不匹配的问题
+  - 原问题：Prompt 要求 LLM "格式自由发挥"，但代码期望返回 `{"sections": [...]}` 格式的 JSON
+  - 修复后：Prompt 明确要求返回包含 `icon`、`title`、`content` 字段的 sections 数组
+- **讲解重复加载修复**：修复点击"下一个"按钮后讲解被重复请求多次的问题
+  - 添加 `isLoadingExplanationRef` 防止 `loadExplanation` 并发调用
+  - 加载完成后自动关闭 `shouldAutoLoad` 标记，防止 `useEffect` 依赖变化导致重复触发
+  - 优化 `useEffect` 依赖数组，减少不必要的触发次数
+  - 组件卸载时正确重置加载状态标记
+
 ### 练习题升级
 - 从简单选择题升级为**高难度实操性问答题**
 - 支持 5 种题型：故障排查、方案设计、代码优化、安全攻防、工程实践

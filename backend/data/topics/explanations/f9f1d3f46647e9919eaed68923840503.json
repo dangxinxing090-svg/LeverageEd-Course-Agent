@@ -1,0 +1,27 @@
+{
+  "component_id": "comp-4254ceb2",
+  "knowledge_name": "函数与面向对象",
+  "saved_at": "2026-06-10T12:34:39.145945",
+  "sections": [
+    {
+      "icon": "💡",
+      "title": "直觉理解",
+      "content": "想象你在开一个投资厨房：函数就像一个精确的食谱步骤，比如‘计算20日均线’这个步骤，你输入股票价格，它输出一条线。而面向对象就像整个厨房系统——你有冰箱（存储数据）、灶台（执行交易）、菜谱（策略模板）。你只需定义一次‘炒菜’这个动作（方法），然后对不同的食材（股票数据）重复使用。量化投资里，函数帮你快速算出各种指标，面向对象则让你像搭积木一样构建复杂的交易策略，比如一个‘移动平均策略’对象，它自带参数和买卖逻辑，可以反复测试。"
+    },
+    {
+      "icon": "📐",
+      "title": "逻辑规则",
+      "content": "函数的核心规则：接受输入（参数），执行特定计算，返回输出（返回值）。在量化中，函数通常用于数据清洗、指标计算（如RSI、MACD）、信号生成。例如`def moving_average(data, window): return data.rolling(window).mean()`。面向对象的核心规则：用类（class）定义蓝图，创建对象（实例）来封装数据和操作。类包含属性（如持仓量、现金余额）和方法（如`buy()`、`update_portfolio()`）。在量化中，一个`Strategy`类可以有`__init__`设置参数，`generate_signals`方法输出买卖指令，`run_backtest`方法执行回测。规则上：函数强调功能单一、可复用；类强调将数据和行为打包，便于管理复杂状态（如策略在不同股票上的实例）。"
+    },
+    {
+      "icon": "🔧",
+      "title": "底层原理",
+      "content": "函数底层：Python解释器会在内存中分配一个函数对象，当调用时创建栈帧，压入参数和局部变量，计算后返回值并销毁栈帧。量化中大量调用函数可能导致栈溢出（如递归），但通常用循环优化。面向对象底层：类本质是一个类型对象，包含属性和方法描述。实例化时在堆中分配内存，存储属性值，方法通过虚表查找。类的继承允许子类复用父类逻辑（如`MeanReversionStrategy`继承`BaseStrategy`），多态让你用统一接口处理不同策略。在回测引擎中，使用对象管理每个策略的独立状态（如当前持仓、历史交易），避免了全局变量的混乱，并且可以并行运行多个策略对象。"
+    },
+    {
+      "icon": "📝",
+      "title": "实例演示",
+      "content": "以下是一个简单的量化策略演示（Python伪代码）：\n\n```python\n# 函数：计算简单移动平均\ndef sma(data, window):\n    return data.rolling(window).mean()\n\n# 类：双均线策略\nclass DualMAStrategy:\n    def __init__(self, short_window=5, long_window=20):\n        self.short_window = short_window\n        self.long_window = long_window\n        self.position = 0  # 0空仓，1持仓\n        self.signals = []\n    \n    def generate_signals(self, price_series):\n        short_ma = sma(price_series, self.short_window)\n        long_ma = sma(price_series, self.long_window)\n        # 当短期均线上穿长期均线时买入\n        for i in range(len(price_series)):\n            if i > self.long_window:\n                if short_ma[i] > long_ma[i] and short_ma[i-1] <= long_ma[i-1]:\n                    self.signals.append(1)\n                    self.position = 1\n                elif short_ma[i] < long_ma[i] and short_ma[i-1] >= long_ma[i-1]:\n                    self.signals.append(-1)\n                    self.position = 0\n                else:\n                    self.signals.append(0)\n            else:\n                self.signals.append(0)\n        return self.signals\n\n# 使用\ndata = [10,11,12,13,14,15,14,13]  # 简化股价\nstrategy = DualMAStrategy(short_window=2, long_window=3)\nsignals = strategy.generate_signals(data)\nprint(signals)  # 输出买卖信号\n```\n\n实际量化中，你会用`pandas`处理真实数据，并将策略类与回测引擎、数据源等组合。通过函数和面向对象，你可以快速测试不同参数，而无需重写底层逻辑。"
+    }
+  ]
+}

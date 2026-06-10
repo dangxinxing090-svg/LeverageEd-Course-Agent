@@ -1,0 +1,27 @@
+{
+  "component_id": "comp-f88901f7",
+  "knowledge_name": "困惑度",
+  "saved_at": "2026-06-10T12:26:47.944438",
+  "sections": [
+    {
+      "icon": "💡",
+      "title": "直觉理解",
+      "content": "想象你在玩一个“你画我猜”游戏，朋友画了一幅画，你猜画的是什么。如果你每次都瞬间猜到，说明你非常懂朋友的画风——你几乎不困惑。如果朋友画得乱七八糟，你每次都猜错，那你就会非常困惑。语言模型的困惑度就是类似的东西：给它一段文本，它逐词预测下一个词。如果它预测得准，困惑度就低；如果经常猜错，困惑度就高。所以困惑度度量的是模型对文本的“惊讶程度”。"
+    },
+    {
+      "icon": "📐",
+      "title": "逻辑规则",
+      "content": "困惑度（Perplexity, PPL）是评估语言模型好坏的核心指标。数学上，给定一个包含N个词的序列 w1,w2,...,wN，语言模型会为每个词 wi 计算在已知前文条件下的概率 P(wi|w1...wi−1)。困惑度定义为这些概率的几何平均的倒数：PPL = (∏_{i=1}^{N} 1/P(wi|...))^(1/N) 或者等价形式 PPL = exp( - (1/N) ∑_{i=1}^{N} ln P(wi|...) )。几何平均的意思是：把所有预测概率乘起来，再开N次方。开方后的值反映了平均每个词被预测对的“信心”。倒数后，值越低越好。例如，如果模型平均以概率0.5预测每个词，困惑度就是2；如果平均概率0.9，困惑度≈1.1。通常，优秀模型的困惑度可以低于10，而随机猜测（词汇量几万）的困惑度等于词汇量大小。"
+    },
+    {
+      "icon": "🔧",
+      "title": "底层原理",
+      "content": "困惑度和交叉熵（Cross-Entropy）有直接关系。交叉熵 H(p,q) = -∑ p(x) log q(x)，其中p是真实分布（通常是一次性one-hot），q是模型预测分布。在语言模型中，每个时间步的交叉熵就是 -log P(wi|context)。所有时间步的平均交叉熵就是 - (1/N)∑log P。困惑度就是平均交叉熵的指数：PPL = exp(平均交叉熵)。这赋予了困惑度一个直观解释：它相当于模型在预测下一个词时，平均需要等概率选择的“候选词数”。例如，困惑度为10，意味着模型对下一个词的“犹豫程度”就像从10个等概率的词中随机选一个那样。另外，困惑度与模型内部Softmax输出的对数概率紧密相关。训练时，我们最小化交叉熵，也就最小化了困惑度。"
+    },
+    {
+      "icon": "📝",
+      "title": "实例演示",
+      "content": "使用Python和HuggingFace的transformers库计算一个小型GPT-2模型的困惑度。\n\n```python\nfrom transformers import GPT2LMHeadModel, GPT2Tokenizer\nimport torch\n\nmodel_name = 'gpt2'\nmodel = GPT2LMHeadModel.from_pretrained(model_name)\ntokenizer = GPT2Tokenizer.from_pretrained(model_name)\n\ntext = 'I love reading books about artificial intelligence.'\ninputs = tokenizer(text, return_tensors='pt')\nwith torch.no_grad():\n    outputs = model(**inputs, labels=inputs['input_ids'])\n    loss = outputs.loss   # cross-entropy loss (平均每个token)\n    perplexity = torch.exp(loss).item()\nprint(f'困惑度: {perplexity:.2f}')\n```\n\n运行结果大约在几十左右（具体因文本和模型而异）。如果想手动验证：假设模型对三个词预测的概率为[0.5, 0.2, 0.1]，则几何平均 = (0.5*0.2*0.1)^(1/3) ≈ 0.215，困惑度 = 1/0.215 ≈ 4.65。实际上，我们通常使用对数求和避免数值下溢。另外，在训练过程中，困惑度不断下降，表示模型正在“理解”训练数据的语言模式。"
+    }
+  ]
+}

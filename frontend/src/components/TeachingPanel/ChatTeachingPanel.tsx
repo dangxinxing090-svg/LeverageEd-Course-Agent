@@ -110,6 +110,9 @@ export const ChatTeachingPanel = forwardRef<ChatTeachingPanelRef, ChatTeachingPa
   
   // 使用ref记录上次加载的组件，防止重复加载
   const lastLoadedComponentRef = useRef<string>('');
+  
+  // 使用ref标记是否正在加载讲解，防止并发调用
+  const isLoadingExplanationRef = useRef(false);
 
   // 标记是否应该自动加载讲解（区分初始化恢复 vs 用户主动切换），使用 state 让 React 追踪变化
   const [shouldAutoLoad, setShouldAutoLoad] = useState(false);
@@ -223,8 +226,14 @@ export const ChatTeachingPanel = forwardRef<ChatTeachingPanelRef, ChatTeachingPa
   const loadExplanation = useCallback(async (component: ComponentInfo, sId: string) => {
     if (!sId || !component) return;
     
-    // 移除重复检查：每次点击都重新生成
-    // 之前的检查代码已删除
+    // 防止并发调用：如果正在加载讲解，直接返回
+    if (isLoadingExplanationRef.current) {
+      console.log('[ChatTeachingPanel] loadExplanation skipped: already loading');
+      return;
+    }
+    
+    // 标记开始加载
+    isLoadingExplanationRef.current = true;
     
     try {
       setIsStreaming(true);
@@ -261,8 +270,6 @@ export const ChatTeachingPanel = forwardRef<ChatTeachingPanelRef, ChatTeachingPa
         component.componentName,
         (data) => {
           if (data.sections) {
-            // 移除重复检查标记：每次点击都重新生成
-            
             setMessages(prev => {
               const lastMsg = prev[prev.length - 1];
               if (lastMsg?.isStreaming) {
@@ -292,6 +299,9 @@ export const ChatTeachingPanel = forwardRef<ChatTeachingPanelRef, ChatTeachingPa
         return prev;
       });
       
+      // 加载成功后，关闭自动加载标记，防止重复触发
+      setShouldAutoLoad(false);
+      
     } catch (error) {
       console.error('加载知识讲解失败:', error);
       setMessages(prev => {
@@ -306,6 +316,7 @@ export const ChatTeachingPanel = forwardRef<ChatTeachingPanelRef, ChatTeachingPa
       });
     } finally {
       setIsStreaming(false);
+      isLoadingExplanationRef.current = false;
     }
   }, []);
 
@@ -329,6 +340,7 @@ export const ChatTeachingPanel = forwardRef<ChatTeachingPanelRef, ChatTeachingPa
     loadedComponentsRef.current.clear();
     processedInitialComponentRef.current = '';
     lastLoadedComponentRef.current = '';
+    isLoadingExplanationRef.current = false;  // 重置加载状态
     abortControllerRef.current?.abort();
     abortControllerRef.current = null;
     
@@ -450,17 +462,17 @@ export const ChatTeachingPanel = forwardRef<ChatTeachingPanelRef, ChatTeachingPa
   // ==================== 组件切换时自动加载讲解 ====================
   
   useEffect(() => {
-    if (currentComponent && session?.id && !sessionLoading) {
+    // 严格条件：必须有组件、session、不处于加载状态、标记为自动加载、且当前没有在加载讲解
+    if (currentComponent && session?.id && !sessionLoading && shouldAutoLoad && !isLoadingExplanationRef.current) {
       // 检查是否已经加载过该组件，防止重复加载
       if (currentComponent.componentId !== lastLoadedComponentRef.current) {
         lastLoadedComponentRef.current = currentComponent.componentId;
-        // 只有标记为需要自动加载时才调用（区分初始化恢复 vs 用户主动切换）
-        if (shouldAutoLoad) {
-          loadExplanation(currentComponent, session.id);
-        }
+        loadExplanation(currentComponent, session.id);
       }
     }
-  }, [currentComponent?.componentId, session?.id, sessionLoading, shouldAutoLoad, loadExplanation]);
+    // 注意：loadExplanation 是 useCallback([], []) 引用稳定，不需要作为依赖
+    // isLoadingExplanationRef 是 ref，不触发重新渲染，但需要在条件中检查
+  }, [currentComponent?.componentId, session?.id, sessionLoading, shouldAutoLoad]);
 
   // ==================== 自动滚动 ====================
   
