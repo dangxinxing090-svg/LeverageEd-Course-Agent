@@ -19,7 +19,7 @@
 |------|---------|------|
 | Python | 3.10+ | 后端运行时 |
 | Node.js | 18+ | 前端构建（React + TypeScript + Vite） |
-| PostgreSQL | 14+ | 数据库（可选，当前使用内存存储） |
+| PostgreSQL | 14+ | 数据库（可选，支持自动 fallback 到 SQLite） |
 | Redis | 6+ | 缓存和限流（可选） |
 
 ## 快速开始
@@ -45,9 +45,17 @@ source venv/bin/activate   # Linux / macOS
 # 安装依赖
 pip install -r requirements.txt --break-system-packages
 
+# 初始化数据库（首次启动必需）
+python init_database.py
+
 # 启动服务（默认 0.0.0.0:8000）
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
+
+**数据库说明：**
+- 默认优先使用 PostgreSQL（需配置 `DATABASE_URL` 环境变量）
+- 若 PostgreSQL 不可用，自动 fallback 到 SQLite（`backend/ai_education.db`）
+- SQLite 模式适合快速体验，生产环境建议使用 PostgreSQL
 
 启动成功后可访问：
 - API 文档：`http://localhost:8000/docs`
@@ -232,6 +240,22 @@ ai-education-platform/
 | SkipSuggestAgent | users.py / learning.py endpoint 直接调用 LLM |
 | RewardGenerateAgent | 功能未实现，已删除 |
 | BehaviorRecordAgent | behavior.py endpoint 直接操作数据库 |
+
+### 知识体系生成优化（2025-06-10）
+- **分步生成策略**：将原本并行 LLM 调用改为串行分步执行
+  - Step 1：生成全景介绍（30-60秒），完成后立即缓存并推送前端
+  - Step 2：生成知识拆分结构（60-180秒），完成后推送完整数据
+- **SSE 流式推送增强**：支持三阶段状态推送
+  - `processing`：正在生成全景介绍
+  - `overview_done`：全景介绍已可用，知识结构生成中
+  - `completed`：全部完成
+- **超时时间延长**：从 120 秒延长至 300 秒，减少超时误判
+- **错误容错机制**：每个步骤独立 try-catch，失败时使用默认内容 fallback
+
+### 数据库层改进（2025-06-10）
+- **自动 fallback 机制**：PostgreSQL 不可用时自动切换到 SQLite
+- **WAL 模式支持**：SQLite 启用 WAL 模式，避免 disk I/O 错误
+- **数据持久化**：Session、聊天记录等数据持久化到本地数据库
 
 ### 练习题升级
 - 从简单选择题升级为**高难度实操性问答题**

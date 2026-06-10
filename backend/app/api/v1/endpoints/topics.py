@@ -155,45 +155,115 @@ def _build_structure_dict(parsed: dict) -> dict:
     return {"blocks": blocks}
 
 
+def _get_default_structure(topic_name: str) -> dict:
+    """
+    生成默认知识结构，确保LLM生成失败时前端仍能正常渲染。
+    """
+    return {
+        "blocks": [
+            {
+                "block_id": f"block-{uuid.uuid4().hex[:8]}",
+                "block_name": f"{topic_name}基础概念",
+                "points": [
+                    {
+                        "point_id": f"point-{uuid.uuid4().hex[:8]}",
+                        "point_name": "核心概念与定义",
+                        "difficulty": "easy",
+                        "is_key_point": True,
+                        "status": "not_started",
+                        "components": [
+                            {"component_id": f"comp-{uuid.uuid4().hex[:8]}", "component_name": "基本概念理解", "status": "not_started"},
+                            {"component_id": f"comp-{uuid.uuid4().hex[:8]}", "component_name": "核心术语定义", "status": "not_started"},
+                        ]
+                    },
+                    {
+                        "point_id": f"point-{uuid.uuid4().hex[:8]}",
+                        "point_name": "基础知识应用",
+                        "difficulty": "medium",
+                        "is_key_point": True,
+                        "status": "not_started",
+                        "components": [
+                            {"component_id": f"comp-{uuid.uuid4().hex[:8]}", "component_name": "常见应用场景", "status": "not_started"},
+                            {"component_id": f"comp-{uuid.uuid4().hex[:8]}", "component_name": "基础操作方法", "status": "not_started"},
+                        ]
+                    }
+                ]
+            },
+            {
+                "block_id": f"block-{uuid.uuid4().hex[:8]}",
+                "block_name": f"{topic_name}进阶知识",
+                "points": [
+                    {
+                        "point_id": f"point-{uuid.uuid4().hex[:8]}",
+                        "point_name": "高级特性与技巧",
+                        "difficulty": "hard",
+                        "is_key_point": False,
+                        "status": "not_started",
+                        "components": [
+                            {"component_id": f"comp-{uuid.uuid4().hex[:8]}", "component_name": "进阶技巧方法", "status": "not_started"},
+                            {"component_id": f"comp-{uuid.uuid4().hex[:8]}", "component_name": "最佳实践案例", "status": "not_started"},
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+
+
 # ==================== API 端点 ====================
 
 async def _process_topic_background(topic_id: str, topic_name: str):
-    """后台任务：并行生成全景介绍和知识拆分结构"""
+    """后台任务：串行分步生成全景介绍和知识拆分结构，支持中间状态推送。"""
+    llm_client = AgentLLMClient(provider=ProviderType.DEEPSEEK)
+    overview_result = ""
+    structure = None
+
+    # Step 1: 生成全景介绍（通常较快，30-60秒）
     try:
-        llm_client = AgentLLMClient(provider=ProviderType.DEEPSEEK)
-
+        logger.info(f"主题 {topic_id} Step1: 开始生成全景介绍...")
         overview_prompt = OVERVIEW_PROMPT_TEMPLATE.format(topic_text=topic_name)
-        split_prompt = SPLIT_PROMPT_TEMPLATE.format(topic_text=topic_name)
-
-        overview_task = llm_client.generate(
+        overview_result = await llm_client.generate(
             overview_prompt,
             system_prompt="你是一位专业的教育内容生成专家。",
             max_tokens=4000
         )
-        split_task = llm_client.generate(
+        # 全景介绍生成后立即缓存，前端可以显示
+        set_topic_overview(topic_id, overview_result)
+        logger.info(f"主题 {topic_id} Step1: 全景介绍已生成并缓存")
+    except Exception as e:
+        logger.error(f"主题 {topic_id} 全景介绍生成失败: {e}", exc_info=True)
+        # 使用默认内容，确保前端有内容可显示
+        overview_result = f"## {topic_name}\n\n正在准备学习内容，请稍候..."
+        set_topic_overview(topic_id, overview_result)
+
+    # Step 2: 生成知识拆分结构（通常较慢，60-180秒）
+    try:
+        logger.info(f"主题 {topic_id} Step2: 开始生成知识结构...")
+        split_prompt = SPLIT_PROMPT_TEMPLATE.format(topic_text=topic_name)
+        split_result = await llm_client.generate(
             split_prompt,
             system_prompt="你是一位专业的教育内容生成专家，擅长结构化知识体系搭建。请只输出JSON，不要输出其他内容。",
             max_tokens=8000
         )
-
-        overview_result, split_result = await asyncio.gather(
-            overview_task, split_task
-        )
-
-        # 存储全景介绍（纯文本）
-        set_topic_overview(topic_id, overview_result)
-
         # 解析知识拆分JSON并存储
         parsed = _parse_json_from_llm_response(split_result)
         structure = _build_structure_dict(parsed)
         set_topic_structure(topic_id, structure)
-
-        # 持久化到本地文件（以topic_name为key）
-        save_topic_to_file(topic_name, topic_id, overview_result, structure)
-
-        logger.info(f"主题 {topic_id} 后台处理完成")
+        logger.info(f"主题 {topic_id} Step2: 知识结构已生成并缓存")
     except Exception as e:
-        logger.error(f"主题 {topic_id} 后台处理失败: {e}", exc_info=True)
+        logger.error(f"主题 {topic_id} 知识拆分生成失败: {e}", exc_info=True)
+        # 使用默认结构，确保前端能正常渲染
+        structure = _get_default_structure(topic_name)
+        set_topic_structure(topic_id, structure)
+        logger.info(f"主题 {topic_id} Step2: 已使用默认知识结构")
+
+    # 持久化到本地文件（以topic_name为key）
+    if overview_result and structure:
+        try:
+            save_topic_to_file(topic_name, topic_id, overview_result, structure)
+            logger.info(f"主题 {topic_id} 后台处理完成，已持久化到文件")
+        except Exception as e:
+            logger.warning(f"主题 {topic_id} 持久化到文件失败: {e}")
 
 
 @router.post("")
@@ -495,26 +565,33 @@ async def get_topic_progress_stream(topic_id: str):
     """
     SSE 流式推送主题处理完成状态
     
-    每2秒检查一次缓存状态，最长120秒（60次循环）
+    每2秒检查一次缓存状态，最长300秒（150次循环）
+    支持分阶段推送：processing → overview_done → completed
     完成后立即推送数据并关闭连接，超时推送超时标记
     
     - **topic_id**: 主题ID
     """
     async def event_generator():
-        for _ in range(60):  # 120秒 / 2秒间隔 = 60次
+        for _ in range(150):  # 300秒 / 2秒间隔 = 150次
             structure = cache_get_structure(topic_id)
             overview = cache_get_overview(topic_id)
             
             if structure and overview:
-                # 已完成，推送数据并结束
-                yield f"data: {json.dumps({'completed': True, 'structure': structure, 'overview': overview})}\n\n"
+                # 全部完成，推送数据并结束
+                yield f"data: {json.dumps({'completed': True, 'structure': structure, 'overview': overview}, ensure_ascii=False)}\n\n"
                 return
+            elif overview and not structure:
+                # 阶段1完成：全景介绍已生成，知识结构还在生成中
+                yield f"data: {json.dumps({'stage': 'overview_done', 'overview': overview, 'message': '全景介绍已生成，正在拆分知识结构...'}, ensure_ascii=False)}\n\n"
+            else:
+                # 阶段0：正在生成全景介绍
+                yield f"data: {json.dumps({'stage': 'processing', 'message': 'AI正在分析主题并生成知识体系...'}, ensure_ascii=False)}\n\n"
             
             # 未完成，等待2秒后继续
             await asyncio.sleep(2)
         
-        # 120秒超时，推送超时消息
-        yield f"data: {json.dumps({'timeout': True, 'message': '处理时间较长，请稍后再来查看'})}\n\n"
+        # 300秒超时，推送超时消息（但后台任务可能仍在运行）
+        yield f"data: {json.dumps({'timeout': True, 'message': '处理时间较长，但后台仍在运行，请刷新页面查看'}, ensure_ascii=False)}\n\n"
     
     return StreamingResponse(
         event_generator(),

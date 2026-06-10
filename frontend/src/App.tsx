@@ -345,7 +345,7 @@ const LearnPage: React.FC = () => {
         const data = JSON.parse(event.data);
 
         if (data.completed) {
-          // 处理完成
+          // 全部完成
           isCompleted = true;
           if (data.overview) {
             setOverview(data.overview);
@@ -359,12 +359,35 @@ const LearnPage: React.FC = () => {
           localStorage.setItem('currentTopicName', effectiveTopicName);
           setLoading(false);
           eventSource.close();
+        } else if (data.stage === 'overview_done') {
+          // 阶段1完成：全景介绍已生成，知识结构还在生成中
+          console.log('[LearnPage] 全景介绍已生成，等待知识结构...');
+          if (data.overview) {
+            setOverview(data.overview);
+            localStorage.setItem(`learnPage_overview_${effectiveTopicId}`, data.overview);
+          }
+          // 不关闭连接，继续等待知识结构
         } else if (data.timeout) {
-          // 120秒超时
-          setIsTimeout(true);
-          setLoading(false);
+          // 300秒超时：但后台任务可能仍在运行
+          console.log('[LearnPage] SSE超时，但后台可能仍在运行');
+          // 检查是否已有缓存数据（可能后台在超时后完成了）
+          const cachedOverview = localStorage.getItem(`learnPage_overview_${effectiveTopicId}`);
+          const cachedBlocks = localStorage.getItem(`knowledgeBlocks_${effectiveTopicId}`);
+          if (cachedOverview && cachedBlocks) {
+            // 有缓存数据，说明已完成
+            setOverview(cachedOverview);
+            try {
+              setKnowledgeBlocks(JSON.parse(cachedBlocks));
+            } catch { /* ignore */ }
+            setLoading(false);
+          } else {
+            // 真正超时，显示超时提示
+            setIsTimeout(true);
+            setLoading(false);
+          }
           eventSource.close();
         }
+        // stage === 'processing' 时静默等待，不处理
       } catch (err) {
         console.error('SSE消息解析失败:', err);
       }

@@ -400,20 +400,20 @@ export const ChatTeachingPanel = forwardRef<ChatTeachingPanelRef, ChatTeachingPa
           // ========== 根据场景处理自动发送内容 ==========
           console.log('[ChatTeachingPanel] Checking scene - initialComponentId:', initialComponentId, 'historyMessages.length:', historyMessages.length);
           
-          if (historyMessages.length === 0 && !initialComponentId) {
+          if (initialComponentId) {
+            // ========== 场景C：从全景页点击知识点跳转，initialComponentId 有值（优先判断） ==========
+            console.log('[ChatTeachingPanel] Scene C: From panorama with componentId, will auto-load');
+            setShouldAutoLoad(true);  // 允许自动加载指定组件讲解
+          } else if (historyMessages.length === 0) {
             // ========== 场景A：从首页进入，全新session，发送全景介绍 ==========
             console.log('[ChatTeachingPanel] Scene A: New session from home, loading overview...');
             loadedOverviewRef.current = true;
             await loadOverview(newSession.id, topicName, topicId);
             console.log('[ChatTeachingPanel] Overview loaded');
-          } else if (historyMessages.length > 0 && !initialComponentId) {
+          } else {
             // ========== 场景B：从导航点击学习进入，已有历史会话，只显示历史 ==========
             console.log('[ChatTeachingPanel] Scene B: Existing session from nav, showing history only');
             setShouldAutoLoad(false);  // 不自动加载当前组件讲解
-          } else {
-            // ========== 场景C：从全景页点击知识点跳转，initialComponentId 有值 ==========
-            console.log('[ChatTeachingPanel] Scene C: From panorama with componentId, will auto-load');
-            setShouldAutoLoad(true);  // 允许自动加载指定组件讲解
           }
         }
         
