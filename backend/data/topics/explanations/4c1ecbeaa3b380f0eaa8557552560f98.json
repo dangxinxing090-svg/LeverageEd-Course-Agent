@@ -1,0 +1,27 @@
+{
+  "component_id": "comp-98d84262",
+  "knowledge_name": "Requests库发起请求",
+  "saved_at": "2026-06-10T22:34:35.461582",
+  "sections": [
+    {
+      "icon": "💡",
+      "title": "直觉理解",
+      "content": "想象你去餐厅点餐：你走到柜台（服务器地址），告诉服务员你要吃什么（请求方法，比如GET是看菜单，POST是点菜），可能还要说明口味（请求参数或请求体）。服务员记下后去后厨准备，然后端上菜给你（服务器返回响应）。如果菜不合口味，你还能要求重做（不同的状态码）。Requests库就是你的“传菜员”，帮你优雅地完成这些操作，而不必自己手写复杂的网络协议。"
+    },
+    {
+      "icon": "📐",
+      "title": "逻辑规则",
+      "content": "Requests库的核心是围绕HTTP请求/响应模型设计的。使用前需通过pip install requests安装。主要规则：\n1. 导入库：import requests\n2. 选择方法：根据操作调用对应函数，如requests.get(url)、requests.post(url, data=...)等。\n3. 参数传递：\n   - URL参数：用params字典（例如?key=value）\n   - 请求体：POST/PUT可传data（表单）、json（JSON）或files（文件）\n   - 请求头：用headers字典（如模拟浏览器）\n4. 获取响应：函数返回一个Response对象，包含status_code（状态码，200成功）、text（文本内容）、json()（解析JSON）、headers（响应头）等属性。\n5. 异常处理：用try/except捕获requests.RequestException等。\n常见方法：get、post、put、delete、head、options等，对应HTTP动词。"
+    },
+    {
+      "icon": "🔧",
+      "title": "底层原理",
+      "content": "Requests库底层基于urllib3，但封装了更人性化的API。核心机制：\n1. 会话与连接池：默认重用TCP连接，减少三次握手开销。通过Session对象可维持cookie、默认headers等。\n2. 请求构造：根据传入参数构建合适的HTTP报文。例如，如果传了json参数，会自动设置Content-Type为application/json并序列化。\n3. SSL/TLS：自动验证SSL证书，可通过verify=False关闭（不推荐）。支持代理（proxies参数）。\n4. 重定向：默认自动跟随（如302跳转），可用allow_redirects=False关闭。\n5. 编码检测：自动从响应头或内容推断编码，避免乱码。\n6. 超时控制：通过timeout参数（秒）防止无限等待。\n整体上，它将HTTP协议细节（连接、报文、编码、重试）隐藏，让你专注于数据交互。"
+    },
+    {
+      "icon": "📝",
+      "title": "实例演示",
+      "content": "以下展示常见用法（需先pip install requests）：\n\n1. 简单GET请求，带参数：\n```python\nimport requests\nurl = 'https://api.example.com/search'\nparams = {'q': 'python', 'page': 1}\nresp = requests.get(url, params=params)\nprint(resp.status_code)  # 200\nprint(resp.json())       # 解析JSON数据\n```\n\n2. POST提交JSON数据：\n```python\nimport requests\nurl = 'https://api.example.com/items'\nheaders = {'Authorization': 'Bearer token123'}\ndata = {'name': 'New Item', 'price': 9.99}\nresp = requests.post(url, json=data, headers=headers)\nprint(resp.text)\n```\n\n3. 下载文件并保存：\n```python\nimport requests\nurl = 'https://example.com/image.jpg'\nresp = requests.get(url, stream=True)\nwith open('image.jpg', 'wb') as f:\n    for chunk in resp.iter_content(chunk_size=8192):\n        f.write(chunk)\n```\n\n4. 错误处理与超时：\n```python\nimport requests\nfrom requests.exceptions import Timeout, RequestException\n\ntry:\n    resp = requests.get('https://httpstat.us/200', timeout=3)\n    resp.raise_for_status()  # 非200抛出HTTPError\nexcept Timeout:\n    print('请求超时')\nexcept RequestException as e:\n    print(f'请求失败: {e}')\n```\n\n这些例子覆盖了日常80%的使用场景。坚持练习，你很快能掌握Requests库的精髓。"
+    }
+  ]
+}

@@ -1,0 +1,719 @@
+{
+  "topic_text": "大语言模型",
+  "topic_id": "topic-b64dcff98f8f",
+  "overview": "# 大语言模型：第一盏灯\n\n你好，探索者。欢迎来到这个神奇的领域。让我先给你一张“全景地图”，而不是一本厚厚的技术手册——因为只有看清了这片土地的边界和起伏，你才知道该往哪里走。\n\n## 先见森林：它到底是什么？\n\n想象一个孩子读了人类有史以来所有能读到的书籍、文章、对话，然后学会了一种神奇的能力：**根据你给出的只言片语，猜出你最可能想听他说的下一句话**。这个“孩子”就是大语言模型。他没有真正的思想，没有情感，也不懂“因果”（比如他不知道“因为下雨所以地湿”的逻辑），他只是一个疯狂擅长“接龙”的天才——你给他开头，他用统计概率把最合理的结尾填出来。\n\n但正是这个简单的“预测下一个词”的机制，放大十亿倍、百亿倍后，竟然能回答问题、写诗、编程、翻译、甚至假装和你辩论。这就是大语言模型的“森林”：一个基于海量文本训练出来的、能模仿人类语言模式的数学系统。\n\n## 先通脉络：核心概念串成的骨架\n\n这片森林里主要有三棵大树，你只要知道他们长在哪，以后就不会迷路：\n\n- **预训练（Pre-training）**：模型疯狂读书的阶段。他读了互联网上几乎所有公共文本，学会了单词之间、句子之间的统计关系。这个阶段极其耗钱耗电，但模型获得了“常识”和“语感”。\n- **微调（Fine-tuning）**：在预训练之后，用高质量的问答对（比如“问：地球为什么是圆的？答：引力……”）再训练一下，让模型学会“回答问题”这种特定模式，而不是随便乱猜。ChatGPT就是这样做出来的。\n- **提示工程（Prompt Engineering）**：你不需要改模型，只需要学会怎么跟它说话。同一个问题换一种问法，结果天差地别——就像你对着一个外星人，用什么语言、什么手势，他才能听懂？这就是提示工程的价值。\n\n这三者构成了你理解大语言模型的脉络：一个懂语言的“原材料”（预训练），一个懂任务的“定向工具箱”（微调），以及一个懂表达的“用户手册”（提示工程）。\n\n## 先建直觉：用你最熟悉的例子理解它\n\n你现在脑子里想一句话：“我今天早上吃了____。”正常人会填“早餐”“面包”“牛奶”之类的词。但如果你脑子里只有“馒头”这个选项，因为你是北方人；而另一个人是南方人，他可能填“肠粉”。大语言模型就是做了同样的事——它根据前面所有的词，以及它从亿万文本中学到的模式，算出一个最可能的词。\n\n但它的“计算”规模大到惊人：它会把每个词映射成几百上千个数字（向量），然后通过几十层“注意力机制”反复比较每个词与其他所有词的关系，最终输出一个概率最高的词。听起来复杂？没关系，你只需要记住：**它不是一个规则引擎，而是一个概率猜谜机器**。它不“知道”1+1=2，它只是见过1+1后面几乎总是跟着=2，所以它猜对了。\n\n## 先解决为什么：为什么你要关心它？\n\n- **因为它是新的“电源”**：就像电力改变了整个工业，大语言模型正在改变我们使用信息的方式。未来十年，会用它的人和不用的，就像今天会用搜索引擎和不会的人之间的差距。\n- **因为它是你的“超级实习生”**：写作卡壳？让它帮你搭框架。代码有bug？把错误信息丢给它。读论文读不懂？让它用小学生能懂的语言解释。它不完美，但足够让你效率翻倍。\n- **因为你也可以创造**：你不必从零训练一个大模型（那是巨头们烧钱的事）。你可以用现成的API（比如OpenAI的或开源的），加上你自己的数据和一点点思路，做出一个帮你整理笔记、回答专业问题的助手。门槛低到你可能周末就能做出一个原型。\n\n## 建立信心：你的第一盏灯已经点亮\n\n现在你知道了：大语言模型不是一个黑箱魔术，而是一个基于统计的“超级接龙机器”。你不需要懂高等数学，也不需要会写代码——先去找个能用的聊天机器人（比如ChatGPT、Claude、甚至手机上的智能助手），跟它聊上十个小时。你很快就会直觉地摸到它的边界：它什么时候聪明，什么时候傻，什么时候信口开河却一脸自信。\n\n从那里出发，你可以一步步深入：学学提示词技巧（比如“链式思考”让模型分步推理）、玩玩开源的本地模型（比如用Ollama跑Llama）、或者看看注意力机制的3D可视化视频。但别急，你已经在路上了。\n\n**记住这个方向**：先玩透，再理解；先用起来，再问为什么。这片森林的入口就在你眼前——现在，去给那个“猜谜天才”出个题试试吧。你一定能看懂它的回答里，哪些是智慧，哪些是巧合。而这份直觉，就是通往更深理解的第一级台阶。",
+  "structure": {
+    "blocks": [
+      {
+        "block_id": "block-6f429533",
+        "block_name": "语言模型基础",
+        "points": [
+          {
+            "point_id": "point-229b08b2",
+            "point_name": "统计语言模型",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-c1824929",
+                "component_name": "n-gram模型",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-39c056fa",
+                "component_name": "平滑技术",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f88901f7",
+                "component_name": "困惑度",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-c267209e",
+            "point_name": "神经语言模型",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-ca4c9d81",
+                "component_name": "前馈神经网络LM",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b086969a",
+                "component_name": "循环神经网络LM",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-568d4408",
+                "component_name": "词嵌入（Word2Vec/GloVe）",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-d963314d",
+            "point_name": "序列建模基础",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-790c3e91",
+                "component_name": "马尔可夫假设",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1fdb9073",
+                "component_name": "条件概率链式法则",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-fb29e5ca",
+                "component_name": "语言模型评价指标",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-b9946cfe",
+        "block_name": "神经网络与深度学习基础",
+        "points": [
+          {
+            "point_id": "point-3dcfea7f",
+            "point_name": "前馈神经网络",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-73d3f658",
+                "component_name": "感知机",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d61b9965",
+                "component_name": "多层感知机",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6bcd1178",
+                "component_name": "激活函数",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-869d9e78",
+                "component_name": "反向传播",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-fa16fb69",
+                "component_name": "损失函数",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-89641ab9",
+            "point_name": "循环神经网络",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-a3bb8713",
+                "component_name": "RNN基本结构",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-4c095d17",
+                "component_name": "LSTM",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ef9918cb",
+                "component_name": "GRU",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2c7c4970",
+                "component_name": "梯度消失/爆炸",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-4d9491f5",
+            "point_name": "注意力机制",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-b3b22e36",
+                "component_name": "注意力函数",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-77578c80",
+                "component_name": "自注意力",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-41c4d961",
+                "component_name": "多头注意力",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9de1b24d",
+                "component_name": "缩放点积注意力",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-dfbe4522",
+        "block_name": "Transformer架构",
+        "points": [
+          {
+            "point_id": "point-af6451a5",
+            "point_name": "编码器-解码器结构",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-a4af8b05",
+                "component_name": "Encoder层",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f9bfe555",
+                "component_name": "Decoder层",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2c784994",
+                "component_name": "掩码自注意力",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-dcd60e27",
+                "component_name": "交叉注意力",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-3b364d51",
+            "point_name": "Transformer核心组件",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-3194cf42",
+                "component_name": "位置编码（绝对/相对）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-907ab5a9",
+                "component_name": "前馈网络层",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-6d88a665",
+                "component_name": "残差连接与层归一化",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-2bc9b42e",
+            "point_name": "Transformer变体",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-f3337340",
+                "component_name": "BERT",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8ff1ff38",
+                "component_name": "GPT",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-74ce6ea9",
+                "component_name": "T5",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-0aaf22a4",
+                "component_name": "稀疏Transformer",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-46551044",
+        "block_name": "预训练技术",
+        "points": [
+          {
+            "point_id": "point-23ae4964",
+            "point_name": "预训练目标",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-f525821e",
+                "component_name": "掩码语言模型（MLM）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-54ffb4d1",
+                "component_name": "自回归语言模型",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-d1a34822",
+                "component_name": "对比学习",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-30e10783",
+                "component_name": "去噪自编码",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-bed066a7",
+            "point_name": "预训练数据与处理",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-5826ba64",
+                "component_name": "语料收集与清洗",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8b785f2d",
+                "component_name": "分词（BPE/WordPiece）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-76d23ff2",
+                "component_name": "数据采样",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-0bfaa058",
+            "point_name": "预训练策略",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-f78b4641",
+                "component_name": "学习率调度",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1c3e23b8",
+                "component_name": "批量大小与梯度累积",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-08fad3ed",
+                "component_name": "混合精度训练",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-df0eb146",
+                "component_name": "分布式训练",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-784a23f6",
+        "block_name": "微调与对齐",
+        "points": [
+          {
+            "point_id": "point-34889a59",
+            "point_name": "全参数微调",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-8a27684e",
+                "component_name": "迁移学习",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-2249ee8a",
+                "component_name": "任务特定头",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-34314b37",
+                "component_name": "数据增强",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-544f5973",
+            "point_name": "参数高效微调",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-40ab5a54",
+                "component_name": "Adapter",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-226bd4bd",
+                "component_name": "LoRA",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c278f82b",
+                "component_name": "Prefix Tuning",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-5446566f",
+                "component_name": "Prompt Tuning",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-09bc34a7",
+            "point_name": "人类反馈强化学习",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-00eb4305",
+                "component_name": "RLHF流程",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-b2482ddf",
+                "component_name": "奖励模型",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cea8fcb7",
+                "component_name": "PPO算法",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-7aeb5c20",
+                "component_name": "指令微调",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-f473544a",
+        "block_name": "推理与部署",
+        "points": [
+          {
+            "point_id": "point-c81488e9",
+            "point_name": "推理优化",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-d7b43a7a",
+                "component_name": "量化（INT8/FP16）",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-596a8fbb",
+                "component_name": "剪枝",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-e24b93ca",
+                "component_name": "知识蒸馏",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-406035cb",
+                "component_name": "KV缓存",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8ff882cf",
+                "component_name": "束搜索",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-9ef1312a",
+            "point_name": "部署框架",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-4eae99f6",
+                "component_name": "ONNX",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-36dc554b",
+                "component_name": "TensorRT",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-36e768b7",
+                "component_name": "vLLM",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-36b464e6",
+                "component_name": "FastTransformer",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-e1bac28b",
+            "point_name": "提示工程",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "easy",
+            "components": [
+              {
+                "component_id": "comp-9aca583b",
+                "component_name": "零样本/少样本提示",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-1d59ccb0",
+                "component_name": "思维链",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a4648597",
+                "component_name": "提示优化",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-0debaf05",
+        "block_name": "评估与安全",
+        "points": [
+          {
+            "point_id": "point-c20128ad",
+            "point_name": "评估指标",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-e6448e0f",
+                "component_name": "困惑度",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-483d667a",
+                "component_name": "BLEU",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-838b00dc",
+                "component_name": "ROUGE",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-bcb436d9",
+                "component_name": "准确率",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-c358123c",
+                "component_name": "人工评估",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-6304eac9",
+            "point_name": "鲁棒性与安全",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-25c78008",
+                "component_name": "对抗攻击",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-f1c78086",
+                "component_name": "越狱",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-a8646d47",
+                "component_name": "幻觉检测",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-db852f09",
+                "component_name": "毒化攻击",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-a5dad68b",
+            "point_name": "偏倚与公平",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-141fe7c2",
+                "component_name": "数据偏倚",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-607cd562",
+                "component_name": "算法偏倚",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-9136d0f5",
+                "component_name": "公平性度量",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cff11167",
+                "component_name": "去偏方法",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "block_id": "block-4e0d5261",
+        "block_name": "前沿进展",
+        "points": [
+          {
+            "point_id": "point-4ff60eec",
+            "point_name": "多模态大模型",
+            "status": "not_started",
+            "is_key_point": true,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-7505d6fb",
+                "component_name": "CLIP",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3fbbb2dc",
+                "component_name": "LLaVA",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-8c29d1d2",
+                "component_name": "GPT-4V",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-fa1b4a22",
+            "point_name": "代码与推理模型",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "hard",
+            "components": [
+              {
+                "component_id": "comp-3a19914a",
+                "component_name": "Codex",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-513b6093",
+                "component_name": "AlphaCode",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-ed12fe79",
+                "component_name": "Gemini",
+                "status": "not_started"
+              }
+            ]
+          },
+          {
+            "point_id": "point-69e6b559",
+            "point_name": "小型化与边缘部署",
+            "status": "not_started",
+            "is_key_point": false,
+            "difficulty": "medium",
+            "components": [
+              {
+                "component_id": "comp-e5cdac71",
+                "component_name": "TinyLlama",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-3dbe9372",
+                "component_name": "Phi",
+                "status": "not_started"
+              },
+              {
+                "component_id": "comp-cb78a6c1",
+                "component_name": "MobileLLM",
+                "status": "not_started"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "saved_at": "2026-06-10T10:33:54.386195"
+}
